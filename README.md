@@ -1,8 +1,10 @@
 # ATT&CK Top-10 Cross-Layer Detections
 
-SIEM-agnostic portfolio project for analyzing **Top-10 MITRE ATT&CK TTPs** and preparing detection artifacts across multiple layers: **Sigma**, **Suricata/Snort**, **YARA**, neutral **Hunt DSL**, and future SIEM-specific queries.
+[![Validate repository](https://github.com/aruser2212/attck-top10-crosslayer-detections/actions/workflows/validate.yml/badge.svg)](https://github.com/aruser2212/attck-top10-crosslayer-detections/actions/workflows/validate.yml)
 
-The core idea: keep detection logic portable first, then add adapters for concrete platforms in `queries/<platform>/` and `profiles/`.
+SIEM-agnostic portfolio project for analyzing **Top-10 MITRE ATT&CK TTPs** and building detection artifacts across multiple layers: **Sigma**, **Suricata/Snort**, **YARA**, neutral **Hunt DSL**, and future SIEM-specific queries.
+
+The core idea is simple: keep detection logic portable first, then add adapters for concrete platforms in `queries/<platform>/` and `profiles/`.
 
 ## Current coverage
 
@@ -24,6 +26,7 @@ profiles/     field mappings and future platform profiles
 packs/        thematic detection packs
 techniques/   ATT&CK technique dossiers and artifacts
 docs/         methodology, coverage and validation notes
+tools/        repository validation utilities
 ```
 
 ## Artifact model
@@ -45,7 +48,9 @@ Each detection is described by a **DetCard** (`DET-*.yaml`) with links to suppor
 
 ## Notes
 
-This repository intentionally avoids binding core logic to a single SIEM. Platform-specific versions can be added later without rewriting the core artifacts. Core artifacts are kept vendor-neutral so platform-specific adapters remain optional.
+This repository intentionally avoids binding core detection logic to a single SIEM. Platform-specific versions can be added later without rewriting the core artifacts.
+
+Core artifacts are kept vendor-neutral so platform-specific adapters remain optional.
 
 ## Attribution
 
@@ -53,18 +58,19 @@ MITRE ATT&CK® and ATT&CK® are registered trademarks of The MITRE Corporation. 
 
 Technique descriptions in this repository are original summaries written for detection engineering practice. Official technique definitions are referenced in each technique dossier.
 
-## Validation
+## Quality checks
 
-Run the local validator before publishing or opening a pull request:
+The repository includes a lightweight validator for DetCards, artifact links and YAML structure:
 
 ```bash
 python tools/validate_repo.py
 ```
 
-The same check is also available as a GitHub Actions workflow in `.github/workflows/validate.yml`.
+The same check runs in GitHub Actions on push and pull request events.
 
 ## Project status
 
 This repository is published as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts, DetCards and repository validation.
 
-Future updates will add selected platform mappings for Elastic, Splunk and MaxPatrol, followed by safe synthetic datasets for lab-style validation. See [`docs/roadmap.md`](docs/roadmap.md).
+Future updates will focus on selected platform mappings for Elastic, Splunk and MaxPatrol, followed by safe synthetic datasets for lab-style validation. See [`docs/roadmap.md`](docs/roadmap.md).
+
