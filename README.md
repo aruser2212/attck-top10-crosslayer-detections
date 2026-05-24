@@ -1,4 +1,4 @@
-# ATT&CK Top-10 Crosslayer Detections
+# ATT&CK Top-10 Cross-Layer Detections
 
 SIEM-agnostic portfolio project for analyzing **Top-10 MITRE ATT&CK TTPs** and preparing detection artifacts across multiple layers: **Sigma**, **Suricata/Snort**, **YARA**, neutral **Hunt DSL**, and future SIEM-specific queries.
 
