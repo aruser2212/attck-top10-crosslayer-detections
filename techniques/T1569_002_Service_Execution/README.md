@@ -27,7 +27,7 @@ Service Execution — запуск кода через Windows Service Control M
 - Test plan: `tests/plan.md`.
 
 ## False positives / tuning
-RMM, EDR, backup и deployment-системы тоже создают сервисы. Отличай «ожидаемый админский сервис» от «бинарь из Temp в 03:17». Хороший фильтр — путь, подпись, родительский процесс, пользователь, окно изменений и jump-host.
+RMM, EDR, backup и deployment-системы тоже создают сервисы. Отличай «ожидаемый админский сервис» from unexpected service binaries staged from temporary or user-writable paths. Хороший фильтр — путь, подпись, родительский процесс, пользователь, окно изменений и jump-host.
 
 ## Response checklist
 - Проверить `ServiceName`, `ImagePath`, автора установки и время.

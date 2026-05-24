@@ -26,7 +26,7 @@ Kerberoasting — получение Kerberos TGS для сервисного а
 - Test plan: `tests/plan.md`.
 
 ## False positives / tuning
-`4769` — нормальное и очень частое событие в домене. Не алерти «каждый TGS», иначе SIEM превратится в кофемолку с истерикой. Рабочий путь: baseline сервисных источников, пороги по distinct SPN, отдельная логика для RC4 и исключение машинных учёток.
+`4769` — нормальное и очень частое событие в домене. Не алерти «каждый TGS», otherwise alert volume will quickly become unmanageable. Рабочий путь: baseline сервисных источников, пороги по distinct SPN, отдельная логика для RC4 и исключение машинных учёток.
 
 ## Response checklist
 - Проверить пользователя, source IP и список `ServiceName`.

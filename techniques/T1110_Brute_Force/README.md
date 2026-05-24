@@ -1,7 +1,7 @@
 # T1110 — Brute Force / Password Spraying
 
 ## Коротко
-Brute Force — систематический подбор паролей или использование списков учётных данных. MITRE описывает T1110 как попытки получить доступ, когда пароль неизвестен или есть хэш/утёкший credential material. В реальности важно разделять brute force и password spraying: это разные звери, хоть оба грызут дверь.
+Brute Force — систематический подбор паролей или использование списков учётных данных. MITRE описывает T1110 как попытки получить доступ, когда пароль неизвестен или есть хэш/утёкший credential material. В реальности важно разделять brute force и password spraying: they produce different telemetry patterns and should be detected separately.
 
 ## Attack flow
 1. Атакующий выбирает сервис: VPN, SSH, RDP, OWA, web-login, SMB.
