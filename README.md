@@ -73,4 +73,3 @@ The same check runs in GitHub Actions on push and pull request events.
 This repository is published as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts, DetCards and repository validation.
 
 Future updates will focus on selected platform mappings for Elastic, Splunk and MaxPatrol, followed by safe synthetic datasets for lab-style validation. See [`docs/roadmap.md`](docs/roadmap.md).
-
