@@ -65,4 +65,6 @@ The same check is also available as a GitHub Actions workflow in `.github/workfl
 
 ## Project status
 
-This repository is published as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts and repository validation. The next recommended step is to add a small set of platform adapters under `queries/<platform>/` and attach lab/synthetic datasets. See [`docs/roadmap.md`](docs/roadmap.md).
+This repository is published as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts, DetCards and repository validation.
+
+Future updates will add selected platform mappings for Elastic, Splunk and MaxPatrol, followed by safe synthetic datasets for lab-style validation. See [`docs/roadmap.md`](docs/roadmap.md).
