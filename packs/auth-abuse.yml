@@ -1,0 +1,10 @@
+name: Auth Abuse Pack (vendor-agnostic)
+includes:
+  - DET-WIN-T1078-VALIDLOGON-001
+  - DET-LNX-T1078-SSH-VALID-002
+  - DET-WIN-T1110-4625-BRUTE-001
+  - DET-LNX-T1110-SSH-BRUTE-002
+  - DET-WIN-T1550-PTH-NEWCRED-001
+  - DET-WIN-T1550-PTT-KRB-ANOM-002
+description: >
+  Набор детектов для злоупотребления аутентификацией: Valid Accounts и Brute/Spray (Windows/Linux/IDPS).

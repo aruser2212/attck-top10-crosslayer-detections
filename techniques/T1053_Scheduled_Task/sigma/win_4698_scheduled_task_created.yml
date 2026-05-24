@@ -1,0 +1,22 @@
+title: Scheduled Task Created (Security 4698)
+id: 549439ea-8d30-469e-b298-700d0c56943d
+status: stable
+description: Detects creation of scheduled task via Security Event ID 4698
+tags:
+- attack.t1053
+- attack.persistence
+- attack.execution
+logsource:
+  product: windows
+  service: security
+detection:
+  sel:
+    EventID: 4698
+  condition: sel
+level: medium
+fields:
+- TaskName
+- TaskContent
+- SubjectUserName
+falsepositives:
+- legitimate deployments or admin scripts

@@ -1,0 +1,6 @@
+name: Persistence Pack (vendor-agnostic)
+includes:
+  - DET-WIN-T1053-SCHTASK-4698-001
+  - DET-LNX-T1053-CRON-MOD-002
+description: >
+  Набор детектов для Persistence через планировщики: Windows Scheduled Tasks и Linux Cron.

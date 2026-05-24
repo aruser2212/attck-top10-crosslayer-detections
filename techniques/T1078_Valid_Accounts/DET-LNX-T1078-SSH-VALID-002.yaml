@@ -1,0 +1,47 @@
+id: DET-LNX-T1078-SSH-VALID-002
+title: Unusual Successful SSH Login (Accepted) by User/Source
+version: 1.0.0
+status: test
+tactics:
+- defense-evasion
+- persistence
+- lateral-movement
+techniques:
+- T1078
+platforms:
+- linux
+datasources:
+- linux:auth:sshd
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/linux_sshd_success_base.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/linux_ssh_valid_unusual_src.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - bastion hosts
+  - automation runners
+  allowlists: []
+  notes: Считаем «необычным» по времени/гео/первому появлению источника.
+references:
+- https://attack.mitre.org/techniques/T1078/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
+authors:
+- you
+changelog:
+- '1.0.0: initial'

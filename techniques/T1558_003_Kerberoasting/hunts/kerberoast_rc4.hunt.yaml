@@ -1,0 +1,10 @@
+dataset: windows.security.kerberos_tgs
+where:
+  all:
+    - { field: event.code, op: eq, value: "4769" }
+    - any:
+        - { field: ticket.encryption_type, op: eq, value: "0x17" }
+        - { field: ticket.encryption_type, op: contains, value: "RC4" }
+    - not: { field: subject.user, op: endswith, value: "$" }
+project: ["@timestamp", host.name, source.ip, subject.user, service.name, ticket.encryption_type]
+notes: "Индикатор RC4 (0x17). Исключаем машинные учётки (subject.user endswith '$')."

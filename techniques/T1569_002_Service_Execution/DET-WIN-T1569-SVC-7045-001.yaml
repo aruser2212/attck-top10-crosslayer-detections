@@ -1,0 +1,46 @@
+id: DET-WIN-T1569-SVC-7045-001
+title: Service Installed (7045) - Suspicious/PsExec patterns
+version: 1.0.0
+status: stable
+tactics:
+- execution
+- lateral-movement
+- persistence
+techniques:
+- T1569.002
+platforms:
+- windows
+datasources:
+- windows:system:7045
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_7045_suspicious_or_psexesvc.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/service_install_suspicious.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - RMM/EDR/Backup/Deployment tools installing services
+  allowlists:
+  - 'ServiceName: trusted-*'
+  notes: 'Фокус: PSEXESVC и подозрительные пути ImagePath (temp/appdata/users/public).'
+references:
+- https://attack.mitre.org/techniques/T1569/002/
+authors:
+- you
+changelog:
+- '1.0.0: initial'

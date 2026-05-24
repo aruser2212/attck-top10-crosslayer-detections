@@ -1,0 +1,46 @@
+id: DET-WIN-T1558-KRB-SPNBURST-002
+title: Kerberoast - Burst of distinct SPN requests
+version: 1.0.0
+status: test
+tactics:
+- credential-access
+techniques:
+- T1558.003
+platforms:
+- windows
+datasources:
+- windows:security:4769
+severity: high
+confidence: medium
+detections:
+  sigma: []
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/kerberoast_spn_burst.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - app servers requesting many SPN tickets
+  allowlists:
+  - 'source.host: app-*, iis-*, svc-*'
+  notes: 'Порог и окно подбираются под среду (пример: ≥5 SPN за 5 минут).'
+references:
+- MITRE ATT&CK T1558.003
+- https://attack.mitre.org/detectionstrategies/DET0157/
+- https://attack.mitre.org/techniques/T1558/003/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4769
+authors:
+- you
+changelog:
+- '1.0.0: initial'

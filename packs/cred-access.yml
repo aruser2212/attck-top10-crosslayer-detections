@@ -1,0 +1,7 @@
+name: Credential Access Pack (vendor-agnostic)
+includes:
+  - DET-WIN-T1003-LSASS-001
+  - DET-WIN-T1558-KRB-RC4-001
+  - DET-WIN-T1558-KRB-SPNBURST-002
+description: >
+  Набор детектов для Credential Access (LSASS/DCSync/Kerberoast). Включает Sigma/Hunt.

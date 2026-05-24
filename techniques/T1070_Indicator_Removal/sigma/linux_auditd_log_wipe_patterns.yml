@@ -1,0 +1,35 @@
+title: Linux Log Wipe Patterns (auditd/syslog)
+id: a264a4f8-6af3-404c-b32d-7295431a5261
+status: test
+description: Detects suspicious log wipe commands (truncate/shred/rm, bash history
+  reset)
+tags:
+- attack.t1070
+- attack.defense-evasion
+logsource:
+  product: linux
+  service: auditd
+detection:
+  cmd_trunc:
+    CommandLine|contains:
+    - truncate -s 0
+    - echo > ~/.bash_history
+    - history -c
+  cmd_rm:
+    CommandLine|contains:
+    - rm -rf /var/log
+    - find /var/log -type f -exec truncate -s 0 {}
+  cmd_shred:
+    CommandLine|contains:
+    - shred -u
+    - shred -z
+  condition: cmd_trunc or cmd_rm or cmd_shred
+level: high
+fields:
+- exe
+- auid
+- uid
+- CommandLine
+falsepositives:
+- logrotate
+- maintenance

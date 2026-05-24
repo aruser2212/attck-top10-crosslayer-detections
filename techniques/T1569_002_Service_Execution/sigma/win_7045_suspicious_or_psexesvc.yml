@@ -1,0 +1,32 @@
+title: Service Installed (7045) - PSEXESVC or Suspicious ImagePath
+id: d6185ff5-6874-42c3-b9e5-f5894651b428
+status: stable
+description: Detects service installation events (7045) with PSEXESVC or suspicious
+  ImagePath (temp/appdata/users/public)
+tags:
+- attack.t1569.002
+- attack.execution
+- attack.lateral-movement
+logsource:
+  product: windows
+  service: system
+detection:
+  sel:
+    EventID: 7045
+  psexec:
+    ServiceName|contains: PSEXESVC
+  bad_path:
+    ImagePath|contains:
+    - \\Users\\Public\\
+    - \\AppData\\Local\\Temp\\
+    - \\Windows\\Temp\\
+    - \\Desktop\\
+    - :\\Temp\\
+  condition: sel and (psexec or bad_path)
+level: high
+fields:
+- ServiceName
+- ImagePath
+- AccountName
+falsepositives:
+- Legit deployment tools temporarily staging binaries in temp folders

@@ -1,0 +1,30 @@
+title: PsExec Named Pipes Pattern (stdin/stdout/stderr)
+id: e278d30b-ca11-43d1-851b-db6080b5ff47
+status: test
+description: Detects Sysmon 17/18 events where PipeName contains -stdin/-stdout/-stderr
+  used by PsExec-like tools
+tags:
+- attack.t1569.002
+- attack.execution
+- attack.lateral-movement
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  sel:
+    EventID:
+    - 17
+    - 18
+  psexec_pipes:
+    PipeName|contains:
+    - -stdin
+    - -stdout
+    - -stderr
+  condition: sel and psexec_pipes
+level: medium
+fields:
+- PipeName
+- Image
+- User
+falsepositives:
+- Other tooling reusing similar pipe names

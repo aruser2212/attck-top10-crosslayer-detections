@@ -1,0 +1,15 @@
+dataset: windows.security.kerberos
+where:
+  any:
+    - { field: event.code, op: in, value: ["4768","4769"] }
+aggregate:
+  group_by: [source.ip, subject.user]
+  window: 5m
+  metrics:
+    - { name: tgs, fn: count_if, field: event.code=4769 }
+    - { name: asr, fn: count_if, field: event.code=4768 }
+having:
+  - { field: tgs, op: gte, value: 3 }
+  - { field: asr, op: eq,  value: 0 }
+project: [window.start, window.end, source.ip, subject.user, tgs, asr]
+notes: "PtT эвристика: много TGS без AS-REQ в окне, особенно с рабочих станций. Порог/окно — тюнинг."

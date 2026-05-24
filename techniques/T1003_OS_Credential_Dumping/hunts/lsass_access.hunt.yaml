@@ -1,0 +1,13 @@
+# Hunt DSL v0.1 (минимум, переносимый)
+dataset: windows.sysmon.process_access
+where:
+  all:
+    - { field: event.code, op: eq, value: "10" }
+    - { field: target.image, op: endswith, value: '\\lsass.exe' }
+    - not:
+        any:
+          - { field: source.image, op: contains, value: '\\MsMpEng.exe' }
+          - { field: source.image, op: contains, value: '\\SenseIR.exe' }
+          - { field: source.image, op: contains, value: '\\winlogon.exe' }
+project: ["@timestamp", host.name, user.name, source.image, target.image]
+notes: "Базовый hunt; легко перевести в KQL/SPL/PDQL/SQL."

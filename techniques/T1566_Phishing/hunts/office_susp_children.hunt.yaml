@@ -1,0 +1,14 @@
+dataset: windows.process.creation
+where:
+  all:
+    - { field: parent.image, op: endswith, value: '\\WINWORD.EXE' }
+    - any:
+        - { field: process.name, op: in, value: ["powershell.exe","wscript.exe","cscript.exe","mshta.exe","cmd.exe"] }
+        - { field: process.command_line, op: contains, value: " -enc " }
+        - { field: process.command_line, op: contains, value: "http://" }
+        - { field: process.command_line, op: contains, value: "https://" }
+first_seen:
+  key: [parent.image, process.name]
+  horizon: 30d
+project: ["@timestamp", host.name, user.name, parent.image, process.name, process.command_line]
+notes: "First-seen для новых связок Office→Child + простые индикаторы (enc/url)."

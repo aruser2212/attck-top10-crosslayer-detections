@@ -1,0 +1,48 @@
+id: DET-WIN-T1550-PTH-NEWCRED-001
+title: Pass-the-Hash - NewCredentials (4624 LT=9, seclogo)
+version: 1.0.0
+status: stable
+tactics:
+- lateral-movement
+- defense-evasion
+techniques:
+- T1550
+platforms:
+- windows
+datasources:
+- windows:security:4624
+- windows:security:4672
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_4624_newcredentials_seclogo.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_pth_newcredentials_first_seen.hunt.yaml
+  - hunts/win_pth_newcred_followed_by_4672.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - runas /netonly в админ-процессах
+  allowlists: []
+  notes: LT=9 + seclogo → сильный индикатор PtH; добавляй first-seen и корреляцию
+    с 4672.
+references:
+- https://attack.mitre.org/techniques/T1550/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
+authors:
+- you
+changelog:
+- '1.0.0: initial'

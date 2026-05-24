@@ -1,0 +1,26 @@
+title: Successful Remote/Network Logon (4624 LT 3/10)
+id: 8ce8b964-d350-437d-848e-3939ba1b48b1
+status: test
+description: Base selector for successful remote (LT=10) or network (LT=3) logons
+tags:
+- attack.t1078
+logsource:
+  product: windows
+  service: security
+detection:
+  lt10:
+    EventID: 4624
+    LogonType: 10
+  lt3:
+    EventID: 4624
+    LogonType: 3
+  condition: lt10 or lt3
+level: low
+fields:
+- IpAddress
+- SubjectUserName
+- TargetUserName
+- WorkstationName
+- LogonProcessName
+falsepositives:
+- administrative activity

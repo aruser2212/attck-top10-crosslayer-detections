@@ -1,0 +1,13 @@
+dataset: windows.security.logons
+where:
+  all:
+    - { field: event.code, op: eq, value: "4625" }
+aggregate:
+  group_by: [source.ip]
+  window: 10m
+  metrics:
+    - { name: distinct_users, fn: count_distinct, field: target.user }
+having:
+  - { field: distinct_users, op: gte, value: 15 }
+project: [window.start, window.end, source.ip, distinct_users]
+notes: "Spray: один источник пробует множество разных пользователей."

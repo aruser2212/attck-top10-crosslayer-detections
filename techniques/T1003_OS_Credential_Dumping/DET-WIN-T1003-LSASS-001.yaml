@@ -1,0 +1,50 @@
+id: DET-WIN-T1003-LSASS-001
+title: LSASS Access by Non-Security Process
+version: 1.0.0
+status: stable
+tactics:
+- credential-access
+techniques:
+- T1003.001
+platforms:
+- windows
+datasources:
+- windows:sysmon:10
+- windows:security:4688
+severity: high
+confidence: high
+detections:
+  sigma:
+  - sigma/win_sysmon_lsass_access.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/lsass_access.hunt.yaml
+  queries: {}
+tests:
+  atomic:
+  - T1003.001
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - EDR/AV self-protection modules
+  allowlists:
+  - '*\MsMpEng.exe'
+  - '*\SenseIR.exe'
+  - '*\winlogon.exe'
+  notes: Поддерживайте allow-list и first-seen по SourceImage.
+references:
+- MITRE ATT&CK T1003.001
+- https://attack.mitre.org/techniques/T1003/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- you
+changelog:
+- '1.0.0: initial'

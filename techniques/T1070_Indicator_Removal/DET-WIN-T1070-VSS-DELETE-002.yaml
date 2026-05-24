@@ -1,0 +1,47 @@
+id: DET-WIN-T1070-VSS-DELETE-002
+title: Shadow Copies Deletion (T1490 Inhibit System Recovery)
+version: 1.0.0
+status: stable
+tactics:
+- impact
+- defense-evasion
+techniques:
+- T1490
+platforms:
+- windows
+datasources:
+- windows:process_creation
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_shadowcopy_deletion_tools.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_shadowcopy_deletion.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - backup/restore tools
+  allowlists: []
+  notes: Сильный индикатор рансом-активности; полезна корреляция с шифрованием/массовыми
+    изменениями.
+references:
+- https://attack.mitre.org/techniques/T1070/
+- https://attack.mitre.org/techniques/T1490/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1102
+authors:
+- you
+changelog:
+- '1.0.0: initial'

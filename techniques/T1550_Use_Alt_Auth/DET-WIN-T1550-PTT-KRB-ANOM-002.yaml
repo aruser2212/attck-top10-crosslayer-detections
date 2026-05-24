@@ -1,0 +1,46 @@
+id: DET-WIN-T1550-PTT-KRB-ANOM-002
+title: Pass-the-Ticket - Suspicious TGS Activity without AS pattern
+version: 1.0.0
+status: test
+tactics:
+- lateral-movement
+- defense-evasion
+techniques:
+- T1550
+platforms:
+- windows
+datasources:
+- windows:security:4768
+- windows:security:4769
+severity: high
+confidence: medium
+detections:
+  sigma: []
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_ptt_tgs_without_as_window.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - app-серверы c высоким объёмом TGS
+  allowlists:
+  - 'source.host: app-*'
+  notes: 'Эвристика: TGS-всплески без AS-REQ в окне с рабочих станций.'
+references:
+- https://attack.mitre.org/techniques/T1550/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
+authors:
+- you
+changelog:
+- '1.0.0: initial'

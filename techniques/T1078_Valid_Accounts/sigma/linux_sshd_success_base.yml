@@ -1,0 +1,22 @@
+title: SSH Accepted Login (Base)
+id: ebe98575-facb-4079-8fc4-0737eb50582f
+status: test
+description: Base selector for sshd "Accepted" logins to feed hunts
+tags:
+- attack.t1078
+logsource:
+  product: linux
+  service: auth
+detection:
+  sel:
+    Message|contains: sshd
+    Message|contains|all:
+    - 'Accepted '
+  condition: sel
+level: low
+fields:
+- user
+- src_ip
+- method
+falsepositives:
+- legitimate automation

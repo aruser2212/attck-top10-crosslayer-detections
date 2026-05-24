@@ -1,0 +1,9 @@
+alert smb any any -> any any (
+  msg:"PsExec Named Pipe PSEXESVC (T1569.002)";
+  flow:established;
+  smb;
+  smb.named_pipe;
+  content:"\\PSEXESVC"; nocase;
+  classtype:attempted-admin;
+  sid:4202001; rev:1;
+)

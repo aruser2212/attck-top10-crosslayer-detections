@@ -1,0 +1,47 @@
+id: DET-WIN-T1558-KRB-RC4-001
+title: Kerberoast - TGS with RC4 (0x17)
+version: 1.0.0
+status: stable
+tactics:
+- credential-access
+techniques:
+- T1558.003
+platforms:
+- windows
+datasources:
+- windows:security:4769
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_kerberoast_rc4_4769.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/kerberoast_rc4.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - application servers heavily requesting TGS
+  allowlists:
+  - subject.user endswith "$"
+  notes: Фокус на RC4 (0x17). Для современных доменов чаще AES — RC4 редок, но показателен.
+references:
+- MITRE ATT&CK T1558.003
+- https://attack.mitre.org/detectionstrategies/DET0157/
+- https://attack.mitre.org/techniques/T1558/003/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4769
+authors:
+- you
+changelog:
+- '1.0.0: initial'

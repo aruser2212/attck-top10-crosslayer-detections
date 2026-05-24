@@ -1,0 +1,8 @@
+name: Initial Access Pack (vendor-agnostic)
+includes:
+  - DET-WIN-T1566-OFFICE-CHILD-001
+  - DET-WIN-T1566-HTA-LOADER-002
+  - DET-WEB-T1190-WEBROOT-FILECREATE-001
+  - DET-WEB-T1190-WEBSHELL-ACCESS-002
+description: >
+  Пакет для начального доступа: Office/Outlook → интерпретаторы/LOLBIN и HTA/HTML загрузчики (Sigma/Hunt/Suricata/YARA).

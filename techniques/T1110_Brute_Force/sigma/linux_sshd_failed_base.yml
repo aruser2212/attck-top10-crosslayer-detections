@@ -1,0 +1,21 @@
+title: SSH Failed Password (Base)
+id: ba8777fe-f5c4-47f3-abd4-f4af96a28772
+status: test
+description: Base selector for sshd "Failed password" events
+tags:
+- attack.t1110
+logsource:
+  product: linux
+  service: auth
+detection:
+  sel:
+    Message|contains: sshd
+    Message|contains|all:
+    - Failed password
+  condition: sel
+level: low
+fields:
+- user
+- src_ip
+falsepositives:
+- scanners

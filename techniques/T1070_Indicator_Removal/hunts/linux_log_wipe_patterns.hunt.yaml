@@ -1,0 +1,11 @@
+dataset: linux.auditd.exec
+where:
+  any:
+    - { field: process.command_line, op: contains, value: "truncate -s 0" }
+    - { field: process.command_line, op: contains, value: "rm -rf /var/log" }
+    - { field: process.command_line, op: contains, value: "find /var/log -type f -exec truncate -s 0 {}" }
+    - { field: process.command_line, op: contains, value: "echo > ~/.bash_history" }
+    - { field: process.command_line, op: contains, value: "history -c" }
+    - { field: process.command_line, op: contains, value: "shred -u" }
+project: ["@timestamp", host.name, user.name, process.executable, process.command_line]
+notes: "Фильтруй logrotate/обслуживание; бейзлайн по cron/CM системам."

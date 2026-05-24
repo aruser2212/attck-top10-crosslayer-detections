@@ -1,0 +1,31 @@
+title: Cron File Modification (auditd)
+id: 48ed6814-e2d0-4df5-b565-cc0daf178e1b
+status: test
+description: Detects writes/edits to system/user cron files
+tags:
+- attack.t1053
+- attack.persistence
+logsource:
+  product: linux
+  service: auditd
+detection:
+  sel_path:
+    path|contains:
+    - /etc/crontab
+    - /etc/cron.
+    - /var/spool/cron/
+  sel_act:
+    syscall|contains:
+    - open
+    - creat
+    - truncate
+    - write
+  condition: sel_path and sel_act
+level: high
+fields:
+- exe
+- auid
+- uid
+- path
+falsepositives:
+- legitimate config updates

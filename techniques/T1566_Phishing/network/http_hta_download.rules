@@ -1,0 +1,12 @@
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+  msg:"HTA download observed (T1566)";
+  flow:to_client,established;
+  http_header; content:"Content-Type|3a| application/hta"; nocase;
+  classtype:trojan-activity; sid:4204001; rev:1;
+)
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+  msg:"HTA file by URI (T1566)";
+  flow:to_client,established;
+  http_uri; content:".hta"; nocase;
+  classtype:trojan-activity; sid:4204002; rev:1;
+)

@@ -1,0 +1,40 @@
+title: Office/Outlook Spawns Script Interpreter or LOLBIN
+id: 79e34705-2197-4810-bb4f-0a879477001a
+status: stable
+description: Detects Office/Outlook spawning scripting engines or LOLBINs commonly
+  used in phishing chains
+tags:
+- attack.t1566
+- attack.initial-access
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  parent_office:
+    ParentImage|endswith:
+    - \WINWORD.EXE
+    - \EXCEL.EXE
+    - \POWERPNT.EXE
+    - \OUTLOOK.EXE
+  child_script:
+    Image|endswith:
+    - \powershell.exe
+    - \wscript.exe
+    - \cscript.exe
+    - \mshta.exe
+    - \cmd.exe
+    CommandLine|contains:
+    - ' -enc '
+    - ' -e '
+    - http://
+    - https://
+  condition: parent_office and child_script
+level: high
+fields:
+- ParentImage
+- Image
+- CommandLine
+- User
+- ParentCommandLine
+falsepositives:
+- automation add-ins

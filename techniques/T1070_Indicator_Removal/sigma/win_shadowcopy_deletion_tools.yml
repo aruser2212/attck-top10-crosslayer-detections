@@ -1,0 +1,35 @@
+title: Shadow Copies Deletion Tools Usage
+id: 88476f58-847a-4add-bc53-b84ac9c25b97
+status: stable
+description: Detects execution of tools used to delete VSS/shadow copies
+tags:
+- attack.t1070
+- attack.defense-evasion
+- attack.impact
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  sel_img:
+    Image|endswith:
+    - \vssadmin.exe
+    - \wmic.exe
+    - \diskshadow.exe
+    - \powershell.exe
+  sel_cmd:
+    CommandLine|contains:
+    - delete shadows
+    - shadowcopy delete
+    - Delete Shadows
+    - DiskShadow
+    - Get-WmiObject Win32_ShadowCopy
+    - vssadmin delete
+  condition: sel_img and sel_cmd
+level: high
+fields:
+- Image
+- CommandLine
+- User
+- ParentImage
+falsepositives:
+- backup/restore scripts

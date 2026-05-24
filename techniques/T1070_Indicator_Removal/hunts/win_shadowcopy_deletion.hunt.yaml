@@ -1,0 +1,10 @@
+dataset: windows.process.creation
+where:
+  all:
+    - { field: process.name, op: in, value: ["vssadmin.exe","wmic.exe","diskshadow.exe","powershell.exe"] }
+    - any:
+        - { field: process.command_line, op: contains, value: "delete shadows" }
+        - { field: process.command_line, op: contains, value: "shadowcopy delete" }
+        - { field: process.command_line, op: contains, value: "Get-WmiObject Win32_ShadowCopy" }
+project: ["@timestamp", host.name, user.name, parent.image, process.command_line]
+notes: "Сильный индикатор рансом-активности; коррелируй с массовыми изменениями/шифрованием."

@@ -1,0 +1,10 @@
+dataset: windows.eventlogs
+where:
+  any:
+    - { field: event.code, op: eq, value: "1102" }
+    - { field: event.code, op: eq, value: "104" }
+project: ["@timestamp", host.name, user.name, channel, event.code]
+first_seen:
+  key: [host.name]
+  horizon: 90d
+notes: "Очистка журналов по хосту; проверь, кто инициатор и совпадает ли с окнами обслуживания."

@@ -1,0 +1,16 @@
+dataset: windows.tasks.creation
+where:
+  any:
+    - { field: event.code, op: eq, value: "4698" }
+    - { field: event.code, op: eq, value: "106" }
+project:
+  - "@timestamp"
+  - host.name
+  - user.name
+  - task.name
+  - task.action.path
+  - task.action.args
+first_seen:
+  key: [task.name, task.action.path]
+  horizon: 30d
+notes: "Сигнал на первое появление задачи/пути; дополнительно анализируй action.args (wget/curl/powershell -enc)."

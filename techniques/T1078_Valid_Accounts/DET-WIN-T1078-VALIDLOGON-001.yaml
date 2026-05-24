@@ -1,0 +1,48 @@
+id: DET-WIN-T1078-VALIDLOGON-001
+title: Unusual Successful Remote/Network Logon (4624 LT 3/10)
+version: 1.0.0
+status: test
+tactics:
+- defense-evasion
+- persistence
+- lateral-movement
+techniques:
+- T1078
+platforms:
+- windows
+datasources:
+- windows:security:4624
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_4624_remote_success.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_valid_logon_unusual_src.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - admin jump-hosts
+  - scheduled tasks using network creds
+  allowlists:
+  - subject.user endswith "$"
+  notes: 'Фокус: first-seen для пары {user × src.ip/host}.'
+references:
+- https://attack.mitre.org/techniques/T1078/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
+authors:
+- you
+changelog:
+- '1.0.0: initial'

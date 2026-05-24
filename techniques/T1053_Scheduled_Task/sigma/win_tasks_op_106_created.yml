@@ -1,0 +1,22 @@
+title: Scheduled Task Created (TaskScheduler Operational 106)
+id: 99d6ed7c-c045-4d22-b619-c92cf1a83e03
+status: test
+description: Detects task creation using TaskScheduler Operational channel Event ID
+  106
+tags:
+- attack.t1053
+- attack.persistence
+- attack.execution
+logsource:
+  product: windows
+  service: taskscheduler
+detection:
+  sel:
+    EventID: 106
+  condition: sel
+level: medium
+fields:
+- TaskName
+- TaskContent
+falsepositives:
+- legitimate task deployments

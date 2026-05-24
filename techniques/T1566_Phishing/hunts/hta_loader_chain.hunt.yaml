@@ -1,0 +1,10 @@
+dataset: windows.process.creation
+where:
+  all:
+    - { field: process.name, op: eq, value: "mshta.exe" }
+    - any:
+        - { field: process.command_line, op: contains, value: ".hta" }
+        - { field: process.command_line, op: contains, value: "http://" }
+        - { field: process.command_line, op: contains, value: "https://" }
+project: ["@timestamp", host.name, user.name, process.command_line, parent.image]
+notes: "Связки HTML/HTA → mshta; коррелируй с сетевыми сигнатурами."

@@ -1,0 +1,14 @@
+dataset: linux.auth.sshd
+where:
+  all:
+    - { field: message, op: contains, value: "Accepted " }
+aggregate:
+  group_by: [user.name, source.ip]
+  window: 24h
+  metrics:
+    - { name: cnt, fn: count, field: "*" }
+first_seen:
+  key: [user.name, source.ip]
+  horizon: 30d
+project: ["@timestamp", host.name, source.ip, user.name, method, cnt, first_seen]
+notes: "Сигнал для новых источников логина и аномальной частоты по пользователю."

@@ -1,0 +1,6 @@
+name: Lateral Movement Pack (vendor-agnostic)
+includes:
+  - DET-WIN-T1569-SVC-7045-001
+  - DET-WIN-T1569-PSEXEC-PIPES-002
+description: >
+  Набор детектов для lateral movement через сервисы/PsExec. Sigma + Hunts + (опц.) Suricata.

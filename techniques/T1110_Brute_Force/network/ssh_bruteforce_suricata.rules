@@ -1,0 +1,7 @@
+alert ssh any any -> $HOME_NET 22 (
+  msg:"SSH Brute Force (heuristic)";
+  flow:to_server,established;
+  detection_filter:track by_src, count 10, seconds 60;
+  classtype:attempted-admin;
+  sid:4203001; rev:1;
+)

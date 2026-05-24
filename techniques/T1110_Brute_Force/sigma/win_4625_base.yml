@@ -1,0 +1,22 @@
+title: Failed Logon (4625) Base
+id: 8a4a044c-8e1c-477a-bccf-ec709dc3714d
+status: test
+description: Base selector for 4625 failed logons to feed brute/spray hunts
+tags:
+- attack.t1110
+logsource:
+  product: windows
+  service: security
+detection:
+  sel:
+    EventID: 4625
+  condition: sel
+level: low
+fields:
+- IpAddress
+- TargetUserName
+- WorkstationName
+- SubStatus
+falsepositives:
+- typos
+- service misconfig

@@ -1,0 +1,8 @@
+# Исключить временные и IDE-файлы
+*.swp
+*.swo
+*.pyc
+__pycache__/
+.vscode/
+.idea/
+.DS_Store

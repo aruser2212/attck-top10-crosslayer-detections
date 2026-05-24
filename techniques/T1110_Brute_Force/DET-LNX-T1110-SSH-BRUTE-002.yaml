@@ -1,0 +1,49 @@
+id: DET-LNX-T1110-SSH-BRUTE-002
+title: SSH Brute/Spray Attempts (Failed password)
+version: 1.0.0
+status: test
+tactics:
+- credential-access
+- initial-access
+techniques:
+- T1110
+platforms:
+- linux
+- network
+datasources:
+- linux:auth:sshd
+- ids:ssh
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/linux_sshd_failed_base.yml
+  network_rules:
+  - network/ssh_bruteforce_suricata.rules
+  yara: []
+  hunts:
+  - hunts/linux_ssh_failed_agg.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - security scanners
+  - monitoring checks
+  allowlists: []
+  notes: 'Сеть + хост: совмещайте для большей уверенности.'
+references:
+- https://attack.mitre.org/techniques/T1110/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625
+authors:
+- you
+changelog:
+- '1.0.0: initial'

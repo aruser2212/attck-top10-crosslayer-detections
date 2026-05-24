@@ -1,0 +1,16 @@
+dataset: windows.security
+where:
+  any:
+    - { field: event.code, op: eq, value: "4624" }
+    - { field: event.code, op: eq, value: "4672" }
+aggregate:
+  group_by: [host.name, subject.user]
+  window: 5m
+  metrics:
+    - { name: logon9, fn: count_if, field: event.code=4624&win.logon_type=9 }
+    - { name: priv,   fn: count_if, field: event.code=4672 }
+having:
+  - { field: logon9, op: gte, value: 1 }
+  - { field: priv,   op: gte, value: 1 }
+project: [window.start, window.end, host.name, subject.user, logon9, priv]
+notes: "Корреляция: LT=9 рядом с назначением привилегий (4672). Реализуй count_if в движке или заменяй двумя запросами."

@@ -1,0 +1,47 @@
+id: DET-WIN-T1053-SCHTASK-4698-001
+title: Windows Scheduled Task Created (4698 / TaskScheduler 106)
+version: 1.0.0
+status: stable
+tactics:
+- persistence
+- execution
+techniques:
+- T1053
+platforms:
+- windows
+datasources:
+- windows:security:4698
+- windows:taskscheduler:106
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_4698_scheduled_task_created.yml
+  - sigma/win_tasks_op_106_created.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_schtask_creation_unusual.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - RMM/EDR/backup/patch tools
+  allowlists: []
+  notes: 'Фокус: first-seen по TaskName/ActionPath и сравнение с окнами изменений.'
+references:
+- https://attack.mitre.org/techniques/T1053/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4698
+authors:
+- you
+changelog:
+- '1.0.0: initial'

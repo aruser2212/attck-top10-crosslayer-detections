@@ -1,0 +1,31 @@
+title: Suspicious MSHTA Execution (URL/JScript)
+id: 69270379-7cf5-4660-a943-fda2512c8d14
+status: test
+description: Detects mshta executing remote/local HTA/HTML or inline JScript/VBScript
+tags:
+- attack.t1566
+- attack.initial-access
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  sel_img:
+    Image|endswith: \mshta.exe
+  sel_args_url:
+    CommandLine|contains:
+    - http://
+    - https://
+    - .hta
+  sel_args_js:
+    CommandLine|contains:
+    - 'javascript:'
+    - 'vbscript:'
+  condition: sel_img and (sel_args_url or sel_args_js)
+level: high
+fields:
+- Image
+- CommandLine
+- ParentImage
+- User
+falsepositives:
+- legacy admin tooling delivering HTA installers

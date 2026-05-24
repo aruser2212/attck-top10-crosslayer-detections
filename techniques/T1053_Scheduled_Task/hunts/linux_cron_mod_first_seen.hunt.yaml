@@ -1,0 +1,12 @@
+dataset: linux.auditd.files
+where:
+  all:
+    - any:
+        - { field: file.path, op: contains, value: "/etc/crontab" }
+        - { field: file.path, op: contains, value: "/etc/cron." }
+        - { field: file.path, op: contains, value: "/var/spool/cron/" }
+first_seen:
+  key: [file.path, user.name]
+  horizon: 30d
+project: ["@timestamp", host.name, user.name, file.path, process.executable]
+notes: "Сигнал на первое изменение; вручную проверяй наличие @reboot, wget/curl, bash -c, нетипичных путей."

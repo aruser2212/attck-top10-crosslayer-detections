@@ -1,0 +1,17 @@
+dataset: windows.security.logons
+where:
+  any:
+    - { field: event.code, op: eq, value: "4624" }
+and:
+  any:
+    - { field: win.logon_type, op: in, value: [3,10] }
+aggregate:
+  group_by: [subject.user, source.ip]
+  window: 24h
+  metrics:
+    - { name: cnt, fn: count, field: "*" }
+first_seen:
+  key: [subject.user, source.ip]
+  horizon: 30d
+project: ["@timestamp", host.name, source.ip, subject.user, win.logon_type, cnt, first_seen]
+notes: "Сигнал при первом появлении пары {user × src.ip} за 30 дней и/или редкий cnt."

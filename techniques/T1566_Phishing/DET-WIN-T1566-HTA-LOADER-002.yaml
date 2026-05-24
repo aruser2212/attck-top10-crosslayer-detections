@@ -1,0 +1,49 @@
+id: DET-WIN-T1566-HTA-LOADER-002
+title: HTA/HTML Loader → Script Execution
+version: 1.0.0
+status: test
+tactics:
+- initial-access
+- execution
+techniques:
+- T1566
+platforms:
+- windows
+- network
+datasources:
+- windows:process_creation
+- network:http
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_mshta_suspicious.yml
+  network_rules:
+  - network/http_hta_download.rules
+  - network/http_macro_doc_download.rules
+  yara:
+  - yara/ole_vba_autoopen_shell.yara
+  hunts:
+  - hunts/hta_loader_chain.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - внутренние порталы/ПО, раздающие HTA/HTML-инсталляторы
+  allowlists: []
+  notes: Сетевые сигнатуры — эвристика; сверять с хостовыми событиями.
+references:
+- https://attack.mitre.org/techniques/T1566/
+authors:
+- you
+changelog:
+- '1.0.0: initial'

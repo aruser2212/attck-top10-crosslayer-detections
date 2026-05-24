@@ -1,0 +1,45 @@
+id: DET-LNX-T1053-CRON-MOD-002
+title: Linux Cron Modified (system/user crontab)
+version: 1.0.0
+status: test
+tactics:
+- persistence
+- execution
+techniques:
+- T1053
+platforms:
+- linux
+datasources:
+- linux:auditd:file
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/linux_auditd_cron_file_mod.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/linux_cron_mod_first_seen.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - config management / deploy
+  allowlists: []
+  notes: Особое внимание к @reboot, wget/curl/bash -c, нетипичным путям и владельцам.
+references:
+- https://attack.mitre.org/techniques/T1053/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4698
+authors:
+- you
+changelog:
+- '1.0.0: initial'

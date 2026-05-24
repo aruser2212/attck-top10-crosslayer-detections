@@ -1,0 +1,45 @@
+id: DET-WIN-T1070-LOGCLEAR-001
+title: Windows Event Log Cleared (1102 / 104)
+version: 1.0.0
+status: stable
+tactics:
+- defense-evasion
+techniques:
+- T1070
+platforms:
+- windows
+datasources:
+- windows:security:1102
+- windows:system:104
+severity: high
+confidence: high
+detections:
+  sigma:
+  - sigma/win_eventlog_cleared_1102_104.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_eventlog_cleared.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - planned maintenance
+  allowlists: []
+  notes: Коррелируйте с process_creation (wevtutil cl).
+references:
+- https://attack.mitre.org/techniques/T1070/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1102
+authors:
+- you
+changelog:
+- '1.0.0: initial'

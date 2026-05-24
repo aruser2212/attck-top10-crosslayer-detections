@@ -1,0 +1,46 @@
+id: DET-WIN-T1569-PSEXEC-PIPES-002
+title: PsExec Named Pipes Pattern (Sysmon 17/18)
+version: 1.0.0
+status: test
+tactics:
+- execution
+- lateral-movement
+techniques:
+- T1569.002
+platforms:
+- windows
+datasources:
+- windows:sysmon:17
+- windows:sysmon:18
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_sysmon_psexec_pipes.yml
+  network_rules:
+  - network/psexec_named_pipe.rules
+  yara: []
+  hunts:
+  - hunts/psexec_pipes.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - Legit remote admin tools reusing similar pipe patterns
+  allowlists: []
+  notes: Паттерн пайпов сложно подделать, но иногда встречается в админ-тулзах.
+references:
+- https://attack.mitre.org/techniques/T1569/002/
+authors:
+- you
+changelog:
+- '1.0.0: initial'

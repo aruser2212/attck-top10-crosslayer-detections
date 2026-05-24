@@ -1,0 +1,13 @@
+dataset: windows.system.service_install
+where:
+  all:
+    - { field: event.code, op: eq, value: "7045" }
+    - any:
+        - { field: service.name, op: contains, value: "PSEXESVC" }
+        - any:
+            - { field: service.image_path, op: contains, value: "\\Users\\Public\\" }
+            - { field: service.image_path, op: contains, value: "\\AppData\\Local\\Temp\\" }
+            - { field: service.image_path, op: contains, value: "\\Windows\\Temp\\" }
+            - { field: service.image_path, op: contains, value: "\\Desktop\\" }
+project: ["@timestamp", host.name, user.name, service.name, service.image_path]
+notes: "Сервисная установка с PSEXESVC либо подозрительным путём ImagePath."

@@ -1,0 +1,47 @@
+id: DET-WIN-T1110-4625-BRUTE-001
+title: Excessive Failed Logons (4625) - Brute Force
+version: 1.0.0
+status: test
+tactics:
+- credential-access
+- initial-access
+techniques:
+- T1110
+platforms:
+- windows
+datasources:
+- windows:security:4625
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_4625_base.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/win_4625_brute_agg.hunt.yaml
+  - hunts/win_4625_spray_agg.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - misconfigured services
+  - vulnerability scanners
+  allowlists: []
+  notes: Порог/окно под среду; разделяем brute и spray.
+references:
+- https://attack.mitre.org/techniques/T1110/
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625
+authors:
+- you
+changelog:
+- '1.0.0: initial'

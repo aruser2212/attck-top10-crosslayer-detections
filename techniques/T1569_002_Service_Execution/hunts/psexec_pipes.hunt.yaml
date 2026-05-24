@@ -1,0 +1,10 @@
+dataset: windows.sysmon.named_pipes
+where:
+  all:
+    - { field: event.code, op: in, value: ["17","18"] }
+    - any:
+        - { field: pipe.name, op: contains, value: "-stdin" }
+        - { field: pipe.name, op: contains, value: "-stdout" }
+        - { field: pipe.name, op: contains, value: "-stderr" }
+project: ["@timestamp", host.name, user.name, process.executable, pipe.name]
+notes: "Паттерн пайпов PsExec-подобных инструментов."

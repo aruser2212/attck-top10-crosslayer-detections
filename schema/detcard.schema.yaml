@@ -1,0 +1,129 @@
+type: object
+required:
+- id
+- title
+- version
+- status
+- tactics
+- techniques
+- platforms
+- datasources
+- detections
+properties:
+  id:
+    type: string
+  title:
+    type: string
+  version:
+    type: string
+  status:
+    type: string
+    enum:
+    - draft
+    - test
+    - stable
+    - deprecated
+  tactics:
+    type: array
+    items:
+      type: string
+  techniques:
+    type: array
+    items:
+      type: string
+  platforms:
+    type: array
+    items:
+      type: string
+  datasources:
+    type: array
+    items:
+      type: string
+  severity:
+    type: string
+  confidence:
+    type: string
+  detections:
+    type: object
+    properties:
+      sigma:
+        type: array
+        items:
+          type: string
+      network_rules:
+        type: array
+        items:
+          type: string
+      yara:
+        type: array
+        items:
+          type: string
+      hunts:
+        type: array
+        items:
+          type: string
+      queries:
+        type: object
+        additionalProperties:
+          type: array
+          items:
+            type: string
+  tests:
+    type: object
+    properties:
+      atomic:
+        type: array
+        items:
+          type: string
+      datasets:
+        type: array
+        items:
+          type: string
+  validation:
+    type: object
+    properties:
+      tpr:
+        type:
+        - number
+        - 'null'
+      fpr:
+        type:
+        - number
+        - 'null'
+      latency_ms:
+        type:
+        - number
+        - 'null'
+      status:
+        type: string
+        enum:
+        - not_tested
+        - tested
+        - partial
+      notes:
+        type: string
+  tuning:
+    type: object
+    properties:
+      fp_sources:
+        type: array
+        items:
+          type: string
+      allowlists:
+        type: array
+        items:
+          type: string
+      notes:
+        type: string
+  references:
+    type: array
+    items:
+      type: string
+  authors:
+    type: array
+    items:
+      type: string
+  changelog:
+    type: array
+    items:
+      type: string

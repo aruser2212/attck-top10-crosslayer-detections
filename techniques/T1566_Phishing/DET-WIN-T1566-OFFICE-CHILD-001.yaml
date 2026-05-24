@@ -1,0 +1,44 @@
+id: DET-WIN-T1566-OFFICE-CHILD-001
+title: Office/Outlook Spawns Scripting Interpreter or LOLBIN
+version: 1.0.0
+status: stable
+tactics:
+- initial-access
+- execution
+techniques:
+- T1566
+platforms:
+- windows
+datasources:
+- windows:process_creation
+severity: high
+confidence: medium
+detections:
+  sigma:
+  - sigma/win_office_spawns_script.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/office_susp_children.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets: []
+validation:
+  status: not_tested
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
+    only after replay/lab validation.'
+tuning:
+  fp_sources:
+  - легитимные надстройки Office, авто-отчёты
+  allowlists: []
+  notes: Рекомендуется first-seen на пары {parent→child} и контроль по времени/географии.
+references:
+- https://attack.mitre.org/techniques/T1566/
+authors:
+- you
+changelog:
+- '1.0.0: initial'

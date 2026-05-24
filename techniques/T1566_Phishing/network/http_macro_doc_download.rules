@@ -1,0 +1,6 @@
+alert http $EXTERNAL_NET any -> $HOME_NET any (
+  msg:"Macro-enabled Office document download (.docm/.xlsm) (T1566)";
+  flow:to_client,established;
+  http_uri; pcre:"/\\.(docm|xlsm)(\\?|$)/Ui";
+  classtype:policy-violation; sid:4204003; rev:1;
+)

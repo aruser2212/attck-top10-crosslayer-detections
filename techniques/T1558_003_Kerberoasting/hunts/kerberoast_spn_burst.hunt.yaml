@@ -1,0 +1,14 @@
+dataset: windows.security.kerberos_tgs
+where:
+  all:
+    - { field: event.code, op: eq, value: "4769" }
+    - not: { field: subject.user, op: endswith, value: "$" }
+aggregate:
+  group_by: [subject.user, source.ip]
+  window: 5m
+  metrics:
+    - { name: distinct_spn, fn: count_distinct, field: service.name }
+having:
+  - { field: distinct_spn, op: gte, value: 5 }
+project: [window.start, window.end, source.ip, subject.user, distinct_spn]
+notes: "Агрегирующий hunt: много разных SPN за короткое окно. Порог и окно — тюнинг под среду."

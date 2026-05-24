@@ -1,0 +1,13 @@
+dataset: windows.security.logons
+where:
+  all:
+    - { field: event.code, op: eq, value: "4625" }
+aggregate:
+  group_by: [target.user, source.ip]
+  window: 5m
+  metrics:
+    - { name: fails, fn: count, field: "*" }
+having:
+  - { field: fails, op: gte, value: 10 }
+project: [window.start, window.end, source.ip, target.user, fails]
+notes: "Brute: много неуспешных по одному аккаунту с одного источника за короткое окно."
