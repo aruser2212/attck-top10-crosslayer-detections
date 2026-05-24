@@ -45,7 +45,13 @@ Each detection is described by a **DetCard** (`DET-*.yaml`) with links to suppor
 
 ## Notes
 
-This repository intentionally avoids binding core logic to a single SIEM. Platform-specific versions can be added later without rewriting the core artifacts. Tiny vendor-lock-in goblin is not invited.
+This repository intentionally avoids binding core logic to a single SIEM. Platform-specific versions can be added later without rewriting the core artifacts. Core artifacts are kept vendor-neutral so platform-specific adapters remain optional.
+
+## Attribution
+
+MITRE ATT&CK® and ATT&CK® are registered trademarks of The MITRE Corporation. This project is not affiliated with or endorsed by MITRE.
+
+Technique descriptions in this repository are original summaries written for detection engineering practice. Official technique definitions are referenced in each technique dossier.
 
 ## Validation
 
@@ -59,4 +65,4 @@ The same check is also available as a GitHub Actions workflow in `.github/workfl
 
 ## Project status
 
-This repository is ready as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts and repository validation. The next recommended step is to add a small set of platform adapters under `queries/<platform>/` and attach lab/synthetic datasets. See [`docs/roadmap.md`](docs/roadmap.md).
+This repository is published as a **v0.2 portfolio baseline**. It includes compact dossiers for all Top-10 techniques, cross-layer detection artifacts and repository validation. The next recommended step is to add a small set of platform adapters under `queries/<platform>/` and attach lab/synthetic datasets. See [`docs/roadmap.md`](docs/roadmap.md).
