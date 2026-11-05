@@ -129,24 +129,27 @@ def run_suricata(directory: Path, *, replay: bool) -> str:
            {"DOCKER_HOST", "DOCKER_CONTEXT", "DOCKER_TLS", "DOCKER_TLS_VERIFY", "DOCKER_CERT_PATH"}}
     base = ["docker", "--host=unix:///var/run/docker.sock"]
 
-    def docker(*args, timeout=120):
+    def docker(*args, timeout=120, stdout_only=False):
         result = subprocess.run([*base, *args], env=env, capture_output=True, text=True, timeout=timeout)
         if result.returncode:
             raise RuntimeError(f"Docker/Suricata command failed ({result.returncode}):\n{result.stdout}{result.stderr}")
-        return result.stdout + result.stderr
+        # Cold-cache create emits image-pull progress on stderr. Keep that out
+        # of container IDs/exit codes while retaining it for engine diagnostics.
+        return result.stdout if stdout_only else result.stdout + result.stderr
 
     args = ["-v", "-c", "/etc/suricata/suricata.yaml", "-S", "/tmp/all.rules", "-l", "/tmp",
             "--set", "vars.address-groups.HOME_NET=[10.0.0.0/8]", "--runmode", "single"]
     args += ["-r", "/tmp/fixtures.pcap"] if replay else ["-T"]
     cid = docker("create", "--network", "none", "--user", "suricata", "--cap-drop", "ALL",
-                 "--entrypoint", "suricata", IMAGE, *args).strip()
+                 "--entrypoint", "suricata", IMAGE, *args, stdout_only=True).strip()
     try:
         docker("cp", str(directory / "all.rules"), f"{cid}:/tmp/all.rules")
         if replay:
             docker("cp", str(directory / "fixtures.pcap"), f"{cid}:/tmp/fixtures.pcap")
         output = docker("start", "-a", cid)
         # Explicit exit status check: docker attach behavior must not hide failure.
-        exit_code = int(docker("inspect", "--format", "{{.State.ExitCode}}", cid).strip())
+        exit_code = int(docker("inspect", "--format", "{{.State.ExitCode}}", cid,
+                               stdout_only=True).strip())
         if exit_code:
             raise RuntimeError(f"Suricata exited {exit_code}:\n{output}")
         if replay:

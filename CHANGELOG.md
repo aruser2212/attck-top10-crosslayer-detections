@@ -2,6 +2,7 @@
 
 ## Unreleased — precise detection candidates and verified Basic replay
 
+- Fix Suricata replay on fresh Docker workers: read container IDs and exit codes from stdout only, preserving stderr for diagnostics. Add cold-image-pull and error-output regressions.
 - Add finite host/file-to-HTTP replay on Elasticsearch Basic with a strict shared source profile, one PIT, microsecond bounds and linked source evidence. Require a trusted filesystem namespace to prevent cross-container joins; do not infer paths from URLs or claim native source collection.
 - Version the correlation as CORR-WEB-WEBROOT-REQUEST-002, use unambiguous full SHA256 identities, and reject malformed input before ingestion. Add independently specified deploy/upload/admin fixtures, including a legitimate matching sequence and explicit source-contract failures.
 - Correct the legacy web selector's extension-only OR condition. Keep both T1190 Hunt artifacts design-only; the dedicated correlation runtime does not implement generic joins or first_seen.
