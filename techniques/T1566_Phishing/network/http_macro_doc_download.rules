@@ -1,6 +1,6 @@
-alert http $EXTERNAL_NET any -> $HOME_NET any (
-  msg:"Macro-enabled Office document download (.docm/.xlsm) (T1566)";
-  flow:to_client,established;
-  http_uri; pcre:"/\\.(docm|xlsm)(\\?|$)/Ui";
-  classtype:policy-violation; sid:4204003; rev:1;
+alert http $HOME_NET any -> $EXTERNAL_NET any ( \
+  msg:"Macro-enabled Office path requested over HTTP - context required"; \
+  flow:to_server,established; \
+  http.uri; pcre:"/^\/[^?]*\.(?:docm|xlsm)(?:\?|$)/i"; \
+  classtype:policy-violation; sid:4204003; rev:2; \
 )

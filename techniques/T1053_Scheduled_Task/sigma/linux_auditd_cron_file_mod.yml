@@ -1,26 +1,32 @@
-title: Cron File Modification (auditd)
+title: Successful Write-Intent Access to Cron Files (auditd)
 id: 48ed6814-e2d0-4df5-b565-cc0daf178e1b
 status: test
-description: Detects writes/edits to system/user cron files
+description: >-
+  Selects successful write-class operations on watched cron paths. Requires
+  write-only audit watches keyed cron_write and joined SYSCALL/PATH records;
+  this is write intent, not proof that file contents changed.
 tags:
-- attack.t1053
+- attack.t1053.003
 - attack.persistence
 logsource:
   product: linux
   service: auditd
+  definition: >-
+    Configure audit watches with -p w -k cron_write. Join records by audit event
+    serial; map PATH.name to path, SYSCALL.key to key and SYSCALL.success to
+    success. Keep native yes/no success strings. Do not label read-only watches
+    cron_write.
 detection:
-  sel_path:
-    path|contains:
-    - /etc/crontab
+  cron_file:
+    path|cased: /etc/crontab
+  cron_directories:
+    path|startswith|cased:
     - /etc/cron.
     - /var/spool/cron/
   sel_act:
-    syscall|contains:
-    - open
-    - creat
-    - truncate
-    - write
-  condition: sel_path and sel_act
+    key: cron_write
+    success: 'yes'
+  condition: (cron_file or cron_directories) and sel_act
 level: high
 fields:
 - exe

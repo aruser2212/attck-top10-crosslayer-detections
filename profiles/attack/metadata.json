@@ -1,0 +1,19 @@
+{
+  "catalog_file": "enterprise-techniques.json",
+  "catalog_sha256": "843c0e992b0eeb6dc869fcfb889ae2308756ae277eb4832e67f2a646d63f3b0f",
+  "generator": "tools/check_attack.py build (catalog schema 2)",
+  "schema_version": 2,
+  "source": {
+    "attack_version": "20.0",
+    "bytes": 55271014,
+    "collection_id": "x-mitre-collection--1f5f1533-f617-4ca8-9ab4-6a02367fa019",
+    "git_commit": "20664a889568dce884a1dac0ec7b12ae3a199f51",
+    "git_tag": "v20.0",
+    "git_tag_object": "3a9dc7798bf78b53b77fc2f821002f7167c00be3",
+    "path": "enterprise-attack/enterprise-attack.json",
+    "repository": "https://github.com/mitre-attack/attack-stix-data",
+    "sha256": "81113ba98afa2928f3dcff62022539f7ce30c315c32e14422f11ff95ce534352",
+    "stix_spec_version": "2.1",
+    "url": "https://raw.githubusercontent.com/mitre-attack/attack-stix-data/20664a889568dce884a1dac0ec7b12ae3a199f51/enterprise-attack/enterprise-attack.json"
+  }
+}

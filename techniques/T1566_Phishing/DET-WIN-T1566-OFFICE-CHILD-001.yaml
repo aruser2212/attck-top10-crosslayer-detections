@@ -1,10 +1,9 @@
 id: DET-WIN-T1566-OFFICE-CHILD-001
 title: Office/Outlook Spawns Scripting Interpreter or LOLBIN
-version: 1.0.0
-status: stable
+version: 1.2.0
+status: test
 tactics:
 - initial-access
-- execution
 techniques:
 - T1566
 platforms:
@@ -23,22 +22,27 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - легитимные надстройки Office, авто-отчёты
   allowlists: []
-  notes: Рекомендуется first-seen на пары {parent→child} и контроль по времени/географии.
+  notes: 'Рекомендуется first-seen на пары {parent→child} и контроль по времени/географии. Related attack-chain
+    context (not a primary ATT&CK tactic mapping): execution.'
 references:
 - https://attack.mitre.org/techniques/T1566/
 authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'

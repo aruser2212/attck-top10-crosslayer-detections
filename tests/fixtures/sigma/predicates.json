@@ -1,0 +1,1001 @@
+{
+  "format_version": 1,
+  "scope": "Synthetic predicate regression over native pySigma condition AST, with explicit logsource context. Not SIEM replay, telemetry normalization validation or production efficacy. Numeric fields are typed numbers; missing fields never satisfy positive equality. Candidate matches can be legitimate activity. All strings are inert fixtures.",
+  "rules": [
+    {
+      "rule_id": "0364c0b3-5f83-4735-8d83-9e815adba922",
+      "source": {
+        "product": "windows",
+        "service": "sysmon",
+        "category": "process_access"
+      },
+      "cases": [
+        {
+          "name": "process_access_candidate",
+          "event": {
+            "EventID": 10,
+            "TargetImage": "C:\\Windows\\System32\\lsass.exe",
+            "SourceImage": "C:\\Tools\\collector.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "untrusted_security_basename_not_suppressed",
+          "event": {
+            "EventID": 10,
+            "TargetImage": "C:\\Windows\\System32\\lsass.exe",
+            "SourceImage": "C:\\Users\\Public\\MsMpEng.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "trusted_av_still_candidate_until_profile_tuning",
+          "event": {
+            "EventID": 10,
+            "TargetImage": "C:\\Windows\\System32\\lsass.exe",
+            "SourceImage": "C:\\Program Files\\Windows Defender\\MsMpEng.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "other_target",
+          "event": {
+            "EventID": 10,
+            "TargetImage": "C:\\Windows\\explorer.exe"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_event",
+          "event": {
+            "EventID": 1,
+            "TargetImage": "C:\\Windows\\System32\\lsass.exe"
+          },
+          "match": false
+        },
+        {
+          "name": "missing_target",
+          "event": {
+            "EventID": 10
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "48ed6814-e2d0-4df5-b565-cc0daf178e1b",
+      "source": {
+        "product": "linux",
+        "service": "auditd"
+      },
+      "cases": [
+        {
+          "name": "crontab_write",
+          "event": {
+            "path": "/etc/crontab",
+            "key": "cron_write",
+            "success": "yes"
+          },
+          "match": true
+        },
+        {
+          "name": "user_cron_write",
+          "event": {
+            "path": "/var/spool/cron/alice",
+            "key": "cron_write",
+            "success": "yes"
+          },
+          "match": true
+        },
+        {
+          "name": "read_only_watch",
+          "event": {
+            "path": "/etc/crontab",
+            "key": "cron_read",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "failed_write",
+          "event": {
+            "path": "/etc/crontab",
+            "key": "cron_write",
+            "success": "no"
+          },
+          "match": false
+        },
+        {
+          "name": "no_write_context",
+          "event": {
+            "path": "/etc/crontab",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "backup_file",
+          "event": {
+            "path": "/etc/crontab.backup",
+            "key": "cron_write",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "unrelated_path",
+          "event": {
+            "path": "/tmp/etc/crontab",
+            "key": "cron_write",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "case_sensitive_path",
+          "event": {
+            "path": "/etc/CRONTAB",
+            "key": "cron_write",
+            "success": "yes"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "549439ea-8d30-469e-b298-700d0c56943d",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "creation",
+          "event": {
+            "EventID": 4698
+          },
+          "match": true
+        },
+        {
+          "name": "deletion",
+          "event": {
+            "EventID": 4699
+          },
+          "match": false
+        },
+        {
+          "name": "missing_id",
+          "event": {},
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "99d6ed7c-c045-4d22-b619-c92cf1a83e03",
+      "source": {
+        "product": "windows",
+        "service": "taskscheduler"
+      },
+      "cases": [
+        {
+          "name": "creation",
+          "event": {
+            "EventID": 106
+          },
+          "match": true
+        },
+        {
+          "name": "other",
+          "event": {
+            "EventID": 140
+          },
+          "match": false
+        },
+        {
+          "name": "missing_id",
+          "event": {},
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "a264a4f8-6af3-404c-b32d-7295431a5261",
+      "source": {
+        "product": "linux",
+        "service": "auditd"
+      },
+      "cases": [
+        {
+          "name": "truncate_log",
+          "event": {
+            "exe": "/usr/bin/truncate",
+            "CommandLine": "truncate -s 0 /var/log/auth.log"
+          },
+          "match": true
+        },
+        {
+          "name": "long_truncate_option",
+          "event": {
+            "exe": "/usr/bin/truncate",
+            "CommandLine": "truncate --size=0 /var/log/auth.log"
+          },
+          "match": true
+        },
+        {
+          "name": "log_tree_removal",
+          "event": {
+            "exe": "/usr/bin/rm",
+            "CommandLine": "rm -rf /var/log"
+          },
+          "match": true
+        },
+        {
+          "name": "shred_log",
+          "event": {
+            "exe": "/usr/bin/shred",
+            "CommandLine": "shred -u /var/log/auth.log"
+          },
+          "match": true
+        },
+        {
+          "name": "normal_inventory",
+          "event": {
+            "exe": "/usr/bin/ls",
+            "CommandLine": "ls /var/log"
+          },
+          "match": false
+        },
+        {
+          "name": "ordinary_shred",
+          "event": {
+            "exe": "/usr/bin/shred",
+            "CommandLine": "shred -u /home/alice/retired.txt"
+          },
+          "match": false
+        },
+        {
+          "name": "nonzero_truncate",
+          "event": {
+            "exe": "/usr/bin/truncate",
+            "CommandLine": "truncate -s 10 /var/log/example.log"
+          },
+          "match": false
+        },
+        {
+          "name": "similar_directory",
+          "event": {
+            "exe": "/usr/bin/rm",
+            "CommandLine": "rm -rf /var/logs"
+          },
+          "match": false
+        },
+        {
+          "name": "builtin_not_execve",
+          "event": {
+            "exe": "/bin/bash",
+            "CommandLine": "history -c"
+          },
+          "match": false
+        },
+        {
+          "name": "missing_command",
+          "event": {},
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "9bb27896-fd48-445b-b2b0-b4239d370de2",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "security_clear",
+          "event": {
+            "EventID": 1102
+          },
+          "match": true
+        },
+        {
+          "name": "logon",
+          "event": {
+            "EventID": 4624
+          },
+          "match": false
+        },
+        {
+          "name": "system_event_wrong_source",
+          "event": {
+            "EventID": 104
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "8774afc4-d72e-4344-a3a6-eba9d016b35e",
+      "source": {
+        "product": "windows",
+        "service": "system"
+      },
+      "cases": [
+        {
+          "name": "system_clear",
+          "event": {
+            "EventID": 104
+          },
+          "match": true
+        },
+        {
+          "name": "service_install",
+          "event": {
+            "EventID": 7045
+          },
+          "match": false
+        },
+        {
+          "name": "security_event_wrong_source",
+          "event": {
+            "EventID": 1102
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "88476f58-847a-4add-bc53-b84ac9c25b97",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "vssadmin_delete",
+          "event": {
+            "Image": "C:\\Windows\\System32\\vssadmin.exe",
+            "CommandLine": "vssadmin.exe delete shadows /all /quiet"
+          },
+          "match": true
+        },
+        {
+          "name": "wmic_delete",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic shadowcopy delete"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_delete",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "Get-WmiObject Win32_ShadowCopy | Remove-WmiObject"
+          },
+          "match": true
+        },
+        {
+          "name": "pwsh_delete",
+          "event": {
+            "Image": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "CommandLine": "Get-CimInstance Win32_ShadowCopy | Remove-CimInstance"
+          },
+          "match": true
+        },
+        {
+          "name": "list_only",
+          "event": {
+            "Image": "C:\\Windows\\System32\\vssadmin.exe",
+            "CommandLine": "vssadmin.exe list shadows"
+          },
+          "match": false
+        },
+        {
+          "name": "powershell_enumeration_only",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "Get-WmiObject Win32_ShadowCopy"
+          },
+          "match": false
+        },
+        {
+          "name": "external_script_contents_unknown",
+          "event": {
+            "Image": "C:\\Windows\\System32\\diskshadow.exe",
+            "CommandLine": "diskshadow.exe /s inventory.txt"
+          },
+          "match": false
+        },
+        {
+          "name": "powershell_unrelated_delete",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "Get-CimInstance Win32_Process | Remove-CimInstance"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "ebe98575-facb-4079-8fc4-0737eb50582f",
+      "source": {
+        "product": "linux",
+        "service": "auth"
+      },
+      "cases": [
+        {
+          "name": "accepted",
+          "event": {
+            "Message": "sshd[42]: Accepted publickey for alice from 192.0.2.1 port 12345 ssh2"
+          },
+          "match": true
+        },
+        {
+          "name": "failed",
+          "event": {
+            "Message": "sshd[42]: Failed password for alice from 192.0.2.1"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_service",
+          "event": {
+            "Message": "webapp: Accepted request"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "8ce8b964-d350-437d-848e-3939ba1b48b1",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "network",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 3
+          },
+          "match": true
+        },
+        {
+          "name": "remote_interactive",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 10
+          },
+          "match": true
+        },
+        {
+          "name": "local_interactive",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 2
+          },
+          "match": false
+        },
+        {
+          "name": "failed",
+          "event": {
+            "EventID": 4625,
+            "LogonType": 3
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "ba8777fe-f5c4-47f3-abd4-f4af96a28772",
+      "source": {
+        "product": "linux",
+        "service": "auth"
+      },
+      "cases": [
+        {
+          "name": "failed",
+          "event": {
+            "Message": "sshd[42]: Failed password for alice from 192.0.2.1"
+          },
+          "match": true
+        },
+        {
+          "name": "accepted",
+          "event": {
+            "Message": "sshd[42]: Accepted password for alice from 192.0.2.1"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_service",
+          "event": {
+            "Message": "webapp: Failed password"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "8a4a044c-8e1c-477a-bccf-ec709dc3714d",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "failed",
+          "event": {
+            "EventID": 4625
+          },
+          "match": true
+        },
+        {
+          "name": "successful",
+          "event": {
+            "EventID": 4624
+          },
+          "match": false
+        },
+        {
+          "name": "missing_id",
+          "event": {},
+          "match": false
+        },
+        {
+          "name": "native_numeric_contract",
+          "event": {
+            "EventID": "4625"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "6ee324a7-81fd-49f0-9f3b-0b6cb95f02e5",
+      "source": {
+        "product": "linux",
+        "service": "auditd"
+      },
+      "cases": [
+        {
+          "name": "write_script",
+          "event": {
+            "path": "/var/www/html/check.php",
+            "key": "webroot_write",
+            "success": "yes"
+          },
+          "match": true
+        },
+        {
+          "name": "write_nginx",
+          "event": {
+            "path": "/usr/share/nginx/html/check.jsp",
+            "key": "webroot_write",
+            "success": "yes"
+          },
+          "match": true
+        },
+        {
+          "name": "read_only_watch",
+          "event": {
+            "path": "/var/www/html/check.php",
+            "key": "webroot_read",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "failed_write",
+          "event": {
+            "path": "/var/www/html/check.php",
+            "key": "webroot_write",
+            "success": "no"
+          },
+          "match": false
+        },
+        {
+          "name": "no_write_context",
+          "event": {
+            "path": "/var/www/html/check.php"
+          },
+          "match": false
+        },
+        {
+          "name": "unrelated_root",
+          "event": {
+            "path": "/tmp/var/www/html/check.php",
+            "key": "webroot_write",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "text_asset",
+          "event": {
+            "path": "/var/www/html/style.css",
+            "key": "webroot_write",
+            "success": "yes"
+          },
+          "match": false
+        },
+        {
+          "name": "case_sensitive_root",
+          "event": {
+            "path": "/var/WWW/html/check.php",
+            "key": "webroot_write",
+            "success": "yes"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "b960043f-7446-4478-9491-f54576f30d34",
+      "source": {
+        "product": "windows",
+        "service": "sysmon",
+        "category": "file_create"
+      },
+      "cases": [
+        {
+          "name": "handler_created",
+          "event": {
+            "EventID": 11,
+            "TargetFilename": "C:\\inetpub\\wwwroot\\uploads\\sample.aspx"
+          },
+          "match": true
+        },
+        {
+          "name": "outside_webroot",
+          "event": {
+            "EventID": 11,
+            "TargetFilename": "C:\\Temp\\sample.aspx"
+          },
+          "match": false
+        },
+        {
+          "name": "static_asset",
+          "event": {
+            "EventID": 11,
+            "TargetFilename": "C:\\inetpub\\wwwroot\\style.css"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_event",
+          "event": {
+            "EventID": 1,
+            "TargetFilename": "C:\\inetpub\\wwwroot\\sample.php"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "37370eb0-f878-4495-9772-be20d61c9cbe",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "newcredentials_candidate",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 9,
+            "LogonProcessName": "seclogo"
+          },
+          "match": true
+        },
+        {
+          "name": "interactive",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 2,
+            "LogonProcessName": "seclogo"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_process",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 9,
+            "LogonProcessName": "User32"
+          },
+          "match": false
+        },
+        {
+          "name": "missing_process",
+          "event": {
+            "EventID": 4624,
+            "LogonType": 9
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "0a8594e9-a8bc-4c38-9ff5-3d7d03d2c6d8",
+      "source": {
+        "product": "windows",
+        "service": "security"
+      },
+      "cases": [
+        {
+          "name": "native_rc4",
+          "event": {
+            "EventID": 4769,
+            "Status": "0x0",
+            "TicketEncryptionType": "0x17",
+            "TargetUserName": "alice@example.test"
+          },
+          "match": true
+        },
+        {
+          "name": "legacy_machine_rc4_remains_candidate",
+          "event": {
+            "EventID": 4769,
+            "Status": "0x0",
+            "TicketEncryptionType": "0x17",
+            "TargetUserName": "HOST$@example.test"
+          },
+          "match": true
+        },
+        {
+          "name": "decoded_rc4_label",
+          "event": {
+            "EventID": 4769,
+            "Status": "0x0",
+            "TicketEncryptionType": "RC4-HMAC"
+          },
+          "match": true
+        },
+        {
+          "name": "aes",
+          "event": {
+            "EventID": 4769,
+            "Status": "0x0",
+            "TicketEncryptionType": "0x12"
+          },
+          "match": false
+        },
+        {
+          "name": "failed_request",
+          "event": {
+            "EventID": 4769,
+            "Status": "0x7",
+            "TicketEncryptionType": "0x17"
+          },
+          "match": false
+        },
+        {
+          "name": "missing_status",
+          "event": {
+            "EventID": 4769,
+            "TicketEncryptionType": "0x17"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "69270379-7cf5-4660-a943-fda2512c8d14",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "remote_hta",
+          "event": {
+            "Image": "C:\\Windows\\System32\\mshta.exe",
+            "CommandLine": "mshta.exe https://example.test/demo.hta"
+          },
+          "match": true
+        },
+        {
+          "name": "inline_js",
+          "event": {
+            "Image": "C:\\Windows\\System32\\mshta.exe",
+            "CommandLine": "mshta.exe javascript:example"
+          },
+          "match": true
+        },
+        {
+          "name": "different_process",
+          "event": {
+            "Image": "C:\\Windows\\System32\\notepad.exe",
+            "CommandLine": "notepad.exe demo.hta"
+          },
+          "match": false
+        },
+        {
+          "name": "no_args",
+          "event": {
+            "Image": "C:\\Windows\\System32\\mshta.exe",
+            "CommandLine": "mshta.exe"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "79e34705-2197-4810-bb4f-0a879477001a",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "word_child_url",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe https://example.test/demo"
+          },
+          "match": true
+        },
+        {
+          "name": "excel_child_encoded",
+          "event": {
+            "ParentImage": "C:\\Office\\EXCEL.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -enc inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powerpoint_child_short_encoded",
+          "event": {
+            "ParentImage": "C:\\Office\\POWERPNT.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -e inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "outlook_child_url",
+          "event": {
+            "ParentImage": "C:\\Office\\OUTLOOK.EXE",
+            "Image": "C:\\Windows\\System32\\mshta.exe",
+            "CommandLine": "mshta.exe https://example.test/demo"
+          },
+          "match": true
+        },
+        {
+          "name": "child_without_indicator",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe /c echo hello"
+          },
+          "match": false
+        },
+        {
+          "name": "indicator_without_child",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\notepad.exe",
+            "CommandLine": "notepad.exe https://example.test"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_parent",
+          "event": {
+            "ParentImage": "C:\\Windows\\explorer.exe",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe https://example.test/demo"
+          },
+          "match": false
+        },
+        {
+          "name": "missing_commandline",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "d6185ff5-6874-42c3-b9e5-f5894651b428",
+      "source": {
+        "product": "windows",
+        "service": "system"
+      },
+      "cases": [
+        {
+          "name": "psexesvc",
+          "event": {
+            "EventID": 7045,
+            "ServiceName": "PSEXESVC",
+            "ImagePath": "C:\\Windows\\PSEXESVC.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "public_staging",
+          "event": {
+            "EventID": 7045,
+            "ServiceName": "temporary",
+            "ImagePath": "C:\\Users\\Public\\worker.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "windows_temp_staging",
+          "event": {
+            "EventID": 7045,
+            "ServiceName": "temporary",
+            "ImagePath": "C:\\Windows\\Temp\\worker.exe"
+          },
+          "match": true
+        },
+        {
+          "name": "ordinary_service",
+          "event": {
+            "EventID": 7045,
+            "ServiceName": "Example Service",
+            "ImagePath": "C:\\Program Files\\Example\\service.exe"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_event",
+          "event": {
+            "EventID": 7040,
+            "ServiceName": "PSEXESVC"
+          },
+          "match": false
+        }
+      ]
+    },
+    {
+      "rule_id": "e278d30b-ca11-43d1-851b-db6080b5ff47",
+      "source": {
+        "product": "windows",
+        "service": "sysmon"
+      },
+      "cases": [
+        {
+          "name": "stdin_pipe",
+          "event": {
+            "EventID": 17,
+            "PipeName": "\\PSEXESVC-HOST-123-stdin"
+          },
+          "match": true
+        },
+        {
+          "name": "stderr_connection",
+          "event": {
+            "EventID": 18,
+            "PipeName": "\\PSEXESVC-HOST-123-stderr"
+          },
+          "match": true
+        },
+        {
+          "name": "ordinary_pipe",
+          "event": {
+            "EventID": 17,
+            "PipeName": "\\ordinary-app"
+          },
+          "match": false
+        },
+        {
+          "name": "wrong_event",
+          "event": {
+            "EventID": 1,
+            "PipeName": "\\PSEXESVC-HOST-123-stdin"
+          },
+          "match": false
+        }
+      ]
+    }
+  ]
+}

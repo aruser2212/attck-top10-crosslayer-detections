@@ -1,10 +1,10 @@
 title: Event Log Cleared (Security 1102 / System 104)
 id: 9bb27896-fd48-445b-b2b0-b4239d370de2
-status: stable
+status: test
 description: Detects clearing of Windows event logs via Security 1102 and System 104
 tags:
 - attack.t1070
-- attack.defense-evasion
+- attack.stealth
 logsource:
   product: windows
   service: security
@@ -18,11 +18,11 @@ falsepositives:
 ---
 title: Event Log Cleared (System 104)
 id: 8774afc4-d72e-4344-a3a6-eba9d016b35e
-status: stable
+status: test
 description: Detects clearing of Windows event logs via System 104
 tags:
 - attack.t1070
-- attack.defense-evasion
+- attack.stealth
 logsource:
   product: windows
   service: system

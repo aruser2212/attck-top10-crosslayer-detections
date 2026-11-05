@@ -1,10 +1,9 @@
 id: DET-WIN-T1569-PSEXEC-PIPES-002
 title: PsExec Named Pipes Pattern (Sysmon 17/18)
-version: 1.0.0
+version: 1.2.0
 status: test
 tactics:
 - execution
-- lateral-movement
 techniques:
 - T1569.002
 platforms:
@@ -25,22 +24,29 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/network/cases.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Linked Suricata 8.0.4 signatures loaded and passed synthetic PCAP replay.
+    Snort and encrypted traffic visibility are not validated. Remaining unversioned hunts are design-only;
+    telemetry integration and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - Legit remote admin tools reusing similar pipe patterns
   allowlists: []
-  notes: Паттерн пайпов сложно подделать, но иногда встречается в админ-тулзах.
+  notes: 'Паттерн пайпов сложно подделать, но иногда встречается в админ-тулзах. Related attack-chain
+    context (not a primary ATT&CK tactic mapping): lateral-movement.'
 references:
 - https://attack.mitre.org/techniques/T1569/002/
 authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'

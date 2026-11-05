@@ -1,11 +1,10 @@
 id: DET-LNX-T1078-SSH-VALID-002
 title: Unusual Successful SSH Login (Accepted) by User/Source
-version: 1.0.0
+version: 1.2.0
 status: test
 tactics:
-- defense-evasion
+- stealth
 - persistence
-- lateral-movement
 techniques:
 - T1078
 platforms:
@@ -24,20 +23,23 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - bastion hosts
   - automation runners
   allowlists: []
-  notes: Считаем «необычным» по времени/гео/первому появлению источника.
+  notes: 'Считаем «необычным» по времени/гео/первому появлению источника. Related attack-chain context
+    (not a primary ATT&CK tactic mapping): lateral-movement.'
 references:
 - https://attack.mitre.org/techniques/T1078/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
@@ -45,3 +47,7 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
+  DetCard IDs retained.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'

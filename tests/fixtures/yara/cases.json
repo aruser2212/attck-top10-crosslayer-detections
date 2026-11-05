@@ -1,0 +1,21 @@
+{
+  "rules": ["PHP_Webshell_Heuristic", "VBA_AutoExec_Shell_Heuristic"],
+  "scope": "Inert text scanned by libyara, never executed. VBA fixtures represent extracted source, not raw documents.",
+  "cases": [
+    {"id": "php-request-execution", "text": "<?php system($_GET['cmd']); ?>", "expected": ["PHP_Webshell_Heuristic"]},
+    {"id": "php-request-execution-whitespace", "text": "<?php shell_exec (\n $_POST [ 'input' ] ); ?>", "expected": ["PHP_Webshell_Heuristic"]},
+    {"id": "php-request-decoded-eval", "text": "<?php eval ( base64_decode ( $_REQUEST['data'] ) ); ?>", "expected": ["PHP_Webshell_Heuristic"]},
+    {"id": "php-command-parameter-alone", "text": "<?php echo 'cmd=help'; ?>", "expected": []},
+    {"id": "php-benign-request-display", "text": "<?php echo htmlspecialchars($_GET['cmd']); ?>", "expected": []},
+    {"id": "php-benign-base64", "text": "<?php echo base64_decode($_POST['attachment']); ?>", "expected": []},
+    {"id": "php-assert-without-request-execution", "text": "<?php assert($ok); echo $_POST['name']; ?>", "expected": []},
+    {"id": "php-no-language-marker", "text": "system($_GET['cmd']);", "expected": []},
+    {"id": "vba-autoopen-shell", "text": "Sub AutoOpen()\n  Shell(\"notepad.exe\")\nEnd Sub\n", "expected": ["VBA_AutoExec_Shell_Heuristic"]},
+    {"id": "vba-document-open-object", "text": "Private Sub Document_Open()\n  Set obj = CreateObject ( \"WScript.Shell\" )\nEnd Sub\n", "expected": ["VBA_AutoExec_Shell_Heuristic"]},
+    {"id": "vba-workbook-open-whitespace", "text": "Public Sub Workbook_Open ()\n  Shell (\"notepad.exe\")\nEnd Sub\n", "expected": ["VBA_AutoExec_Shell_Heuristic"]},
+    {"id": "vba-no-auto-execution", "text": "Sub UserClickedButton()\n Shell(\"notepad.exe\")\nEnd Sub\n", "expected": []},
+    {"id": "vba-no-shell", "text": "Sub AutoOpen()\n MsgBox \"Hello\"\nEnd Sub\n", "expected": []},
+    {"id": "vba-commented-entry", "text": "' Sub AutoOpen()\n' Shell(\"notepad.exe\")\n", "expected": []},
+    {"id": "vba-name-in-text", "text": "Sub DocumentReview()\n MsgBox \"AutoOpen and Shell( examples\"\nEnd Sub\n", "expected": []}
+  ]
+}

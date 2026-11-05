@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "dataset": {
+    "name": "Inert arithmetic example",
+    "kind": "synthetic",
+    "unit": "event",
+    "source_description": "Hand-labeled placeholder IDs for testing metric arithmetic only. No real telemetry or detector run is represented."
+  },
+  "observations": [
+    {"id": "positive-1", "label": "positive"},
+    {"id": "positive-2", "label": "positive"},
+    {"id": "positive-3", "label": "positive"},
+    {"id": "negative-1", "label": "negative"},
+    {"id": "negative-2", "label": "negative"},
+    {"id": "negative-3", "label": "negative"},
+    {"id": "negative-4", "label": "negative"}
+  ],
+  "detected_ids": ["positive-1", "positive-2", "negative-1", "positive-2"]
+}

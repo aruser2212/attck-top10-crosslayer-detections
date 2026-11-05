@@ -34,6 +34,15 @@ Valid Accounts — использование настоящих учётных 
 - Проверить действия после входа: discovery, SMB, WinRM, SSH, sudo/su.
 - При подтверждении: сбросить креды, отозвать сессии/токены, проверить MFA и persistence.
 
+## Автоматические проверки и границы
+
+Команды выполняются из корня репозитория после установки dev-зависимостей.
+
+- `python tools/check_sigma.py` — разбор pySigma и сопоставление предикатов с [общими fixtures](../../tests/fixtures/sigma/predicates.json), включая правила этой техники. Это проверка синтетических событий, а не выполнение Sigma в SIEM или оценка TPR/FPR.
+- Hunt-файлы этой техники остаются `design-only`: исполнение first-seen, временных корреляций и готовый SIEM-адаптер для них не проверены. Текущий Hunt v1 исполняет только три T1110-агрегации.
+
+Проверенные fixtures и будущие ручные эксперименты разделены в [тест-плане](tests/plan.md).
+
 ## References
 - MITRE ATT&CK T1078: https://attack.mitre.org/techniques/T1078/
 - Microsoft Event 4624: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624

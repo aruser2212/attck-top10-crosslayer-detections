@@ -1,3 +1,4 @@
+schema_version: 1
 dataset: windows.security.logons
 where:
   all:
@@ -5,9 +6,10 @@ where:
 aggregate:
   group_by: [target.user, source.ip]
   window: 5m
+  window_type: tumbling
   metrics:
     - { name: fails, fn: count, field: "*" }
 having:
   - { field: fails, op: gte, value: 10 }
 project: [window.start, window.end, source.ip, target.user, fails]
-notes: "Brute: много неуспешных по одному аккаунту с одного источника за короткое окно."
+notes: "Brute: >=10 ошибок по account×IP в фиксированном UTC-окне [start,end) 5 минут. Окна не скользящие; серия на границе может не достичь порога."

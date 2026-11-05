@@ -1,10 +1,9 @@
 id: DET-WIN-T1550-PTH-NEWCRED-001
 title: Pass-the-Hash - NewCredentials (4624 LT=9, seclogo)
-version: 1.0.0
-status: stable
+version: 1.2.0
+status: test
 tactics:
 - lateral-movement
-- defense-evasion
 techniques:
 - T1550
 platforms:
@@ -25,20 +24,21 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - runas /netonly в админ-процессах
   allowlists: []
-  notes: LT=9 + seclogo → сильный индикатор PtH; добавляй first-seen и корреляцию
-    с 4672.
+  notes: LT=9 + seclogo → сильный индикатор PtH; добавляй first-seen и корреляцию с 4672.
 references:
 - https://attack.mitre.org/techniques/T1550/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
@@ -46,3 +46,6 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
+  DetCard IDs retained.'

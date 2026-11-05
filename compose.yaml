@@ -1,0 +1,25 @@
+name: attck-detection-lab
+
+services:
+  elasticsearch:
+    image: docker.io/library/elasticsearch:8.19.4@sha256:5b2a4763ba7fa7a3495989733973a231e5061434d0d695373b0f702857428399
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      xpack.license.self_generated.type: basic
+      xpack.ml.enabled: "false"
+      ingest.geoip.downloader.enabled: "false"
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports:
+      - "127.0.0.1:19200:9200"
+    mem_limit: 2g
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: [CMD-SHELL, "curl -fsS http://localhost:9200/_cluster/health >/dev/null"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  elastic-data:

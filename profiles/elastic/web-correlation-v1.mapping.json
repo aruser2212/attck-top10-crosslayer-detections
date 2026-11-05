@@ -1,0 +1,30 @@
+{
+  "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+  "mappings": {
+    "_meta": {
+      "profile": "attck-web-correlation-v1",
+      "schema_version": 1,
+      "timestamp_precision": "microseconds preserved in date_nanos",
+      "event_identity": "event.id is the Elasticsearch _id",
+      "resource_identity": "trusted host.id + resource.namespace + canonical absolute POSIX path",
+      "query_semantics": "raw UTF-8 query; exact keys after one decoding pass in Python"
+    },
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {"type": "date_nanos", "format": "strict_date_optional_time_nanos"},
+      "event": {"properties": {
+        "id": {"type": "keyword"},
+        "dataset": {"type": "keyword"},
+        "success": {"type": "boolean"}
+      }},
+      "host": {"properties": {"id": {"type": "keyword"}}},
+      "resource": {"properties": {"namespace": {"type": "keyword"}}},
+      "file": {"properties": {
+        "path": {"type": "keyword"},
+        "operation": {"type": "keyword"}
+      }},
+      "web": {"properties": {"resource_path": {"type": "keyword"}}},
+      "url": {"properties": {"query": {"type": "keyword", "index": false, "doc_values": false}}}
+    }
+  }
+}

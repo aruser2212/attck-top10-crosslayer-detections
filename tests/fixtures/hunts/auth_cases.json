@@ -1,0 +1,2246 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "name": "brute_9_below_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_9_below_threshold:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "brute_10_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_10_threshold:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "window.start": "2026-01-01T00:00:00Z",
+          "window.end": "2026-01-01T00:05:00Z",
+          "source.ip": "192.0.2.10",
+          "target.user": "alice",
+          "fails": 10
+        }
+      ]
+    },
+    {
+      "name": "brute_accounts_separated",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:15",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:16",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_accounts_separated:17",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "bob",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "brute_sources_separated",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:15",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:16",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_sources_separated:17",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.11"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "brute_tumbling_boundary",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "brute_tumbling_boundary:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:05:00Z",
+          "event.id": "brute_tumbling_boundary:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "note": "Intentional limitation: a burst split across fixed windows need not alert; this is not a sliding-window detector."
+    },
+    {
+      "name": "brute_success_not_failure",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_success_not_failure:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4624",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "filtered_events": 1
+      }
+    },
+    {
+      "name": "brute_duplicate_not_counted",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_duplicate_not_counted:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "duplicate_events": 1,
+        "unique_events": 9
+      }
+    },
+    {
+      "name": "brute_missing_user",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_missing_user:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": null,
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "rejected_events": 1
+      }
+    },
+    {
+      "name": "brute_wrong_dataset",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "brute_wrong_dataset:9",
+          "event.dataset": "other",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "filtered_events": 1
+      }
+    },
+    {
+      "name": "brute_timezone_and_order",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_brute_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T03:01:00+03:00",
+          "event.id": "brute_timezone_and_order:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "window.start": "2026-01-01T00:00:00Z",
+          "window.end": "2026-01-01T00:05:00Z",
+          "source.ip": "192.0.2.10",
+          "target.user": "alice",
+          "fails": 10
+        }
+      ]
+    },
+    {
+      "name": "spray_14_below_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_14_below_threshold:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "spray_15_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_15_threshold:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user14",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "window.start": "2026-01-01T00:00:00Z",
+          "window.end": "2026-01-01T00:10:00Z",
+          "source.ip": "192.0.2.10",
+          "distinct_users": 15
+        }
+      ]
+    },
+    {
+      "name": "spray_repeated_user_not_distinct",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_repeated_user_not_distinct:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "spray_sources_separated",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user14",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:15",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user15",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:16",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user16",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:17",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user17",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:18",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user18",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:19",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user19",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:20",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user20",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:21",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user21",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:22",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user22",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:23",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user23",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:24",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user24",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:25",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user25",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:26",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user26",
+          "source.ip": "192.0.2.11"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_sources_separated:27",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user27",
+          "source.ip": "192.0.2.11"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "spray_missing_user",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "spray_missing_user:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": null,
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "rejected_events": 1
+      }
+    },
+    {
+      "name": "spray_tumbling_boundary",
+      "hunt": "techniques/T1110_Brute_Force/hunts/win_4625_spray_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:0",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user00",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:1",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user01",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:2",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user02",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:3",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user03",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:4",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user04",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:5",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user05",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:6",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user06",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:7",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user07",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:8",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user08",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:9",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user09",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:10",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user10",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:11",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user11",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:12",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user12",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:09:59Z",
+          "event.id": "spray_tumbling_boundary:13",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user13",
+          "source.ip": "192.0.2.10"
+        },
+        {
+          "@timestamp": "2026-01-01T00:10:00Z",
+          "event.id": "spray_tumbling_boundary:14",
+          "event.dataset": "windows.security.logons",
+          "event.code": "4625",
+          "target.user": "user14",
+          "source.ip": "192.0.2.10"
+        }
+      ],
+      "expected_alerts": [],
+      "note": "Intentional fixed-window boundary miss, not rolling-window coverage."
+    },
+    {
+      "name": "ssh_7_below_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/linux_ssh_failed_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:0",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:1",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:2",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:3",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:4",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:5",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_7_below_threshold:6",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        }
+      ],
+      "expected_alerts": []
+    },
+    {
+      "name": "ssh_8_threshold",
+      "hunt": "techniques/T1110_Brute_Force/hunts/linux_ssh_failed_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:0",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:1",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:2",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:3",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:4",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:5",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:6",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_8_threshold:7",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "window.start": "2026-01-01T00:00:00Z",
+          "window.end": "2026-01-01T00:05:00Z",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "fails": 8
+        }
+      ]
+    },
+    {
+      "name": "ssh_accepted_not_failure",
+      "hunt": "techniques/T1110_Brute_Force/hunts/linux_ssh_failed_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:0",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:1",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:2",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:3",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:4",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:5",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:6",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_accepted_not_failure:7",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Accepted password for alice"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "filtered_events": 1
+      }
+    },
+    {
+      "name": "ssh_missing_user",
+      "hunt": "techniques/T1110_Brute_Force/hunts/linux_ssh_failed_agg.hunt.yaml",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:0",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:1",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:2",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:3",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:4",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:5",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:6",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": "alice",
+          "message": "Failed password for alice from 192.0.2.10 port 2222 ssh2"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "ssh_missing_user:7",
+          "event.dataset": "linux.auth.sshd",
+          "event.code": "4625",
+          "target.user": "alice",
+          "source.ip": "192.0.2.10",
+          "user.name": null,
+          "message": "Failed password"
+        }
+      ],
+      "expected_alerts": [],
+      "expected_summary": {
+        "rejected_events": 1
+      }
+    }
+  ]
+}

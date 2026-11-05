@@ -1,0 +1,75 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "_meta": {
+      "profile": "attck-episodes-v1",
+      "schema_version": 1,
+      "time_unit": "microseconds"
+    },
+    "dynamic": "strict",
+    "properties": {
+      "episode_id": {
+        "type": "keyword"
+      },
+      "scope_id": {
+        "type": "keyword"
+      },
+      "source_scope_id": {
+        "type": "keyword"
+      },
+      "rule_id": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "member_alert_ids": {
+        "type": "keyword"
+      },
+      "replacement_episode_ids": {
+        "type": "keyword"
+      },
+      "revision": {
+        "type": "long"
+      },
+      "policy_version": {
+        "type": "long"
+      },
+      "gap_microseconds": {
+        "type": "long"
+      },
+      "anchor_count": {
+        "type": "long"
+      },
+      "@timestamp": {
+        "type": "date_nanos"
+      },
+      "first_anchor": {
+        "type": "date_nanos"
+      },
+      "last_anchor": {
+        "type": "date_nanos"
+      },
+      "first_detected_at": {
+        "type": "date_nanos"
+      },
+      "updated_at": {
+        "type": "date_nanos"
+      },
+      "group": {
+        "type": "flattened"
+      },
+      "peak_metrics": {
+        "type": "object",
+        "enabled": false
+      },
+      "member_revisions": {
+        "type": "object",
+        "enabled": false
+      }
+    }
+  }
+}

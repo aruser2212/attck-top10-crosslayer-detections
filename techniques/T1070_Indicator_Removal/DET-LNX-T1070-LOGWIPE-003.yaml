@@ -1,0 +1,50 @@
+id: DET-LNX-T1070-LOGWIPE-003
+title: Linux Log Wipe Command Candidates
+version: 1.2.0
+status: test
+tactics:
+- defense-impairment
+techniques:
+- T1685.006
+platforms:
+- linux
+datasources:
+- linux:auditd:exec
+severity: medium
+confidence: low
+detections:
+  sigma:
+  - sigma/linux_auditd_log_wipe_patterns.yml
+  network_rules: []
+  yara: []
+  hunts:
+  - hunts/linux_log_wipe_patterns.hunt.yaml
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
+tuning:
+  fp_sources:
+  - log rotation and approved maintenance
+  - legitimate truncation or secure deletion outside log directories
+  allowlists: []
+  notes: Explicit executable plus system-log path; requires joined auditd EXECVE normalization. A command
+    match does not prove deletion. Shell builtins are outside this selector. Legacy DetCard ID and folder
+    remain stable; ATT&CK v20.0 revoked T1070.002 in favor of T1685.006.
+references:
+- https://attack.mitre.org/techniques/T1685/006/
+authors:
+- Project contributors
+changelog:
+- '1.0.0: link the existing Linux artifacts to a dedicated DetCard.'
+- '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
+  DetCard IDs retained.'

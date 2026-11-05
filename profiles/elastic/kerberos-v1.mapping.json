@@ -1,0 +1,31 @@
+{
+  "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+  "mappings": {
+    "_meta": {
+      "profile": "attck-kerberos-v1",
+      "schema_version": 1,
+      "window_type": "rolling",
+      "timestamp_precision": "microseconds preserved in date_nanos; native 100ns remainder in event identity",
+      "event_identity": "event.id is the Elasticsearch _id",
+      "service_identity": "validated ServiceSid; ServiceName is context, not a complete SPN"
+    },
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {"type": "date_nanos", "format": "strict_date_optional_time_nanos"},
+      "event": {"properties": {
+        "id": {"type": "keyword"},
+        "dataset": {"type": "keyword"},
+        "code": {"type": "keyword"},
+        "channel": {"type": "keyword"},
+        "record_id": {"type": "keyword"},
+        "version": {"type": "integer"}
+      }},
+      "source": {"properties": {"ip": {"type": "keyword"}}},
+      "user": {"properties": {"name": {"type": "keyword"}, "domain": {"type": "keyword"}}},
+      "service": {"properties": {"id": {"type": "keyword"}, "name": {"type": "keyword"}}},
+      "host": {"properties": {"name": {"type": "keyword"}}},
+      "win": {"properties": {"status": {"type": "long"}, "timestamp_remainder": {"type": "integer"}}},
+      "ticket": {"properties": {"encryption_type": {"type": "long"}}}
+    }
+  }
+}

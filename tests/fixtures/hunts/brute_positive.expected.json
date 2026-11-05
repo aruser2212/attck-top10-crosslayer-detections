@@ -1,0 +1,9 @@
+[
+  {
+    "window.start": "2026-01-01T00:00:00Z",
+    "window.end": "2026-01-01T00:05:00Z",
+    "source.ip": "192.0.2.10",
+    "target.user": "alice",
+    "fails": 10
+  }
+]

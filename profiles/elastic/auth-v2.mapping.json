@@ -1,0 +1,24 @@
+{
+  "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+  "mappings": {
+    "_meta": {
+      "profile": "attck-auth-v2",
+      "schema_version": 2,
+      "window_type": "rolling",
+      "timestamp_precision": "microseconds preserved in date_nanos",
+      "event_identity": "event.id is the Elasticsearch _id"
+    },
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {"type": "date_nanos", "format": "strict_date_optional_time_nanos"},
+      "event": {"properties": {
+        "id": {"type": "keyword"},
+        "dataset": {"type": "keyword"},
+        "code": {"type": "keyword"}
+      }},
+      "source": {"properties": {"ip": {"type": "keyword"}}},
+      "target": {"properties": {"user": {"type": "keyword"}}},
+      "host": {"properties": {"name": {"type": "keyword"}}}
+    }
+  }
+}

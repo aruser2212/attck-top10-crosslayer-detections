@@ -1,10 +1,9 @@
 id: DET-WIN-T1070-VSS-DELETE-002
 title: Shadow Copies Deletion (T1490 Inhibit System Recovery)
-version: 1.0.0
-status: stable
+version: 1.2.0
+status: test
 tactics:
 - impact
-- defense-evasion
 techniques:
 - T1490
 platforms:
@@ -23,20 +22,21 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - backup/restore tools
   allowlists: []
-  notes: Сильный индикатор рансом-активности; полезна корреляция с шифрованием/массовыми
-    изменениями.
+  notes: Сильный индикатор рансом-активности; полезна корреляция с шифрованием/массовыми изменениями.
 references:
 - https://attack.mitre.org/techniques/T1070/
 - https://attack.mitre.org/techniques/T1490/
@@ -45,3 +45,6 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
+  DetCard IDs retained.'

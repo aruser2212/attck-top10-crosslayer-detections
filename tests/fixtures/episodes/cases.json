@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "scope": "Hand-declared synthetic alert-anchor grouping; not production incident labels",
+  "base_timestamp": "2026-01-01T00:10:00Z",
+  "cases": [
+    {
+      "name": "exact_gap_connects_transitively",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 31,
+      "alerts": [{"id": "a", "offset": 0, "metrics": {"fails": 10}}, {"id": "b", "offset": 10, "metrics": {"fails": 12}}, {"id": "c", "offset": 20, "metrics": {"fails": 11}}],
+      "expected": [{"members": ["a", "b", "c"], "status": "closed", "peak_metrics": {"fails": 12}}]
+    },
+    {
+      "name": "one_microsecond_past_gap_splits",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 22,
+      "alerts": [{"id": "a", "offset": 0}, {"id": "b", "offset": 11}],
+      "expected": [{"members": ["a"], "status": "closed", "peak_metrics": {"fails": 10}}, {"members": ["b"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "checkpoint_equal_to_gap_end_is_open",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 10,
+      "alerts": [{"id": "a", "offset": 0}],
+      "expected": [{"members": ["a"], "status": "open", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "checkpoint_one_microsecond_after_gap_closes",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 11,
+      "alerts": [{"id": "a", "offset": 0}],
+      "expected": [{"members": ["a"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "late_bridge_merges_components",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 31,
+      "alerts": [{"id": "a", "offset": 0}, {"id": "c", "offset": 20}, {"id": "late-b", "offset": 10}],
+      "expected": [{"members": ["a", "late-b", "c"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "retracted_bridge_does_not_connect",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 31,
+      "alerts": [{"id": "a", "offset": 0}, {"id": "b", "offset": 10, "status": "retracted", "revision": 2}, {"id": "c", "offset": 20}],
+      "expected": [{"members": ["a"], "status": "closed", "peak_metrics": {"fails": 10}}, {"members": ["c"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "distinct_groups_do_not_merge",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 12,
+      "alerts": [{"id": "a", "offset": 0, "user": "alice"}, {"id": "b", "offset": 1, "user": "bob"}],
+      "expected": [{"members": ["a"], "status": "closed", "peak_metrics": {"fails": 10}}, {"members": ["b"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "distinct_rules_do_not_merge",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 12,
+      "alerts": [{"id": "a", "offset": 0, "rule": "rule-one"}, {"id": "b", "offset": 1, "rule": "rule-two"}],
+      "expected": [{"members": ["a"], "status": "closed", "peak_metrics": {"fails": 10}}, {"members": ["b"], "status": "closed", "peak_metrics": {"fails": 10}}]
+    },
+    {
+      "name": "overlapping_counts_and_distincts_are_not_summed",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 12,
+      "alerts": [{"id": "a", "offset": 0, "metrics": {"fails": 10, "users": 15}}, {"id": "b", "offset": 1, "metrics": {"fails": 11, "users": 14}}],
+      "expected": [{"members": ["a", "b"], "status": "closed", "peak_metrics": {"fails": 11, "users": 15}}]
+    },
+    {
+      "name": "fully_retracted_history_has_no_current_episode",
+      "gap_microseconds": 10,
+      "checkpoint_offset_microseconds": 12,
+      "alerts": [{"id": "a", "offset": 0, "status": "retracted", "revision": 2}],
+      "expected": []
+    }
+  ]
+}

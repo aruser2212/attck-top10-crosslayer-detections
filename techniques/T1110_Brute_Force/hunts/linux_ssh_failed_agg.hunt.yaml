@@ -1,3 +1,4 @@
+schema_version: 1
 dataset: linux.auth.sshd
 where:
   all:
@@ -5,9 +6,10 @@ where:
 aggregate:
   group_by: [source.ip, user.name]
   window: 5m
+  window_type: tumbling
   metrics:
     - { name: fails, fn: count, field: "*" }
 having:
   - { field: fails, op: gte, value: 8 }
 project: [window.start, window.end, source.ip, user.name, fails]
-notes: "SSH brute: ≥8 провалов по user×IP за 5 минут (подстрой порог под среду)."
+notes: "SSH brute: >=8 Failed password по user×IP в фиксированном UTC-окне [start,end) 5 минут. Это не скользящее окно; возможен пропуск серии на его границе."

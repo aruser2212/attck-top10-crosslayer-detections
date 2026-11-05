@@ -1,6 +1,6 @@
 id: DET-LNX-T1053-CRON-MOD-002
-title: Linux Cron Modified (system/user crontab)
-version: 1.0.0
+title: Successful Write-Intent Access to Cron Paths
+version: 1.1.0
 status: test
 tactics:
 - persistence
@@ -23,19 +23,22 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - config management / deploy
   allowlists: []
-  notes: Особое внимание к @reboot, wget/curl/bash -c, нетипичным путям и владельцам.
+  notes: Requires write-only cron_write audit watches and joined SYSCALL/PATH records with success=yes.
+    Write intent is not proof of content modification.
 references:
 - https://attack.mitre.org/techniques/T1053/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4698
@@ -43,3 +46,4 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'

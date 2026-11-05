@@ -1,10 +1,9 @@
 id: DET-WIN-T1110-4625-BRUTE-001
 title: Excessive Failed Logons (4625) - Brute Force
-version: 1.0.0
+version: 1.6.0
 status: test
 tactics:
 - credential-access
-- initial-access
 techniques:
 - T1110
 platforms:
@@ -21,23 +20,49 @@ detections:
   hunts:
   - hunts/win_4625_brute_agg.hunt.yaml
   - hunts/win_4625_spray_agg.hunt.yaml
-  queries: {}
+  - hunts/win_4625_brute_agg_rolling.hunt.yaml
+  - hunts/win_4625_spray_agg_rolling.hunt.yaml
+  queries:
+    elastic:
+    - queries/elastic/win_4625_brute.json
+    - queries/elastic/win_4625_spray.json
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/hunts/auth_cases.json
+  - ../../tests/fixtures/windows/4625.xml
+  - ../../tests/fixtures/rolling/auth_cases.json
+  - ../../tests/fixtures/episodes/cases.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Hunt v1 T1110 thresholds replayed in fixed UTC tumbling windows; boundary-spanning
+    bursts can be missed. Both Windows hunts replayed on Elasticsearch Basic 8.19.4, including XML normalization,
+    exact distinct counts and full pagination. Templates require tools/elastic_adapter.py for PIT, pagination
+    and alert thresholds. Controlled-spool ingestion, closed-window scheduling, bounded late-event replay
+    and SQLite/outbox recovery are tested on Elasticsearch Basic. Production collector deployment, unrestricted
+    lateness, production tuning and operational TPR/FPR/latency remain unmeasured. Separate rolling v2
+    evaluates exact event-anchored (t-W,t] windows with atomic timestamp ties and preceding
+    context. Its auth-v2/date_nanos adapter retrieves events through PIT/search_after for Python evaluation;
+    a dedicated durable v2 pipeline stores microsecond checkpoints and versioned alert updates,
+    retractions and outbox recovery without migrating v1 state. Each qualifying group/timestamp yields a result,
+    preserved as raw evidence. An optional downstream episode view groups anchors by exact rule/group
+    and inactivity gap, retains member IDs/revisions and peak window metrics, and revises merge/split
+    and retraction results without summing overlapping counts. Incremental group updates are checked
+    against full reconstruction; verified evidence export preserves live history and validates current
+    episode membership against the full reference calculation. Synthetic contracts, recovery tests and
+    an independent rolling oracle are the evidence scope; production false-positive rates are not inferred.
 tuning:
   fp_sources:
   - misconfigured services
   - vulnerability scanners
   allowlists: []
-  notes: Порог/окно под среду; разделяем brute и spray.
+  notes: 'Порог/окно под среду; разделяем brute и spray. Related attack-chain context (not a primary ATT&CK
+    tactic mapping): initial-access.'
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625
@@ -45,3 +70,10 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'
+- '1.2.0: add durable spool ingestion, bounded scheduler replay and monotonic alert delivery.'
+- '1.3.0: add separate exact rolling v2 replay and auth-v2/date_nanos validation scope; preserve v1 pipeline.'
+- '1.4.0: add dedicated durable rolling v2 state, bounded catch-up, late revisions and recovery scope.'
+- '1.5.0: add optional episode projection, explicit identity/retraction behavior and native recovery scope.'
+- '1.6.0: validate incremental group parity and coherent offline-verifiable evidence export; no history pruning.'

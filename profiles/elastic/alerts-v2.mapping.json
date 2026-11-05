@@ -1,0 +1,63 @@
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "_meta": {
+      "profile": "attck-alerts-v2",
+      "schema_version": 2,
+      "time_unit": "microseconds"
+    },
+    "dynamic": "strict",
+    "properties": {
+      "@timestamp": {
+        "type": "date_nanos"
+      },
+      "alert_id": {
+        "type": "keyword"
+      },
+      "scope_id": {
+        "type": "keyword"
+      },
+      "rule_id": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "revision": {
+        "type": "long"
+      },
+      "first_detected_at": {
+        "type": "date_nanos"
+      },
+      "updated_at": {
+        "type": "date_nanos"
+      },
+      "source_index": {
+        "type": "keyword"
+      },
+      "source_index_uuid": {
+        "type": "keyword"
+      },
+      "window": {
+        "properties": {
+          "start": {
+            "type": "date_nanos"
+          },
+          "end": {
+            "type": "date_nanos"
+          }
+        }
+      },
+      "group": {
+        "type": "flattened"
+      },
+      "metrics": {
+        "type": "object",
+        "enabled": false
+      }
+    }
+  }
+}

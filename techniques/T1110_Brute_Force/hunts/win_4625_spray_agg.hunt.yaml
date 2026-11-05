@@ -1,3 +1,4 @@
+schema_version: 1
 dataset: windows.security.logons
 where:
   all:
@@ -5,9 +6,10 @@ where:
 aggregate:
   group_by: [source.ip]
   window: 10m
+  window_type: tumbling
   metrics:
     - { name: distinct_users, fn: count_distinct, field: target.user }
 having:
   - { field: distinct_users, op: gte, value: 15 }
 project: [window.start, window.end, source.ip, distinct_users]
-notes: "Spray: один источник пробует множество разных пользователей."
+notes: "Spray: >=15 различных target.user с одного IP в фиксированном UTC-окне [start,end) 10 минут. Окна не скользящие; серия на границе может не достичь порога."

@@ -1,8 +1,10 @@
-title: Kerberoasting - TGS Request with RC4
+title: Successful Kerberos TGS Request with RC4 (Candidate)
 id: 0a8594e9-a8bc-4c38-9ff5-3d7d03d2c6d8
-status: stable
-description: Detects Kerberos TGS requests using RC4 (0x17), a strong indicator of
-  Kerberoasting.
+status: test
+description: >-
+  Selects successful Kerberos TGS requests using RC4 (0x17) for investigation.
+  Legacy clients and services legitimately use RC4; this selector alone does
+  not prove Kerberoasting and does not suppress machine accounts by name.
 tags:
 - attack.t1558.003
 - attack.credential-access
@@ -12,19 +14,19 @@ logsource:
 detection:
   sel:
     EventID: 4769
+    Status: '0x0'
   rc4_a:
     TicketEncryptionType: '0x17'
   rc4_b:
     TicketEncryptionType|contains: RC4
-  not_machines:
-    SubjectUserName|endswith: $
-  condition: sel and (rc4_a or rc4_b) and not not_machines
-level: high
+  condition: sel and (rc4_a or rc4_b)
+level: medium
 fields:
-- SubjectDomainName
-- SubjectUserName
+- TargetDomainName
+- TargetUserName
 - IpAddress
 - ServiceName
 - TicketEncryptionType
+- Status
 falsepositives:
 - Application servers legitimately requesting RC4 tickets in legacy realms

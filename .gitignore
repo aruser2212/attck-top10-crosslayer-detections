@@ -6,3 +6,10 @@ __pycache__/
 .vscode/
 .idea/
 .DS_Store
+.venv/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+artifacts/
+*.egg-info/

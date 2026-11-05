@@ -1,12 +1,16 @@
 # План тестирования: T1070 Indicator Removal
 
-Цели:
-- Зафиксировать очистку журналов (1102/104).
-- Поймать удаление теневых копий (vssadmin/wmic/diskshadow/PS).
-- Обнаружить Linux wipe-паттерны.
+## Автоматизировано
 
-Шаги (лабораторно/описательно):
-1) Windows (лаба): выполнить `wevtutil cl Security` — ожидать Security 1102; проверить Hunt и Sigma.
-2) Windows (лаба): выполнить `vssadmin delete shadows /All /Quiet` — ожидать детект Sigma и Hunt.
-3) Linux (лаба): `truncate -s 0 /var/log/auth.log` или `echo > ~/.bash_history` — ожидать Linux Sigma/Hunt.
-4) Зафиксировать легит-процессы (backup/maintenance) и добавить в allow-lists (DetCards).
+Команды запускаются из корня репозитория в окружении с dev-зависимостями.
+
+- `python tools/check_sigma.py`: pySigma parsing и [source-scoped predicate fixtures](../../../tests/fixtures/sigma/predicates.json), включая правила этой техники; выполнение Sigma в SIEM не проверяется.
+
+Эти проверки подтверждают поведение перечисленных fixtures. Они не измеряют эксплуатационные TPR/FPR и не доказывают полное покрытие техники.
+
+## Следующий ручной/лабораторный этап — не выполнен
+
+1. Использовать обезличенный replay Windows 1102/104 и process-creation событий удаления shadow copies. Проверить привязку пользователя и канала; T1490 оставлять отдельным сценарием.
+2. Для Linux сохранить объединённые SYSCALL/EXECVE записи truncate/rm/shred по /var/log и benign операции просмотра/обслуживания. Проверить exe и восстановленную CommandLine для DET-LNX-T1070-LOGWIPE-003.
+3. Не ожидать покрытия history -c и shell redirection этим EXECVE-селектором: для builtins и фактического изменения файлов нужны другие источники/детекты.
+4. First-seen и последовательности Hunt ещё не исполняются. После реализации проверить, что повторная очистка журнала не подавляется только потому, что уже встречалась.

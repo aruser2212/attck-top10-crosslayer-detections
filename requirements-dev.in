@@ -1,0 +1,8 @@
+# Direct development dependencies. Refresh the fully hashed lock with:
+# uv pip compile requirements-dev.in --generate-hashes -o requirements-dev.lock
+PyYAML==6.0.3
+jsonschema==4.26.0
+pytest==9.2.0
+pysigma==2.0.2
+yara-python==4.5.4
+scapy==2.8.0

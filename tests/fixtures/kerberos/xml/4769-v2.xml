@@ -1,0 +1,34 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4769</EventID>
+    <Version>2</Version>
+    <TimeCreated SystemTime="2026-01-01T00:00:20.0000000Z"/>
+    <EventRecordID>1002</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>DC02.LAB.EXAMPLE</Computer>
+  </System>
+  <EventData>
+    <Data Name="TargetUserName">APPHOST$@LAB.EXAMPLE</Data>
+    <Data Name="TargetDomainName">LAB.EXAMPLE</Data>
+    <Data Name="ServiceName">LegacyWebSvc</Data>
+    <Data Name="ServiceSid">S-1-5-21-111111111-222222222-333333333-1102</Data>
+    <Data Name="TicketOptions">0x40810000</Data>
+    <Data Name="TicketEncryptionType">0x17</Data>
+    <Data Name="IpAddress">2001:0db8:0000:0000:0000:0000:0000:0010</Data>
+    <Data Name="IpPort">49877</Data>
+    <Data Name="Status">0x0</Data>
+    <Data Name="LogonGuid">{00000000-0000-0000-0000-000000000000}</Data>
+    <Data Name="TransmittedServices">-</Data>
+    <Data Name="RequestTicketHash">synthetic-request-hash</Data>
+    <Data Name="ResponseTicketHash">synthetic-response-hash</Data>
+    <Data Name="AccountSupportedEncryptionTypes">0x1C (RC4, AES128-SHA96, AES256-SHA96)</Data>
+    <Data Name="AccountAvailableKeys">AES-SHA1, RC4</Data>
+    <Data Name="ServiceSupportedEncryptionTypes">0x4 (RC4)</Data>
+    <Data Name="ServiceAvailableKeys">RC4</Data>
+    <Data Name="DCSupportedEncryptionTypes">0x1F (DES, RC4, AES128-SHA96, AES256-SHA96)</Data>
+    <Data Name="DCAvailableKeys">AES-SHA1, RC4</Data>
+    <Data Name="ClientAdvertizedEncryptionTypes">AES256-CTS-HMAC-SHA1-96 RC4-HMAC-NT</Data>
+    <Data Name="SessionKeyEncryptionType">0x12</Data>
+  </EventData>
+</Event>

@@ -1,0 +1,1700 @@
+{
+  "schema_version": 1,
+  "rule_id": "CORR-WEB-WEBROOT-REQUEST-002",
+  "expected_identity": "Semantic goldens omit alert.id; identity has independent engine tests and native replay must preserve it.",
+  "cases": [
+    {
+      "name": "write_then_matching_request",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "A successful create and exact resource request share host, filesystem namespace and canonical path.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "benign_deploy_ordinary_dynamic_page",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "page=home"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A normal PHP page requested after deployment lacks every selected query key.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "benign_static_upload",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/photo.jpg",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/photo.jpg",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "An uploaded image is outside the configured script-like suffix set, even with cmd as a query key.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "benign_admin_cmd_after_deploy",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/admin.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/admin.php",
+          "url.query": "cmd=refresh"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/admin.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "benign_candidate",
+      "reason": "A legitimate administrative page deployed then called with cmd satisfies the same candidate condition; this is a known benign match.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "different_filesystem_namespace",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-b",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "Two containers may expose the same absolute path on one host; their namespace IDs must prevent a join.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "mapped_aliases_same_physical_resource",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true,
+          "collector.site_alias": "deployment-name"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert",
+          "url.domain": "public-alias.example"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Trusted upstream mapping identifies the same physical file despite different presentation aliases; neither raw Host nor the alias is a join key.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "different_host",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-2",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "Identical namespace and path strings on another host must not join.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "different_path",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/other.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "The request must name the exact file path, not merely the same directory or extension.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "posix_path_case_is_significant",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/Example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "POSIX path spelling remains case-sensitive.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "webroot_prefix_is_not_descendant",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html-other/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html-other/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A shared text prefix does not place the file beneath /var/www/html.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "failed_write_does_not_qualify",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": false
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A reported failed operation is not a successful create/write.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "open_for_write_intent_is_not_write",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "open",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A successful open or write-intent event does not establish the required successful create/write normalization.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "request_without_file_evidence",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A suspicious-looking request alone is insufficient; pre-existing files are outside this sequence.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "request_before_file",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2025-12-31T23:59:59Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A request before the file event cannot be linked causally.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "equal_timestamp_is_inclusive",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 0.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "The lower endpoint includes equal normalized timestamps, without claiming a finer order within that timestamp.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "exact_window_end_is_excluded",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:05:00Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A request exactly 300 seconds after the file event is outside the half-open window.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "one_microsecond_inside_window",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:04:59.999999Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 299.999999
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "A request one microsecond before the upper endpoint remains eligible.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "latest_eligible_write_is_selected",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:20Z",
+          "event.id": "file-2",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "write",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-2",
+          "file.operation": "write",
+          "file.timestamp": "2026-01-01T00:00:20Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 10.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Out-of-order delivery selects the most recent successful eligible write, emitting one alert per HTTP event.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "file_timestamp_tie_uses_largest_id",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-z",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-a",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-z",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Equal file timestamps choose the lexicographically greatest event ID deterministically.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "equivalent_timezone_redelivery",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        },
+        {
+          "@timestamp": "2026-01-01T03:00:00+03:00",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Equivalent timestamps and unchanged IDs deduplicate without generating extra candidates.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "once_encoded_query_key",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "%63md=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "One UTF-8 percent-decoding pass exposes an exact cmd key.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "double_encoding_is_not_decoded_twice",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "%2563md=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "A twice-encoded spelling is outside the explicit single-decoding contract.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "query_substrings_are_not_keys",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "notcmd=inert&description=cmd%3Dinert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "Neither a larger parameter name nor text inside a value is an exact selected key.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "query_key_case_is_significant",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "CMD=inert&Exec=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "Query keys use exact case; application-specific case folding is not inferred.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "empty_and_bare_keys_are_candidates",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd&exec="
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd",
+            "exec"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "The selector checks key presence, including blank values; it does not claim a command value was present or executed.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "selected_query_keys_sorted_and_deduplicated",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "exec=a&cmd=b&exec=c&command=d"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd",
+            "command",
+            "exec"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Repeated query keys do not duplicate alerts and evidence lists exact selected keys once.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "custom_window_excludes_endpoint",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "An explicit 60-second window excludes its endpoint.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ],
+        "window_seconds": 60
+      }
+    },
+    {
+      "name": "bounded_replay_retains_file_context",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "floor",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00.000001Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:05:00Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        },
+        {
+          "@timestamp": "2026-01-01T00:05:00.000001Z",
+          "event.id": "at-end",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:05:00Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00.000001Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 299.999999
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Only request anchors in [A,B) emit; the file at A-W+1us is required context and the floor/end events must not affect the result.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ],
+        "start": "2026-01-01T00:05:00Z",
+        "end": "2026-01-01T00:05:00.000001Z"
+      }
+    },
+    {
+      "name": "repeated_requests_preserve_each_evidence_pair",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:40Z",
+          "event.id": "request-2",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        },
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:40Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-2",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 40.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Two distinct qualifying HTTP events each retain their own file/request evidence pair; this is not alert suppression.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "failed_later_write_does_not_hide_success",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:20Z",
+          "event.id": "failed-later",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": false
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "The latest eligible successful write is used; a later failed operation does not establish replacement file contents.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "http_404_is_request_evidence_only",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert",
+          "http.response.status_code": 404
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "A 404 request still satisfies the observed sequence; the result never claims successful execution or that the file still exists.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "uppercase_suffix_preserves_exact_path",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.PHP",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.PHP",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [
+        {
+          "rule.id": "CORR-WEB-WEBROOT-REQUEST-002",
+          "classification": "corroborated_suspicious_activity",
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.PHP",
+          "file.event.id": "file-1",
+          "file.operation": "create",
+          "file.timestamp": "2026-01-01T00:00:00Z",
+          "http.event.id": "request-1",
+          "http.query_keys": [
+            "cmd"
+          ],
+          "elapsed_seconds": 30.0
+        }
+      ],
+      "outcome": "candidate_positive",
+      "reason": "Suffix recognition is case-insensitive but full paths remain exact; a script-like filename does not establish server handler configuration.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "unconfigured_phtml_suffix_is_outside_pilot",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.phtml",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.phtml",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "candidate_negative",
+      "reason": "This pilot declares only php/jsp/aspx suffixes; broader Sigma or web-server handler support is not inherited.",
+      "profile_valid": true,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "missing_resource_namespace",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "A missing filesystem namespace cannot silently fall back to host/path.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "string_success_flag",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": "true"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "A string must not be coerced to the required boolean success flag.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "noncanonical_resource_path",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/../example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "Join keys must already be canonical; lexical traversal is not resolved by the detector.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "malformed_query_escape",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=%ZZ"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "Malformed raw query escapes fail explicitly instead of creating an uncertain key match.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "numeric_namespace",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": 12,
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "A numeric namespace must not become a keyword through Elasticsearch coercion.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "control_character_event_identity",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file\u0000one",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "Control characters in source identities are rejected before constructing alert identity.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    },
+    {
+      "name": "conflicting_event_redelivery",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": true
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "file-1",
+          "event.dataset": "host.file",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "file.path": "/var/www/html/uploads/example.php",
+          "file.operation": "create",
+          "event.success": false
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.id": "request-1",
+          "event.dataset": "web.access",
+          "host.id": "web-1",
+          "resource.namespace": "workload-a",
+          "web.resource_path": "/var/www/html/uploads/example.php",
+          "url.query": "cmd=inert"
+        }
+      ],
+      "expected_alerts": [],
+      "outcome": "invalid_input",
+      "reason": "A changed payload under one immutable source event ID must fail, not choose one version.",
+      "profile_valid": false,
+      "config": {
+        "webroots": [
+          "/var/www/html"
+        ]
+      }
+    }
+  ]
+}

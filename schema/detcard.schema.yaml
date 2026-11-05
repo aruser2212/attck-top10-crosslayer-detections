@@ -1,129 +1,110 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Detection card
 type: object
-required:
-- id
-- title
-- version
-- status
-- tactics
-- techniques
-- platforms
-- datasources
-- detections
+additionalProperties: false
+required: [id, title, version, status, tactics, techniques, platforms, datasources, detections]
 properties:
   id:
     type: string
+    pattern: '^DET-[A-Z0-9]+(?:-[A-Z0-9]+)+$'
   title:
-    type: string
+    $ref: '#/$defs/nonemptyString'
   version:
     type: string
+    pattern: '^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$'
   status:
-    type: string
-    enum:
-    - draft
-    - test
-    - stable
-    - deprecated
+    enum: [draft, test, stable, deprecated]
   tactics:
-    type: array
-    items:
-      type: string
+    $ref: '#/$defs/nonemptyStringList'
   techniques:
     type: array
+    minItems: 1
+    uniqueItems: true
     items:
       type: string
+      pattern: '^T\d{4}(?:\.\d{3})?$'
   platforms:
-    type: array
-    items:
-      type: string
+    $ref: '#/$defs/nonemptyStringList'
   datasources:
-    type: array
-    items:
-      type: string
+    $ref: '#/$defs/nonemptyStringList'
   severity:
-    type: string
+    enum: [informational, low, medium, high, critical]
   confidence:
-    type: string
+    enum: [low, medium, high]
   detections:
     type: object
+    additionalProperties: false
+    minProperties: 1
     properties:
       sigma:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       network_rules:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       yara:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       hunts:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       queries:
         type: object
+        propertyNames:
+          $ref: '#/$defs/nonemptyString'
         additionalProperties:
-          type: array
-          items:
-            type: string
+          $ref: '#/$defs/stringList'
   tests:
     type: object
+    additionalProperties: false
     properties:
       atomic:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       datasets:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
   validation:
     type: object
+    additionalProperties: false
+    required: [status]
     properties:
-      tpr:
-        type:
-        - number
-        - 'null'
-      fpr:
-        type:
-        - number
-        - 'null'
-      latency_ms:
-        type:
-        - number
-        - 'null'
       status:
-        type: string
-        enum:
-        - not_tested
-        - tested
-        - partial
+        enum: [not_tested, tested, partial]
+      tpr:
+        $ref: '#/$defs/rate'
+      fpr:
+        $ref: '#/$defs/rate'
+      latency_ms:
+        type: [number, 'null']
+        minimum: 0
       notes:
         type: string
   tuning:
     type: object
+    additionalProperties: false
     properties:
       fp_sources:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       allowlists:
-        type: array
-        items:
-          type: string
+        $ref: '#/$defs/stringList'
       notes:
         type: string
   references:
-    type: array
-    items:
-      type: string
+    $ref: '#/$defs/stringList'
   authors:
-    type: array
-    items:
-      type: string
+    $ref: '#/$defs/stringList'
   changelog:
+    $ref: '#/$defs/stringList'
+$defs:
+  nonemptyString:
+    type: string
+    minLength: 1
+    pattern: '\S'
+  stringList:
     type: array
+    uniqueItems: true
     items:
-      type: string
+      $ref: '#/$defs/nonemptyString'
+  nonemptyStringList:
+    allOf:
+      - $ref: '#/$defs/stringList'
+      - minItems: 1
+  rate:
+    type: [number, 'null']
+    minimum: 0
+    maximum: 1

@@ -1,0 +1,17 @@
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Security-Auditing"/>
+    <EventID>4625</EventID>
+    <TimeCreated SystemTime="2026-01-01T00:00:10.0000000Z"/>
+    <EventRecordID>1001</EventRecordID>
+    <Channel>Security</Channel>
+    <Computer>lab-client.example.test</Computer>
+  </System>
+  <EventData>
+    <Data Name="SubjectUserName">SYSTEM</Data>
+    <Data Name="TargetUserName">alice</Data>
+    <Data Name="TargetDomainName">LAB</Data>
+    <Data Name="IpAddress">::ffff:192.0.2.10</Data>
+    <Data Name="LogonType">3</Data>
+  </EventData>
+</Event>

@@ -1,30 +1,38 @@
-title: Linux Log Wipe Patterns (auditd/syslog)
+title: Linux Log Deletion or Truncation Process Candidate (auditd)
 id: a264a4f8-6af3-404c-b32d-7295431a5261
 status: test
-description: Detects suspicious log wipe commands (truncate/shred/rm, bash history
-  reset)
+description: >-
+  Selects execution of truncate, rm or shred targeting /var/log. These are
+  investigation candidates, including legitimate maintenance. Shell builtins
+  such as history -c are outside EXECVE telemetry and outside this rule.
 tags:
-- attack.t1070
-- attack.defense-evasion
+- attack.t1685.006
+- attack.defense-impairment
 logsource:
   product: linux
   service: auditd
+  definition: >-
+    Join SYSCALL and EXECVE records by audit event serial. Use SYSCALL.exe as
+    exe and reconstruct CommandLine from EXECVE arguments. This rule observes
+    process execution; it cannot establish that a deletion completed.
 detection:
-  cmd_trunc:
-    CommandLine|contains:
-    - truncate -s 0
-    - echo > ~/.bash_history
-    - history -c
-  cmd_rm:
-    CommandLine|contains:
-    - rm -rf /var/log
-    - find /var/log -type f -exec truncate -s 0 {}
-  cmd_shred:
-    CommandLine|contains:
-    - shred -u
-    - shred -z
-  condition: cmd_trunc or cmd_rm or cmd_shred
-level: high
+  log_path:
+    CommandLine|contains|cased: /var/log/
+  log_root:
+    CommandLine|endswith|cased: ' /var/log'
+  truncate_image:
+    exe|endswith|cased: /truncate
+  truncate_arguments:
+    CommandLine|contains|cased:
+    - ' -s 0 '
+    - ' --size=0 '
+    - ' --size 0 '
+  removal_image:
+    exe|endswith|cased:
+    - /rm
+    - /shred
+  condition: (log_path or log_root) and ((truncate_image and truncate_arguments) or removal_image)
+level: medium
 fields:
 - exe
 - auid

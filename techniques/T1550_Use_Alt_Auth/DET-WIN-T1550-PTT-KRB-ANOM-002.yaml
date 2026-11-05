@@ -1,10 +1,9 @@
 id: DET-WIN-T1550-PTT-KRB-ANOM-002
 title: Pass-the-Ticket - Suspicious TGS Activity without AS pattern
-version: 1.0.0
+version: 1.2.0
 status: test
 tactics:
 - lateral-movement
-- defense-evasion
 techniques:
 - T1550
 platforms:
@@ -29,8 +28,8 @@ validation:
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled only after replay/lab
+    validation.'
 tuning:
   fp_sources:
   - app-серверы c высоким объёмом TGS
@@ -44,3 +43,6 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: lifecycle clarified; unversioned hunt-only artifacts remain untested.'
+- '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
+  DetCard IDs retained.'

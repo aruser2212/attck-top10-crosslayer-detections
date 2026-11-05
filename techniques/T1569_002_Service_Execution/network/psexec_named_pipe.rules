@@ -1,9 +1,12 @@
-alert smb any any -> any any (
-  msg:"PsExec Named Pipe PSEXESVC (T1569.002)";
-  flow:established;
-  smb;
-  smb.named_pipe;
-  content:"\\PSEXESVC"; nocase;
-  classtype:attempted-admin;
-  sid:4202001; rev:1;
+# Suricata smb.named_pipe exposes TREE_CONNECT (IPC$), not CREATE filenames.
+# This SMB2 CREATE-name hint requires host/service corroboration; legitimate
+# PsExec and an ordinary file with this name can match. SMB encryption hides it.
+alert smb any any -> any any ( \
+  msg:"SMB2 CREATE of PSEXESVC name - correlate with service activity"; \
+  flow:to_server,established; \
+  content:"|FE|SMB"; \
+  content:"|05 00|"; distance:8; within:2; \
+  pcre:"/(?:\x5c\x00|\x00\x00)P\x00S\x00E\x00X\x00E\x00S\x00V\x00C\x00(?:\x00\x00|$)/iR"; \
+  classtype:attempted-admin; \
+  sid:4202001; rev:2; \
 )

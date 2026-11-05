@@ -1,8 +1,10 @@
-title: Suspicious LSASS Access via ProcessAccess
+title: LSASS Process Access Candidate (Sysmon 10)
 id: 0364c0b3-5f83-4735-8d83-9e815adba922
-status: stable
-description: Detects non-security processes accessing lsass.exe using Sysmon Event
-  ID 10
+status: test
+description: >-
+  Selects Sysmon ProcessAccess events targeting lsass.exe for investigation.
+  Access alone does not prove credential dumping. No global basename exclusions
+  are applied: trusted AV/EDR tuning requires a deployment-specific profile.
 references:
 - https://learn.microsoft.com/sysinternals/downloads/sysmon
 tags:
@@ -16,19 +18,15 @@ detection:
   sel:
     EventID: 10
     TargetImage|endswith: \lsass.exe
-  filter_allowed:
-    SourceImage|contains:
-    - \MsMpEng.exe
-    - \SenseIR.exe
-    - \winlogon.exe
-  condition: sel and not filter_allowed
-level: high
+  condition: sel
+level: medium
 fields:
-- Image
-- CommandLine
-- ParentImage
-- User
 - TargetImage
 - SourceImage
+- SourceProcessGUID
+- TargetProcessGUID
+- GrantedAccess
+- CallTrace
 falsepositives:
 - AV/EDR self-protection
+- legitimate diagnostic and authentication software

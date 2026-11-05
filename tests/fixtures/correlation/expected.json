@@ -1,0 +1,5 @@
+{
+  "webroots": ["/var/www/html"],
+  "expected_pairs": [["file-create", "request-suspicious"]],
+  "expected_duplicate_events": 1
+}

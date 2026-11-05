@@ -1,0 +1,31 @@
+{
+  "scope": "Synthetic offline traffic; no live connections or executable payloads. Expected alerts establish fixture behavior only.",
+  "expected_sids": [4202001, 4203001, 4204001, 4204002, 4204003, 4205001, 4205002, 4205003, 4205004],
+  "cases": [
+    {"id":"hta-response", "kind":"http", "direction":"outbound", "uri":"/download", "content_type":"application/hta; charset=utf-8", "expected":{"4204001":1}},
+    {"id":"hta-uri", "kind":"http", "direction":"outbound", "uri":"/document.HTA?download=1", "expected":{"4204002":1}},
+    {"id":"hta-query-text-negative", "kind":"http", "direction":"outbound", "uri":"/search?q=document.hta", "expected":{}},
+    {"id":"hta-extension-suffix-negative", "kind":"http", "direction":"outbound", "uri":"/document.htaccess", "content_type":"application/htaccess", "expected":{}},
+    {"id":"docm-uri", "kind":"http", "direction":"outbound", "uri":"/report.docm", "expected":{"4204003":1}},
+    {"id":"xlsm-uri", "kind":"http", "direction":"outbound", "uri":"/report.xlsm?version=1", "expected":{"4204003":1}},
+    {"id":"docm-query-text-negative", "kind":"http", "direction":"outbound", "uri":"/search?q=report.docm", "expected":{}},
+    {"id":"web-command-param", "kind":"http", "direction":"inbound", "uri":"/admin.php?x=1&cmd=fixture", "expected":{"4205001":1}},
+    {"id":"web-command-param-name-negative", "kind":"http", "direction":"inbound", "uri":"/admin.php?mycmd=fixture", "expected":{}},
+    {"id":"web-command-static-path-negative", "kind":"http", "direction":"inbound", "uri":"/documentation.html?cmd=fixture", "expected":{}},
+    {"id":"web-command-value-negative", "kind":"http", "direction":"inbound", "uri":"/admin.php?q=cmd=fixture", "expected":{}},
+    {"id":"upload-php", "kind":"upload", "direction":"inbound", "filename":"fixture.php", "expected":{"4205002":1}},
+    {"id":"upload-jsp", "kind":"upload", "direction":"inbound", "filename":"fixture.jsp", "expected":{"4205003":1}},
+    {"id":"upload-aspx", "kind":"upload", "direction":"inbound", "filename":"fixture.aspx", "expected":{"4205004":1}},
+    {"id":"upload-text-mentions-extension-negative", "kind":"upload", "direction":"inbound", "filename":"notes.txt", "expected":{}},
+    {"id":"upload-double-extension-negative", "kind":"upload", "direction":"inbound", "filename":"fixture.php.txt", "expected":{}},
+    {"id":"upload-other-endpoint-negative", "kind":"upload", "direction":"inbound", "filename":"fixture.php", "uri":"/documentation", "expected":{}},
+    {"id":"ssh-ten-flows-at-limit", "kind":"ssh", "flows":10, "expected":{}},
+    {"id":"ssh-eleven-flows-over-limit", "kind":"ssh", "flows":11, "expected":{"4203001":1}},
+    {"id":"ssh-one-busy-flow", "kind":"ssh", "flows":1, "extra_packets":30, "expected":{}},
+    {"id":"psexec-pipe", "kind":"smb", "pipe":"\\PSEXESVC", "expected":{"4202001":1}},
+    {"id":"psexec-unrelated-pipe-negative", "kind":"smb", "pipe":"\\srvsvc", "expected":{}},
+    {"id":"psexec-pipe-suffix-negative", "kind":"smb", "pipe":"\\PSEXESVC_backup", "expected":{}},
+    {"id":"psexec-pipe-prefix-negative", "kind":"smb", "pipe":"\\NOT_PSEXESVC", "expected":{}},
+    {"id":"psexec-bare-pipe-name", "kind":"smb", "pipe":"PSEXESVC", "expected":{"4202001":1}}
+  ]
+}

@@ -1,0 +1,208 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Executable Hunt DSL v2 — exact rolling windows
+description: Finite replay at each eligible group event timestamp; interval (t-W,t], equal-time events
+  atomic.
+type: object
+additionalProperties: false
+required:
+- schema_version
+- dataset
+- where
+- aggregate
+- having
+- project
+properties:
+  schema_version:
+    type: integer
+    const: 2
+  dataset:
+    type: string
+    minLength: 1
+  where:
+    $ref: '#/$defs/predicate'
+  aggregate:
+    type: object
+    additionalProperties: false
+    required:
+    - group_by
+    - window
+    - window_type
+    - metrics
+    properties:
+      group_by:
+        type: array
+        minItems: 1
+        uniqueItems: true
+        items:
+          $ref: '#/$defs/field'
+      window:
+        type: string
+        pattern: ^[1-9][0-9]*(s|m|h|d)$
+      window_type:
+        const: rolling
+      metrics:
+        type: array
+        minItems: 1
+        items:
+          oneOf:
+          - type: object
+            additionalProperties: false
+            required:
+            - name
+            - fn
+            - field
+            properties:
+              name:
+                $ref: '#/$defs/field'
+              fn:
+                const: count
+              field:
+                const: '*'
+          - type: object
+            additionalProperties: false
+            required:
+            - name
+            - fn
+            - field
+            properties:
+              name:
+                $ref: '#/$defs/field'
+              fn:
+                const: count_distinct
+              field:
+                $ref: '#/$defs/field'
+  having:
+    type: array
+    minItems: 1
+    items:
+      $ref: '#/$defs/threshold'
+  project:
+    type: array
+    minItems: 1
+    uniqueItems: true
+    items:
+      $ref: '#/$defs/field'
+  notes:
+    type: string
+$defs:
+  field:
+    type: string
+    minLength: 1
+    pattern: ^[A-Za-z_@][A-Za-z0-9_.@-]*$
+  scalar:
+    type:
+    - string
+    - number
+    - boolean
+  comparison:
+    oneOf:
+    - type: object
+      additionalProperties: false
+      required:
+      - field
+      - op
+      - value
+      properties:
+        field:
+          $ref: '#/$defs/field'
+        op:
+          enum:
+          - eq
+          - ne
+        value:
+          $ref: '#/$defs/scalar'
+    - type: object
+      additionalProperties: false
+      required:
+      - field
+      - op
+      - value
+      properties:
+        field:
+          $ref: '#/$defs/field'
+        op:
+          const: in
+        value:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items:
+            $ref: '#/$defs/scalar'
+    - type: object
+      additionalProperties: false
+      required:
+      - field
+      - op
+      - value
+      properties:
+        field:
+          $ref: '#/$defs/field'
+        op:
+          enum:
+          - contains
+          - startswith
+          - endswith
+        value:
+          type: string
+    - type: object
+      additionalProperties: false
+      required:
+      - field
+      - op
+      - value
+      properties:
+        field:
+          $ref: '#/$defs/field'
+        op:
+          enum:
+          - gt
+          - gte
+          - lt
+          - lte
+        value:
+          type: number
+  predicate:
+    oneOf:
+    - $ref: '#/$defs/comparison'
+    - type: object
+      additionalProperties: false
+      required:
+      - all
+      properties:
+        all:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/$defs/predicate'
+    - type: object
+      additionalProperties: false
+      required:
+      - any
+      properties:
+        any:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/$defs/predicate'
+    - type: object
+      additionalProperties: false
+      required:
+      - not
+      properties:
+        not:
+          $ref: '#/$defs/predicate'
+  threshold:
+    type: object
+    additionalProperties: false
+    required:
+    - field
+    - op
+    - value
+    properties:
+      field:
+        $ref: '#/$defs/field'
+      op:
+        const: gte
+      value:
+        type: integer
+        minimum: 1

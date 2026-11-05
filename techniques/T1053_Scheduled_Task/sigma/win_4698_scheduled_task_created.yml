@@ -1,6 +1,6 @@
 title: Scheduled Task Created (Security 4698)
 id: 549439ea-8d30-469e-b298-700d0c56943d
-status: stable
+status: test
 description: Detects creation of scheduled task via Security Event ID 4698
 tags:
 - attack.t1053

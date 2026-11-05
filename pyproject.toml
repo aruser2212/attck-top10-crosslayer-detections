@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+  "integration: requires an explicitly configured local Elasticsearch test instance",
+  "network: requires Docker and the pinned Suricata image for offline replay",
+]

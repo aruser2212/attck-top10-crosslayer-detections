@@ -1,7 +1,7 @@
 id: DET-WIN-T1053-SCHTASK-4698-001
 title: Windows Scheduled Task Created (4698 / TaskScheduler 106)
-version: 1.0.0
-status: stable
+version: 1.1.0
+status: test
 tactics:
 - persistence
 - execution
@@ -25,14 +25,16 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - RMM/EDR/backup/patch tools
@@ -45,3 +47,4 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'

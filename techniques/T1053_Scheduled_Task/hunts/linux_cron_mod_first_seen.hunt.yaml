@@ -1,12 +1,35 @@
 dataset: linux.auditd.files
 where:
   all:
-    - any:
-        - { field: file.path, op: contains, value: "/etc/crontab" }
-        - { field: file.path, op: contains, value: "/etc/cron." }
-        - { field: file.path, op: contains, value: "/var/spool/cron/" }
+  - field: audit.key
+    op: eq
+    value: cron_write
+  - field: audit.success
+    op: eq
+    value: 'yes'
+  - any:
+    - field: file.path
+      op: eq
+      value: /etc/crontab
+    - field: file.path
+      op: startswith
+      value: /etc/cron.
+    - field: file.path
+      op: startswith
+      value: /var/spool/cron/
 first_seen:
-  key: [file.path, user.name]
+  key:
+  - host.name
+  - file.path
+  - user.name
   horizon: 30d
-project: ["@timestamp", host.name, user.name, file.path, process.executable]
-notes: "Сигнал на первое изменение; вручную проверяй наличие @reboot, wget/curl, bash -c, нетипичных путей."
+project:
+- '@timestamp'
+- host.name
+- user.name
+- file.path
+- process.executable
+notes: 'Legacy design-only hunt: исполняемого адаптера нет, эквивалентность Sigma не проверена. Требуются
+  write-only audit watches -p w -k cron_write; соединение SYSCALL/PATH по serial и mapping key→audit.key,
+  success→audit.success, name→file.path. Это успешный write intent, не доказательство изменения содержимого.
+  First-seen — контекст по host, не подавление повторов.'

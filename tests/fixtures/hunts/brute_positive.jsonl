@@ -1,0 +1,10 @@
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:0", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:1", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:2", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:3", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:4", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:5", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:6", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:7", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:8", "source.ip": "192.0.2.10", "target.user": "alice"}
+{"@timestamp": "2026-01-01T00:01:00Z", "event.code": "4625", "event.dataset": "windows.security.logons", "event.id": "brute_10_threshold:9", "source.ip": "192.0.2.10", "target.user": "alice"}

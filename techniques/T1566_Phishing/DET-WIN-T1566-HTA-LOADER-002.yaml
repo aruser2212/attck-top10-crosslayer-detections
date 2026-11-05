@@ -1,10 +1,9 @@
 id: DET-WIN-T1566-HTA-LOADER-002
 title: HTA/HTML Loader → Script Execution
-version: 1.0.0
+version: 1.2.0
 status: test
 tactics:
 - initial-access
-- execution
 techniques:
 - T1566
 platforms:
@@ -28,22 +27,31 @@ detections:
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/network/cases.json
+  - ../../tests/fixtures/yara/cases.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Linked Suricata 8.0.4 signatures loaded and passed synthetic PCAP replay.
+    Snort and encrypted traffic visibility are not validated. Linked libyara rules compiled and matched
+    inert fixtures under their declared input contract. Remaining unversioned hunts are design-only; telemetry
+    integration and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - внутренние порталы/ПО, раздающие HTA/HTML-инсталляторы
   allowlists: []
-  notes: Сетевые сигнатуры — эвристика; сверять с хостовыми событиями.
+  notes: 'Сетевые сигнатуры — эвристика; сверять с хостовыми событиями. Related attack-chain context (not
+    a primary ATT&CK tactic mapping): execution.'
 references:
 - https://attack.mitre.org/techniques/T1566/
 authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'

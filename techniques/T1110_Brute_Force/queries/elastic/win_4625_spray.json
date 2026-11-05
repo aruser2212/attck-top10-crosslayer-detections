@@ -1,0 +1,90 @@
+{
+  "size": 0,
+  "track_total_hits": false,
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "event.dataset": "windows.security.logons"
+          }
+        },
+        {
+          "bool": {
+            "filter": [
+              {
+                "term": {
+                  "event.code": "4625"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "exists": {
+            "field": "source.ip"
+          }
+        },
+        {
+          "exists": {
+            "field": "target.user"
+          }
+        },
+        {
+          "bool": {
+            "must_not": [
+              {
+                "term": {
+                  "source.ip": ""
+                }
+              }
+            ]
+          }
+        },
+        {
+          "bool": {
+            "must_not": [
+              {
+                "term": {
+                  "target.user": ""
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "events": {
+      "composite": {
+        "size": 500,
+        "sources": [
+          {
+            "window": {
+              "date_histogram": {
+                "field": "@timestamp",
+                "fixed_interval": "600s",
+                "time_zone": "UTC"
+              }
+            }
+          },
+          {
+            "d0": {
+              "terms": {
+                "field": "source.ip"
+              }
+            }
+          },
+          {
+            "d1": {
+              "terms": {
+                "field": "target.user"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

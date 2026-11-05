@@ -1,6 +1,6 @@
 title: Office/Outlook Spawns Script Interpreter or LOLBIN
 id: 79e34705-2197-4810-bb4f-0a879477001a
-status: stable
+status: test
 description: Detects Office/Outlook spawning scripting engines or LOLBINs commonly
   used in phishing chains
 tags:

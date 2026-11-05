@@ -1,0 +1,30 @@
+schema_version: 2
+dataset: windows.security.logons
+where:
+  all:
+  - field: event.code
+    op: eq
+    value: '4625'
+aggregate:
+  group_by:
+  - target.user
+  - source.ip
+  window: 5m
+  window_type: rolling
+  metrics:
+  - name: fails
+    fn: count
+    field: '*'
+having:
+- field: fails
+  op: gte
+  value: 10
+project:
+- window.start
+- window.end
+- source.ip
+- target.user
+- fails
+notes: 'Brute: >=10 ошибок по account×IP в скользящем окне (t-5m,t] на каждой метке подходящего события.
+  Равновременные события учитываются вместе. Replay и отдельный durable pipeline v2; подавления повторных алертов
+  по эпизоду нет.'

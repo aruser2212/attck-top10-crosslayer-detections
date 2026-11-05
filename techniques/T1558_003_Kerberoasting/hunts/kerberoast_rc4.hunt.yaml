@@ -1,10 +1,28 @@
 dataset: windows.security.kerberos_tgs
 where:
   all:
-    - { field: event.code, op: eq, value: "4769" }
-    - any:
-        - { field: ticket.encryption_type, op: eq, value: "0x17" }
-        - { field: ticket.encryption_type, op: contains, value: "RC4" }
-    - not: { field: subject.user, op: endswith, value: "$" }
-project: ["@timestamp", host.name, source.ip, subject.user, service.name, ticket.encryption_type]
-notes: "Индикатор RC4 (0x17). Исключаем машинные учётки (subject.user endswith '$')."
+  - field: event.code
+    op: eq
+    value: '4769'
+  - field: win.status
+    op: eq
+    value: '0x0'
+  - any:
+    - field: ticket.encryption_type
+      op: eq
+      value: '0x17'
+    - field: ticket.encryption_type
+      op: contains
+      value: RC4
+project:
+- '@timestamp'
+- host.name
+- source.ip
+- target.user
+- service.name
+- ticket.encryption_type
+- win.status
+notes: 'Legacy design-only hunt: исполняемого адаптера нет, эквивалентность Sigma не проверена. Кандидат
+  успешного RC4 TGS, не доказательство Kerberoasting. Не исключаем machine accounts по суффиксу. Профиль
+  должен отобразить Status→win.status, TargetUserName→target.user и TicketEncryptionType→ticket.encryption_type;
+  RC4 matching как в Sigma.'

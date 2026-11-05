@@ -1,10 +1,9 @@
 id: DET-LNX-T1110-SSH-BRUTE-002
 title: SSH Brute/Spray Attempts (Failed password)
-version: 1.0.0
+version: 1.3.0
 status: test
 tactics:
 - credential-access
-- initial-access
 techniques:
 - T1110
 platforms:
@@ -23,23 +22,38 @@ detections:
   yara: []
   hunts:
   - hunts/linux_ssh_failed_agg.hunt.yaml
+  - hunts/linux_ssh_failed_agg_rolling.hunt.yaml
   queries: {}
 tests:
   atomic: []
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/network/cases.json
+  - ../../tests/fixtures/hunts/auth_cases.json
+  - ../../tests/fixtures/linux_auth/journal.jsonl
+  - ../../tests/fixtures/rolling/auth_cases.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Linked Suricata 8.0.4 signatures loaded and passed synthetic PCAP replay.
+    Snort and encrypted traffic visibility are not validated. Hunt v1 T1110 thresholds replayed in fixed
+    UTC tumbling windows; boundary-spanning bursts can be missed. Continuous scheduling, production tuning
+    and operational TPR/FPR/latency are unmeasured. Synthetic journald sshd/sshd-session/sshd-auth records
+    are normalized and replayed against the Linux Hunt; Linux is not connected to the Windows-only Elastic
+    auth-v1 pipeline. Separate offline rolling v2 replay evaluates exact event-anchored (t-W,t] windows,
+    atomic timestamp ties, source/account grouping and deduplication. Boundary fixtures and an independent
+    mathematical oracle cover synthetic behavior. Neither Linux Hunt version is connected to an Elastic
+    pipeline; the new auth-v2 adapter is Windows-only.
 tuning:
   fp_sources:
   - security scanners
   - monitoring checks
   allowlists: []
-  notes: 'Сеть + хост: совмещайте для большей уверенности.'
+  notes: 'Сеть + хост: совмещайте для большей уверенности. Related attack-chain context (not a primary
+    ATT&CK tactic mapping): initial-access.'
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625
@@ -47,3 +61,7 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'
+- '1.2.0: add explicit journalctl JSON normalization and SSH Hunt regression evidence.'
+- '1.3.0: add exact rolling v2 offline replay with explicit boundaries and synthetic evidence.'

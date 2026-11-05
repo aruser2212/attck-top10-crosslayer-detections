@@ -1,14 +1,31 @@
+schema_version: 2
 dataset: windows.security.kerberos_tgs
 where:
   all:
-    - { field: event.code, op: eq, value: "4769" }
-    - not: { field: subject.user, op: endswith, value: "$" }
+  - {field: event.code, op: eq, value: '4769'}
+  - {field: win.status, op: eq, value: 0}
+  - {field: ticket.encryption_type, op: eq, value: 23}
 aggregate:
-  group_by: [subject.user, source.ip]
+  group_by: [user.domain, user.name, source.ip]
   window: 5m
+  window_type: rolling
   metrics:
-    - { name: distinct_spn, fn: count_distinct, field: service.name }
+  - {name: distinct_service_accounts, fn: count_distinct, field: service.id}
+  - {name: rc4_requests, fn: count, field: '*'}
 having:
-  - { field: distinct_spn, op: gte, value: 5 }
-project: [window.start, window.end, source.ip, subject.user, distinct_spn]
-notes: "Агрегирующий hunt: много разных SPN за короткое окно. Порог и окно — тюнинг под среду."
+- {field: distinct_service_accounts, op: gte, value: 5}
+project:
+- window.start
+- window.end
+- user.domain
+- user.name
+- source.ip
+- distinct_service_accounts
+- rc4_requests
+notes: >-
+  Candidate: successful RC4-HMAC TGS requests for >=5 distinct service SIDs in
+  (t-5m,t], grouped by exact normalized requester/domain/IP across DCs. ServiceName
+  identifies a service account, not a full SPN; distinct is based on ServiceSid.
+  Missing service IDs do not count. No blanket machine-account or server-prefix
+  exclusions. Legitimate RC4 application bursts can match; AES and slow requests
+  are outside this rule. Requires the kerberos-v1 normalization contract.

@@ -1,7 +1,7 @@
 id: DET-WIN-T1003-LSASS-001
-title: LSASS Access by Non-Security Process
-version: 1.0.0
-status: stable
+title: LSASS Process Access Candidate
+version: 1.1.0
+status: test
 tactics:
 - credential-access
 techniques:
@@ -11,8 +11,8 @@ platforms:
 datasources:
 - windows:sysmon:10
 - windows:security:4688
-severity: high
-confidence: high
+severity: medium
+confidence: low
 detections:
   sigma:
   - sigma/win_sysmon_lsass_access.yml
@@ -24,14 +24,16 @@ detections:
 tests:
   atomic:
   - T1003.001
-  datasets: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
 validation:
-  status: not_tested
+  status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: 'Not measured yet: no lab telemetry/datasets attached. Values must be filled
-    only after replay/lab validation.'
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
+    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - EDR/AV self-protection modules
@@ -39,7 +41,8 @@ tuning:
   - '*\MsMpEng.exe'
   - '*\SenseIR.exe'
   - '*\winlogon.exe'
-  notes: Поддерживайте allow-list и first-seen по SourceImage.
+  notes: Process access alone does not prove memory dumping. Apply source-specific trust enrichment; no
+    blanket exclusion by executable basename.
 references:
 - MITRE ATT&CK T1003.001
 - https://attack.mitre.org/techniques/T1003/
@@ -48,3 +51,4 @@ authors:
 - you
 changelog:
 - '1.0.0: initial'
+- '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
