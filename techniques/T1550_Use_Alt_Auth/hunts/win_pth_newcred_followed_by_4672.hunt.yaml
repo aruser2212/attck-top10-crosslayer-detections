@@ -1,16 +1,37 @@
-dataset: windows.security
-where:
-  any:
-    - { field: event.code, op: eq, value: "4624" }
-    - { field: event.code, op: eq, value: "4672" }
-aggregate:
-  group_by: [host.name, subject.user]
-  window: 5m
-  metrics:
-    - { name: logon9, fn: count_if, field: event.code=4624&win.logon_type=9 }
-    - { name: priv,   fn: count_if, field: event.code=4672 }
-having:
-  - { field: logon9, op: gte, value: 1 }
-  - { field: priv,   op: gte, value: 1 }
-project: [window.start, window.end, host.name, subject.user, logon9, priv]
-notes: "Корреляция: LT=9 рядом с назначением привилегий (4672). Реализуй count_if в движке или заменяй двумя запросами."
+dataset: windows.security.sessions
+design_contract:
+  anchor:
+    event.code: '4624'
+    win.logon_type: 9
+    win.logon_process: seclogo
+  related:
+    event.code: '4672'
+  session_identity:
+  - host.name
+  - host.boot.id
+  - session.id
+  principal_identity: user.id
+  max_absolute_record_time_delta_seconds: 30
+  output_anchor_bounds: '[start,end)'
+  ambiguity: reject multiple distinct 4624 records for a participating host/boot/LogonId
+  sid_conflict: reject a different SID for the same session inside the time tolerance
+project:
+- '@timestamp'
+- host.name
+- host.boot.id
+- session.id
+- user.id
+- logon.event.id
+- privilege.event.ids
+- privilege.time_deltas_us
+- win.privileges
+notes: >-
+  Legacy design-only description; the generic Hunt DSL does not execute this contract.
+  tools/correlate_newcredentials.py and tools/elastic_newcredentials.py implement a separate
+  finite pilot, described in docs/newcredentials.md. 4624.TargetLogonId maps to session.id;
+  4672.SubjectLogonId maps to the same field. 4624.TargetUserSid must match 4672.SubjectUserSid.
+  Trusted boot scope is supplied upstream, never inferred from an account name or event proximity.
+  Equal, earlier and later 4672 record timestamps are eligible inside the symmetric tolerance.
+  The historical filename does not imply a verified followed-by sequence. Legitimate runas
+  /netonly may match; this is a session candidate, not proof of Pass-the-Hash. No count_if
+  host/user aggregation or nearest-event heuristic substitutes for exact session identity.

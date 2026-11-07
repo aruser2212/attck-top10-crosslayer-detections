@@ -1,10 +1,13 @@
-title: LSASS Process Access Candidate (Sysmon 10)
+title: Broad LSASS Process Access Candidate (Sysmon 10)
 id: 0364c0b3-5f83-4735-8d83-9e815adba922
 status: test
 description: >-
-  Selects Sysmon ProcessAccess events targeting lsass.exe for investigation.
-  Access alone does not prove credential dumping. No global basename exclusions
-  are applied: trusted AV/EDR tuning requires a deployment-specific profile.
+  Broad selector for Sysmon ProcessAccess events targeting an image named lsass.exe.
+  It does not require PROCESS_VM_READ or process GUIDs and can match query-only access.
+  The separate lsass-v1 runtime applies a stricter bitmask/identity contract; equivalence
+  is not claimed. Access alone does not prove memory reading, credential dumping or
+  target authenticity. No global basename exclusions are applied: trusted AV/EDR tuning
+  requires a deployment-specific profile.
 references:
 - https://learn.microsoft.com/sysinternals/downloads/sysmon
 tags:

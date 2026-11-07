@@ -16,7 +16,7 @@ Phishing — доставка вредоносной ссылки или вло�
 - AV/EDR/YARA: макросы, AutoOpen, WScript.Shell, Shell, mshta.
 
 ## Detection strategy
-- Host: Office/Outlook spawning script interpreters or LOLBINs.
+- Host: Office/Outlook → PowerShell с явно поддержанным encoded-command флагом либо один из перечисленных script/LOLBIN children с URL в командной строке. Это кандидат активности после открытия документа, не доказательство доставки phishing.
 - Network: HTTP-запросы к `.hta`/`.docm`/`.xlsm` и HTA content type в ответе. Это признаки доставки, не подтверждение вредоносности; HTTPS без раскрытия содержимого не покрывается.
 - File: YARA по извлечённому, декомпрессированному VBA source с auto-execution entry point и Shell/WScript. Правило не распаковывает OLE/OOXML и не обещает срабатывание при сканировании исходного `.docm`/`.xlsm`.
 - Лучший сигнал — корреляция нескольких слоёв, а не одиночная сигнатура.
@@ -46,6 +46,21 @@ Office add-ins, отчётные макросы и старые корпорат
 - `python tools/check_network.py` — загрузка всех правил и replay [синтетического PCAP-корпуса](../../tests/fixtures/network/cases.json) в закреплённой Suricata 8.0.4; нужен Docker. Совместимость со Snort не проверена.
 - `python tools/check_yara.py` — компиляция libyara и сканирование [инертных source fixtures](../../tests/fixtures/yara/cases.json); код образцов не исполняется.
 - Hunt-файлы этой техники остаются `design-only`: исполнение first-seen, временных корреляций и готовый SIEM-адаптер для них не проверены. Текущий Hunt v1 исполняет только три T1110-агрегации.
+
+Office Sigma поддерживает три буквальные формы PowerShell: `-e`, `-enc` и
+`-EncodedCommand`, без учёта регистра. С обеих сторон флага требуется ASCII-пробел
+или tab; смешанные разделители тоже покрываются. Поэтому `-EncodedCommandFake`,
+`prefix-EncodedCommand` и `-EncodedCommand:...` не совпадают. Encoded-ветка требует
+именно `powershell.exe`, а URL-ветка сохраняется для PowerShell, WScript, CScript,
+MSHTA и CMD. Другие допустимые сокращения PowerShell, quoted flag tokens, переводы
+строки и другие разделители в encoded-ветке пока не покрыты.
+
+Это проверка исходного текста `CommandLine`, без разбора Windows argv или проверки
+encoded-аргумента. Фраза ` -EncodedCommand ` внутри цитируемого текста для
+`-Command`, URL в выводимом тексте и легитимная encoded-автоматизация могут
+совпасть. Эти совпадения не маскируются исключениями: соответствующие ручные
+fixtures ожидают кандидата. First-seen и связь с email/файлом по-прежнему требуют
+отдельной реализации и источников.
 
 Проверенные fixtures и будущие ручные эксперименты разделены в [тест-плане](tests/plan.md).
 

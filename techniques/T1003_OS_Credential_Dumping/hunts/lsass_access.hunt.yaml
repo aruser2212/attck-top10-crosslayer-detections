@@ -10,9 +10,17 @@ where:
 project:
 - '@timestamp'
 - host.name
-- user.name
+- source.process.guid
+- target.process.guid
 - source.image
 - target.image
-notes: 'Legacy design-only hunt: исполняемого адаптера нет, эквивалентность Sigma не проверена. Кандидат
-  ProcessAccess, не доказательство дампа. Нет исключений по basename; доверенные AV/EDR требуют профиля
-  пути/подписи. Windows image matching должен учитывать регистр как Sigma.'
+- process.access_mask
+notes: >-
+  Legacy design-only selector: этот файл не исполняется generic Hunt DSL и не реализует bitmask,
+  first-seen или PID joins. Указанный where описывает широкий target-name selector; он недостаточен
+  для VM_READ-кандидата. Отдельный tools/detect_lsass.py реализует строгий lsass-v1 контракт:
+  Sysmon 10, host-scoped source/target ProcessGUID, абсолютные DOS image paths, ASCII-insensitive
+  basename lsass.exe и (process.access_mask & 0x10) != 0. tools/elastic_lsass.py воспроизводит именно
+  этот dedicated runtime на Basic, а не данный Hunt-файл. Выданное право не подтверждает чтение
+  памяти, дамп или подлинность системного LSASS. AV/EDR и одноимённые цели остаются кандидатами;
+  basename исключений нет. Sigma сохраняет более широкий selector без маски, parity не заявляется.

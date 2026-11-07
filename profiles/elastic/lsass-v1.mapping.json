@@ -1,0 +1,48 @@
+{
+  "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+  "mappings": {
+    "_meta": {
+      "profile": "attck-lsass-v1",
+      "schema_version": 1,
+      "timestamp_precision": "microseconds; native 100ns remainder retained in source event identity",
+      "event_identity": "immutable event.id is the Elasticsearch _id",
+      "process_identity": "host.name and source/target ProcessGUID; PID is supplemental context",
+      "observation": "granted PROCESS_VM_READ capability to a target named lsass.exe, not a memory-read or dump observation"
+    },
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {"type": "date_nanos", "format": "strict_date_optional_time_nanos"},
+      "event": {"properties": {
+        "id": {"type": "keyword"},
+        "dataset": {"type": "keyword"},
+        "code": {"type": "keyword"},
+        "provider": {"type": "keyword"},
+        "channel": {"type": "keyword"},
+        "record_id": {"type": "keyword"},
+        "version": {"type": "integer", "coerce": false}
+      }},
+      "host": {"properties": {"name": {"type": "keyword"}}},
+      "source": {"properties": {
+        "image": {"type": "keyword"},
+        "user": {"type": "keyword"},
+        "process": {"properties": {
+          "guid": {"type": "keyword"},
+          "pid": {"type": "long", "coerce": false}
+        }}
+      }},
+      "target": {"properties": {
+        "image": {"type": "keyword"},
+        "user": {"type": "keyword"},
+        "process": {"properties": {
+          "guid": {"type": "keyword"},
+          "pid": {"type": "long", "coerce": false}
+        }}
+      }},
+      "process": {"properties": {
+        "access_mask": {"type": "long", "coerce": false},
+        "call_trace": {"type": "keyword"}
+      }},
+      "win": {"properties": {"timestamp_remainder": {"type": "integer", "coerce": false}}}
+    }
+  }
+}

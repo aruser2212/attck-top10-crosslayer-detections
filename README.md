@@ -21,6 +21,8 @@ DetCards connect detection logic, telemetry assumptions, fixtures and declared v
 | Executable rolling v2 rules | 3 T1110 hunts and 1 T1558.003 RC4 service-account burst |
 | Elastic Basic replay | 2 Windows v1 hunts and 3 Windows rolling v2 hunts; separate auth/Kerberos profiles |
 | Host/web correlation | Finite Basic replay with exact host/filesystem namespace/path join and linked source evidence |
+| LSASS-named process access | Finite Sysmon 10 replay with exact PROCESS_VM_READ bit testing and process GUID evidence |
+| NewCredentials session correlation | Finite 4624/4672 Basic replay with exact host/boot/LogonId/SID identity and linked privilege evidence |
 | Durable Elastic pipeline | 2 Windows hunts in each version; separate tumbling v1 and rolling v2 state |
 | Episode projection | Related rolling alerts grouped by exact rule/group and inactivity gap; raw alerts retained |
 
@@ -56,6 +58,8 @@ Each detection is described by a **DetCard** (`DET-*.yaml`) with links to suppor
 3. Pick a technique under `techniques/` and review its DetCards, Sigma rules, hunts and test plan.
 4. Review the [telemetry contracts](docs/telemetry.md), [pinned ATT&CK mapping](docs/attack-mapping.md) and [labeled-outcome evaluation](docs/evaluation.md) before adapting detections to your environment.
 5. Replay the [Kerberoasting candidate](docs/kerberos.md): successful RC4 TGS requests across distinct service SIDs, with negative cases and an explicit benign match.
+6. Replay the [LSASS access candidate](docs/lsass.md): a Sysmon 10 event grants memory-read access to an image named `lsass.exe`. Legitimate AV/EDR access remains an expected candidate.
+7. Replay the [NewCredentials session candidate](docs/newcredentials.md): connect 4624 and 4672 through a trusted boot scope and exact session identity. Legitimate `runas /netonly` remains a possible match.
 
 ## Notes
 
@@ -102,7 +106,15 @@ The source contract requires `resource.namespace` on both file and HTTP events; 
 
 ## Project status
 
+A [draft v0.3 release description](docs/releases/v0.3-draft.md) is prepared for review. [Public LSASS captures](docs/public-data.md) complement synthetic fixtures; their provenance, format limitations and independent predicate expectations are recorded separately from operational accuracy.
+
 The [T1558.003 pilot](docs/kerberos.md) adds finite 4769 normalization and Basic replay. It detects a precise RC4 service-account burst condition; a legitimate application can satisfy the same condition. Its fixtures retain that benign match explicitly. AES and low-rate activity are outside this rule, and its threshold has not been calibrated on operational telemetry.
+
+The [LSASS pilot](docs/lsass.md) adds a separate strict Sysmon 10 v3 profile, XML normalization and finite Basic replay. The detector tests the `PROCESS_VM_READ` bit rather than enumerating a few access-mask strings. Process GUIDs and the observed host scope accompany each event candidate; PID reuse does not merge processes. The signal does not establish a genuine system LSASS instance, actual memory reads or a credential dump. The existing Sigma selector remains broader, and the legacy Hunt DSL does not execute this dedicated detector.
+
+The [NewCredentials pilot](docs/newcredentials.md) links a 4624 LT9/seclogo event to 4672 privilege records by host, explicit trusted boot identity, LogonId and local-token SID. It retains signed record-time differences and rejects ambiguous session evidence. A finite Basic snapshot includes records outside the selected anchor interval so they cannot hide a conflicting session. The result is a session candidate, not proof of Pass-the-Hash; live collection and boot-scope attestation remain upstream responsibilities.
+
+[Offline benchmarks](docs/benchmarks.md) measure bounded rolling-v2 and LSASS calculations on declared synthetic workloads, separately from ingestion, live delivery and operational alert latency.
 
 The repository develops the v0.2 portfolio into a reproducibly tested baseline. Changes after the v0.2 tag are documented under Unreleased; publishing source code does not create a new versioned release. Sigma predicate tests, YARA fixtures, Suricata PCAP replay and the durable Elastic T1110 pipelines cover different scopes. Continuous operation supports the two Windows T1110 hunts through separate v1 and rolling v2 commands. Linux SSH remains offline in both versions.
 

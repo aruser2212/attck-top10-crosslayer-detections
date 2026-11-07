@@ -900,6 +900,294 @@
             "Image": "C:\\Windows\\System32\\powershell.exe"
           },
           "match": false
+        },
+        {
+          "name": "powershell_short_space_tab",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -e\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_short_tab_space",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-e inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_short_tabs",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-e\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_abbreviated_space_tab",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -enc\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_abbreviated_tab_space",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-enc inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_abbreviated_tabs",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-enc\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_full_spaces",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_full_space_tab",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_full_tab_space",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-EncodedCommand inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_full_tabs",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\t-EncodedCommand\tinert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "powershell_full_flag_mixed_case",
+          "event": {
+            "ParentImage": "C:\\Office\\winword.exe",
+            "Image": "C:\\WINDOWS\\SYSTEM32\\PowerShell.EXE",
+            "CommandLine": "powershell.exe -eNcOdEdCoMmAnD inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "quoted_executable_with_real_full_flag",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "\"C:\\Windows\\System32\\powershell.exe\" -EncodedCommand inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "full_flag_suffix_not_a_token",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommandFake inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "abbreviated_flag_suffix_not_a_token",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -encFake inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "short_flag_suffix_not_a_token",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -error inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "flag_without_left_boundary",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe prefix-EncodedCommand inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "flag_without_right_boundary",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand:inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "flag_at_end_without_argument_boundary",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand"
+          },
+          "match": false
+        },
+        {
+          "name": "unsupported_long_abbreviation",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedComm inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "quoted_flag_token_outside_declared_scope",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe \"-EncodedCommand\" inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "newline_delimiters_outside_declared_scope",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe\n-EncodedCommand\ninert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "space_tab_run_with_supported_full_flag",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe \t-EncodedCommand\t inert_placeholder"
+          },
+          "match": true
+        },
+        {
+          "name": "other_child_encoded_flag_is_not_powershell",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe /c echo -EncodedCommand inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "wscript_encoded_flag_is_not_powershell",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\wscript.exe",
+            "CommandLine": "wscript.exe -enc inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "powershell_full_flag_non_office_parent",
+          "event": {
+            "ParentImage": "C:\\Windows\\explorer.exe",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "powershell_wrong_image_extension",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Temp\\powershell.exe.bak",
+            "CommandLine": "powershell.exe -EncodedCommand inert_placeholder"
+          },
+          "match": false
+        },
+        {
+          "name": "ordinary_powershell_automation",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -NoProfile -File C:\\Reports\\daily.ps1"
+          },
+          "match": false
+        },
+        {
+          "name": "quoted_flag_mention_remains_benign_candidate",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -Command \"Write-Output ' -EncodedCommand inert_placeholder'\""
+          },
+          "match": true
+        },
+        {
+          "name": "literal_flag_text_does_not_validate_encoded_argument",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand not_base64"
+          },
+          "match": true
+        },
+        {
+          "name": "cscript_url_branch_preserved",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\cscript.exe",
+            "CommandLine": "cscript.exe https://example.test/demo"
+          },
+          "match": true
+        },
+        {
+          "name": "wscript_url_branch_preserved",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\wscript.exe",
+            "CommandLine": "wscript.exe http://example.test/demo"
+          },
+          "match": true
+        },
+        {
+          "name": "cmd_url_branch_preserved",
+          "event": {
+            "ParentImage": "C:\\Office\\WINWORD.EXE",
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe /c echo https://example.test/demo"
+          },
+          "match": true
         }
       ]
     },

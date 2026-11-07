@@ -1,0 +1,1938 @@
+{
+  "format_version": 1,
+  "rule_id": "CORR-WIN-NEWCREDENTIALS-PRIVILEGES-001",
+  "scope": "Manually declared inert synthetic session evidence. Expected pairs, signed microsecond deltas and privilege unions are independent specification examples, not runtime-generated results or operational attack/benign ground truth. Profile-invalid input and valid-but-contradictory session evidence are deliberately distinct.",
+  "cases": [
+    {
+      "name": "equal_timestamp_native_versions",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Native-compatible 4624 v0 and 4672 v0 can share a timestamp; equality is an allowed pairing.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo",
+          "event.version": 0,
+          "win.timestamp_remainder": 2
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ],
+          "event.version": 0,
+          "win.timestamp_remainder": 2
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "privilege_before_logon",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The explicit symmetric record-time tolerance accepts a preceding privilege record.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:59Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            -1000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "privilege_after_logon",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The matching privilege record follows the same-session anchor by one second.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:01Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            1000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "negative_skew_boundary_inclusive",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Exactly minus the configured 30-second tolerance is included.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            -30000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "positive_skew_boundary_inclusive",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Exactly plus the configured 30-second tolerance is included.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:30Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            30000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "one_microsecond_before_skew_boundary",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A record 30 seconds plus one microsecond before the anchor is outside tolerance.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:29.999999Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "one_microsecond_after_skew_boundary",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A record 30 seconds plus one microsecond after the anchor is outside tolerance.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:30.000001Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "zero_skew_allows_equal_time",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A zero tolerance still permits equal normalized timestamps.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "max_skew_seconds": 0
+    },
+    {
+      "name": "zero_skew_rejects_nonzero_delta",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A nonzero microsecond delta is outside a zero tolerance.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00.000001Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [],
+      "max_skew_seconds": 0
+    },
+    {
+      "name": "legitimate_runas_netonly_stays_candidate",
+      "outcome": "benign_candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Authorized runas /netonly can create exactly this local-token session and privilege assignment; no attack conclusion follows.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo",
+          "user.name": "operator",
+          "user.domain": "lab.example"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeBackupPrivilege",
+            "SeDebugPrivilege"
+          ],
+          "user.name": "operator",
+          "user.domain": "lab.example"
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeBackupPrivilege",
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "different_hosts_do_not_join",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Identical SID and LUID on another host do not establish the same local session.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win02.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "different_boots_do_not_join",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A reused local LUID after a reboot cannot join a prior boot.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-b",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "different_logon_ids_do_not_join",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Same host, user and nearby time cannot replace exact LUID equality.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x11",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "same_scope_sid_contradiction",
+      "outcome": "correlation_error",
+      "profile_valid": true,
+      "correlation_valid": false,
+      "reason": "Same session/time key with a different local-token SID is contradictory evidence, not a silent negative.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo",
+          "user.name": "operator"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1002",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ],
+          "user.name": "operator"
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "far_sid_contradiction_outside_tolerance",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The unrelated SID record is beyond the declared session-time tolerance; the valid in-window evidence remains.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:30.000001Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1002",
+          "event.id": "p-far",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "other_logon_type_not_newcredentials",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Type 3 is not the declared NewCredentials candidate even with a matching privilege record.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 3,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "other_logon_process_not_seclogo",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The selected candidate explicitly requires canonical seclogo.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "advapi"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "logon_without_privilege_evidence",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "An otherwise qualifying 4624 alone does not satisfy this two-source candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "privilege_without_logon_evidence",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A 4672 alone is insufficient; its absence of a paired 4624 is not a benign label.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "multiple_privileges_sorted_evidence_and_union",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "All qualifying 4672 records are linked in time/event-ID order, with aligned signed deltas and an exact privilege union.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:01Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-later",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeRestorePrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-z-equal",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:59Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-earlier",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeBackupPrivilege",
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-a-equal",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeBackupPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p-earlier",
+            "p-a-equal",
+            "p-z-equal",
+            "p-later"
+          ],
+          "privilege.time_deltas_us": [
+            -1000000,
+            0,
+            0,
+            1000000
+          ],
+          "win.privileges": [
+            "SeBackupPrivilege",
+            "SeDebugPrivilege",
+            "SeRestorePrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "identical_redelivery_is_deduplicated",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Identical source IDs and payloads describe the same two events, not extra sessions or evidence.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "conflicting_event_id_is_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "A single immutable Event ID cannot carry two different privilege payloads.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeBackupPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "two_candidate_logons_same_session_ambiguous",
+      "outcome": "correlation_error",
+      "profile_valid": true,
+      "correlation_valid": false,
+      "reason": "Two distinct candidate 4624 records for the same host/boot/LUID cannot be resolved by selecting one arbitrarily.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-a",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-b",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "background_logon_same_candidate_key_ambiguous",
+      "outcome": "correlation_error",
+      "profile_valid": true,
+      "correlation_valid": false,
+      "reason": "A different 4624 under the candidate key remains ambiguous even if its own logon type is not selected.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-background",
+          "event.code": "4624",
+          "win.logon_type": 3,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "repeated_background_session_does_not_block_other_candidate",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Repeated service-logon background keys are outside the candidate ambiguity guard and cannot suppress a different valid session.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x3e7",
+          "user.id": "S-1-5-18",
+          "event.id": "background-a",
+          "event.code": "4624",
+          "win.logon_type": 5,
+          "win.logon_process": "advapi"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x3e7",
+          "user.id": "S-1-5-18",
+          "event.id": "background-b",
+          "event.code": "4624",
+          "win.logon_type": 5,
+          "win.logon_process": "advapi"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ambiguous_logon_outside_anchor_bounds_still_rejected",
+      "outcome": "correlation_error",
+      "profile_valid": true,
+      "correlation_valid": false,
+      "reason": "Output bounds cannot hide another 4624 with the candidate session key elsewhere in the complete finite input.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-old",
+          "event.code": "4624",
+          "win.logon_type": 3,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [],
+      "bounds": {
+        "start": "2026-01-01T00:01:00Z",
+        "end": "2026-01-01T00:02:00Z"
+      }
+    },
+    {
+      "name": "unselected_ambiguous_session_does_not_block_selected_session",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Ambiguous keys with no qualifying anchor inside output bounds do not block a separate selected key.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-old-a",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:01Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-old-b",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x20",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-selected",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x20",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-selected",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l-selected",
+          "privilege.event.ids": [
+            "p-selected"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "bounds": {
+        "start": "2026-01-01T00:01:00Z",
+        "end": "2026-01-01T00:02:00Z"
+      }
+    },
+    {
+      "name": "anchor_start_inclusive_end_exclusive",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The lower 4624 anchor is selected and may link earlier context; an anchor exactly at end is excluded.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-start",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:30Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-start",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:02:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x20",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-end",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:02:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x20",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-end",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l-start",
+          "privilege.event.ids": [
+            "p-start"
+          ],
+          "privilege.time_deltas_us": [
+            -30000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "bounds": {
+        "start": "2026-01-01T00:01:00Z",
+        "end": "2026-01-01T00:02:00Z"
+      }
+    },
+    {
+      "name": "future_privilege_context_outside_output_bounds",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A selected anchor may link later 4672 evidence beyond the output interval.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:59.999999Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:02:10Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            10000001
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "bounds": {
+        "start": "2026-01-01T00:01:00Z",
+        "end": "2026-01-01T00:02:00Z"
+      }
+    },
+    {
+      "name": "past_privilege_context_outside_output_bounds",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "A selected anchor may link earlier 4672 evidence outside the output interval.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:59Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            -1000000
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "bounds": {
+        "start": "2026-01-01T00:01:00Z",
+        "end": "2026-01-01T00:02:00Z"
+      }
+    },
+    {
+      "name": "same_luid_on_two_boots_keeps_two_candidates",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Trusted boot scopes distinguish two sessions even when their host, LUID, SID and timestamp match.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-b",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-b",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-b",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-b",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-a",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-a",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l-a",
+          "privilege.event.ids": [
+            "p-a"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "logon.event.id": "l-b",
+          "privilege.event.ids": [
+            "p-b"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "same_luid_on_two_hosts_keeps_two_candidates",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "Host scope distinguishes two sessions with coincident local LUIDs.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win02.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-b",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win02.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-b",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p-a",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l-a",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l-a",
+          "privilege.event.ids": [
+            "p-a"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        },
+        {
+          "logon.event.id": "l-b",
+          "privilege.event.ids": [
+            "p-b"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "account_text_is_context_not_join_identity",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "correlation_valid": true,
+      "reason": "The required equal SID establishes local token identity; account spelling and domain context are not compared or Unicode-folded into identity.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo",
+          "user.name": "straße",
+          "user.domain": "lab-a.example"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ],
+          "user.name": "strasse",
+          "user.domain": "lab-b.example"
+        }
+      ],
+      "expected_pairs": [
+        {
+          "logon.event.id": "l",
+          "privilege.event.ids": [
+            "p"
+          ],
+          "privilege.time_deltas_us": [
+            0
+          ],
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "missing_boot_scope_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "No boot identifier is inferred from the host name, record ID or timestamp.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "zero_luid_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "A zero LogonId cannot be used as a session identity.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x0",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "null_sid_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "The null SID does not identify a local token account.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-0-0",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "boolean_logon_type_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "A boolean must not be coerced to a numeric native logon type.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": true,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "unsorted_privileges_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "The normalized profile requires already sorted unique privilege names.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege",
+            "SeBackupPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "missing_privilege_sid_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "A missing 4672 Subject SID cannot be filled from a nearby logon.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo"
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    },
+    {
+      "name": "nested_scope_alias_invalid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "correlation_valid": false,
+      "reason": "Nested/scalar aliases must not produce a different Elasticsearch interpretation of the join key.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "l",
+          "event.code": "4624",
+          "win.logon_type": 9,
+          "win.logon_process": "seclogo",
+          "host": {
+            "name": "win01.lab.example"
+          }
+        },
+        {
+          "@timestamp": "2026-01-01T00:01:00Z",
+          "event.dataset": "windows.security.sessions",
+          "host.name": "win01.lab.example",
+          "host.boot.id": "trusted-boot-a",
+          "session.id": "0x10",
+          "user.id": "S-1-5-21-100-200-300-1001",
+          "event.id": "p",
+          "event.code": "4672",
+          "win.privileges": [
+            "SeDebugPrivilege"
+          ]
+        }
+      ],
+      "expected_pairs": []
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "checked_on": "2026-11-06",
+  "scope": "Read-only inspection of public lab captures. No attack tool executed, no raw logs added to tracked repository files.",
+  "production_accuracy": "Unmeasured: no independently labeled representative benign population found in these inspected captures. Scenario descriptions and filenames are not per-event ground truth.",
+  "sources": [
+    {
+      "provider": "OTRF/Security-Datasets",
+      "commit": "d9d40ef123d2c87d5d3df28c96bcab4f0faccc87",
+      "source_path": "datasets/atomic/windows/credential_access/host/cmd_lsass_memory_dumpert_syscalls.zip",
+      "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/cmd_lsass_memory_dumpert_syscalls.zip",
+      "archive_bytes": 12915,
+      "sha256": "a28dbf708685a80edfb0b3d2a00c9bf196dd394fc1d61a933878841f4872a7ed",
+      "members": [
+        {
+          "path": "cmd_lsass_memory_dumpert_syscalls_2020-10-1822561997.json",
+          "uncompressed_bytes": 180023
+        }
+      ],
+      "metadata_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201018225619.yaml",
+      "license_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/LICENSE",
+      "license_observation": "Pinned LICENSE is MIT and README badge MIT; same pinned README footer says GPL-3.0 and links former Cyb3rWard0g repository. Conflicting notices remain unresolved; do not rehost/relicense raw data based only on API license detection.",
+      "readme_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/README.md",
+      "raw_records": 118,
+      "event10_records": 44,
+      "lsass_target_records": 2,
+      "vm_read_candidates_by_manually_classified_observed_masks": 2,
+      "lsass_mask_distribution": {
+        "0x1fffff": 2
+      },
+      "all_lsass_records_distinct_as_complete_json": true,
+      "candidate_scope": "Image basename lsass.exe and an observed mask containing PROCESS_VM_READ. This is a capability candidate, not a verified dump or a production precision label.",
+      "label_granularity": "Scenario-level attack description; no per-record attack/benign truth or exact attack intervals in the inspected metadata.",
+      "format_limitations": "Version and native EventRecordID/RecordNumber are absent. TimeCreated is timezone-less and differs from UtcTime by 16 hours in observed records. Do not infer version/record IDs or make synthetic XML that pretends to be native.",
+      "fields": {
+        "provider": "SourceName",
+        "channel": "Channel",
+        "event_code": "EventID",
+        "host": "Hostname",
+        "operation_time_utc": "UtcTime",
+        "source_guid": "SourceProcessGUID",
+        "target_guid": "TargetProcessGUID",
+        "access_mask": "GrantedAccess",
+        "source_image": "SourceImage",
+        "target_image": "TargetImage"
+      },
+      "escaping_note": "Some background Image values have doubled backslash separators after JSON decoding; all inspected LSASS-target records have ordinary separators. Source normalization must be explicit."
+    },
+    {
+      "provider": "OTRF/Security-Datasets",
+      "commit": "d9d40ef123d2c87d5d3df28c96bcab4f0faccc87",
+      "source_path": "datasets/atomic/windows/credential_access/host/psh_lsass_memory_dump_comsvcs.zip",
+      "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/psh_lsass_memory_dump_comsvcs.zip",
+      "archive_bytes": 17957,
+      "sha256": "0af9e920220d746432f0972be83ad057629695540aecd68c15869d190786e1ae",
+      "members": [
+        {
+          "path": "psh_lsass_memory_dump_comsvcs_2020-10-18T19500924.json",
+          "uncompressed_bytes": 286839
+        }
+      ],
+      "metadata_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-201018195009.yaml",
+      "license_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/LICENSE",
+      "license_observation": "Pinned LICENSE is MIT and README badge MIT; same pinned README footer says GPL-3.0 and links former Cyb3rWard0g repository. Conflicting notices remain unresolved; do not rehost/relicense raw data based only on API license detection.",
+      "readme_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/README.md",
+      "raw_records": 184,
+      "event10_records": 68,
+      "lsass_target_records": 2,
+      "vm_read_candidates_by_manually_classified_observed_masks": 2,
+      "lsass_mask_distribution": {
+        "0x1fffff": 1,
+        "0x1410": 1
+      },
+      "all_lsass_records_distinct_as_complete_json": true,
+      "candidate_scope": "Image basename lsass.exe and an observed mask containing PROCESS_VM_READ. This is a capability candidate, not a verified dump or a production precision label.",
+      "label_granularity": "Scenario-level attack description; no per-record attack/benign truth or exact attack intervals in the inspected metadata.",
+      "format_limitations": "Version and native EventRecordID/RecordNumber are absent. TimeCreated is timezone-less and differs from UtcTime by 16 hours in observed records. Do not infer version/record IDs or make synthetic XML that pretends to be native.",
+      "fields": {
+        "provider": "SourceName",
+        "channel": "Channel",
+        "event_code": "EventID",
+        "host": "Hostname",
+        "operation_time_utc": "UtcTime",
+        "source_guid": "SourceProcessGUID",
+        "target_guid": "TargetProcessGUID",
+        "access_mask": "GrantedAccess",
+        "source_image": "SourceImage",
+        "target_image": "TargetImage"
+      },
+      "escaping_note": "Some background Image values have doubled backslash separators after JSON decoding; all inspected LSASS-target records have ordinary separators. Source normalization must be explicit."
+    },
+    {
+      "provider": "OTRF/Security-Datasets",
+      "commit": "d9d40ef123d2c87d5d3df28c96bcab4f0faccc87",
+      "source_path": "datasets/atomic/windows/credential_access/host/rdp_interactive_taskmanager_lsass_dump.zip",
+      "url": "https://raw.githubusercontent.com/OTRF/Security-Datasets/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/windows/credential_access/host/rdp_interactive_taskmanager_lsass_dump.zip",
+      "archive_bytes": 402013,
+      "sha256": "a7761e64c891162e949afebf367084a6dddd2f3dac7b91bce870fcf9f6206fba",
+      "members": [
+        {
+          "path": "rdp_interactive_taskmanager_lsass_dump_2020-09-22043748.json",
+          "uncompressed_bytes": 8180701
+        }
+      ],
+      "metadata_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/datasets/atomic/_metadata/SDWIN-191027055035.yaml",
+      "license_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/LICENSE",
+      "license_observation": "Pinned LICENSE is MIT and README badge MIT; same pinned README footer says GPL-3.0 and links former Cyb3rWard0g repository. Conflicting notices remain unresolved; do not rehost/relicense raw data based only on API license detection.",
+      "readme_url": "https://github.com/OTRF/Security-Datasets/blob/d9d40ef123d2c87d5d3df28c96bcab4f0faccc87/README.md",
+      "raw_records": 5489,
+      "event10_records": 1962,
+      "lsass_target_records": 27,
+      "vm_read_candidates_by_manually_classified_observed_masks": 3,
+      "lsass_mask_distribution": {
+        "0x1000": 16,
+        "0x1400": 1,
+        "0x1410": 1,
+        "0x3000": 7,
+        "0x1fffff": 2
+      },
+      "all_lsass_records_distinct_as_complete_json": true,
+      "candidate_scope": "Image basename lsass.exe and an observed mask containing PROCESS_VM_READ. This is a capability candidate, not a verified dump or a production precision label.",
+      "label_granularity": "Scenario-level attack description; no per-record attack/benign truth or exact attack intervals in the inspected metadata.",
+      "format_limitations": "No native System/TimeCreated export. EventTime/EventReceivedTime lack timezone; @timestamp is collector timestamp and differs from UtcTime. Do not relabel either as native TimeCreated. An explicitly different JSON adapter would be required.",
+      "fields": {
+        "provider": "SourceName",
+        "channel": "Channel",
+        "event_code": "EventID",
+        "host": "Hostname",
+        "operation_time_utc": "UtcTime",
+        "source_guid": "SourceProcessGUID",
+        "target_guid": "TargetProcessGUID",
+        "access_mask": "GrantedAccess",
+        "source_image": "SourceImage",
+        "target_image": "TargetImage",
+        "version": "Version (all inspected EID10 are 3)",
+        "record": "RecordNumber",
+        "collector_time": "@timestamp"
+      },
+      "escaping_note": "Some background Image values have doubled backslash separators after JSON decoding; all inspected LSASS-target records have ordinary separators. Source normalization must be explicit."
+    },
+    {
+      "provider": "splunk/attack_data",
+      "commit": "c8af10d015d392fca97f9eb65181e9f06bc18e40",
+      "url": "https://raw.githubusercontent.com/splunk/attack_data/c8af10d015d392fca97f9eb65181e9f06bc18e40/datasets/attack_techniques/T1003.001/atomic_red_team/procdump_t1003.001_capattack.zip",
+      "source_path": "datasets/attack_techniques/T1003.001/atomic_red_team/procdump_t1003.001_capattack.zip",
+      "archive_bytes": 2852243,
+      "sha256": "3ed28b9348498dd694eb1b478e312594893c3ad505c8276ebf90ca062bc744ed",
+      "license_url": "https://github.com/splunk/attack_data/blob/c8af10d015d392fca97f9eb65181e9f06bc18e40/LICENSE",
+      "license_observation": "Pinned LICENSE and README both state Apache-2.0.",
+      "metadata_url": "https://github.com/splunk/attack_data/blob/c8af10d015d392fca97f9eb65181e9f06bc18e40/datasets/attack_techniques/T1003.001/atomic_red_team/atomic_red_team.yml",
+      "member": "162ed664-f0db-4552-8e57-d4b41825dec1\\logs\\Microsoft-Windows-Sysmon%4Operational.evtx",
+      "member_bytes": 1118208,
+      "member_sha256": "1bace6bea924430db1e9555ce7895b64b46d356198bce85ea87bf97681a1d7fb",
+      "raw_sysmon_records": 54,
+      "event10_records": 20,
+      "event10_version": 3,
+      "lsass_target_records": 0,
+      "expected_candidates": 0,
+      "capture_interval": {
+        "start_time": "2022-08-31T19:18:43.164692Z",
+        "end_time": "2022-08-31T19:18:56.408374Z"
+      },
+      "label_limitations": "Archive filename and ATT&CK scenario do not establish positive detection examples: this actual Sysmon member has zero targets named lsass.exe. Two records have lsass.exe as SOURCE targeting powershell.exe. The 20 nonmatches are not independently labeled benign.",
+      "format_limitations": "Other named Splunk .log files in Git are Git LFS pointers; this ZIP is actual data. Only metadata.json and the Sysmon EVTX member were read; archive scripts/other artifacts were not executed.",
+      "local_xml_directory": "exact-xml/splunk-procdump-sysmon"
+    },
+    {
+      "provider": "sbousseaden/EVTX-ATTACK-SAMPLES",
+      "commit": "4ceed2f4706daf601c212a8f91c113dd85349a2c",
+      "url": "https://raw.githubusercontent.com/sbousseaden/EVTX-ATTACK-SAMPLES/4ceed2f4706daf601c212a8f91c113dd85349a2c/Credential%20Access/sysmon_10_lsass_mimikatz_sekurlsa_logonpasswords.evtx",
+      "source_path": "Credential Access/sysmon_10_lsass_mimikatz_sekurlsa_logonpasswords.evtx",
+      "bytes": 69632,
+      "sha256": "9a1689574ed08c1fb18e7ff3f3bed612109aedcb7bf8efbf3537d756e669e96f",
+      "license_url": "https://github.com/sbousseaden/EVTX-ATTACK-SAMPLES/blob/4ceed2f4706daf601c212a8f91c113dd85349a2c/LICENSE.GPL",
+      "license_observation": "README and LICENSE.GPL identify GPL-3.0. Raw and derived XML retained only as ignored external artifacts.",
+      "raw_records": 1,
+      "event10_records": 1,
+      "event10_version": 3,
+      "lsass_target_records": 1,
+      "expected_candidates": 1,
+      "access_mask": "0x00001010",
+      "event_record_id": "4807",
+      "exact_time_created": "2019-03-17T19:37:11.6619304Z",
+      "source_basename": "mimikatz.exe",
+      "provider_field": "Microsoft-Windows-Sysmon",
+      "channel": "Microsoft-Windows-Sysmon/Operational",
+      "required_guid_image_mask_fields_complete": true,
+      "local_xml": "exact-xml/public-mimikatz-sysmon/4807.xml",
+      "label_limitations": "Selected attack specimen with one matching event; not a balanced or representative event population."
+    }
+  ],
+  "native_extraction": {
+    "parser": "python-evtx==0.8.1",
+    "dependency": "hexdump==3.3",
+    "isolated_install": "artifacts/public-data/parser",
+    "script": "See the complete reproduction recipe in docs/public-data.md.",
+    "install_command": ".venv/bin/python -m pip install --target artifacts/public-data/parser python-evtx==0.8.1 hexdump==3.3",
+    "time_warning": "Default python-evtx uses float(FILETIME)*1e-7 and renders a space-separated datetime at microsecond precision. For record4807 it outputs 2019-03-17 19:37:11.661928+00:00, 2.4 microseconds earlier than raw FILETIME. The isolated script overrides only FiletimeTypeNode.string with integer divmod(ticks,10000000), retaining original 100ns ticks and emitting ISO UTC with 7 digits. No source field or event content is invented.",
+    "manifest": "artifacts/public-data/exact-inspection.json",
+    "expected_native_replay": "Executed 2026-11-06: 1 EVTX specimen -> 1 candidate; 20 Splunk Sysmon 10 records -> 0 candidates; strict normalization, offline/Basic alert equality and immutable retry verified."
+  },
+  "native_replay_evidence": {
+    "path": "artifacts/public-data/replay-evidence.json",
+    "result": [
+      {
+        "corpus": "public-mimikatz-sysmon",
+        "events": 1,
+        "expected_candidates": 1,
+        "offline_candidates": 1,
+        "basic_candidates": 1,
+        "matching_alerts": true,
+        "reingested_events": 0,
+        "scope": "Public lab capture; predicate behavior only, no production accuracy estimate"
+      },
+      {
+        "corpus": "splunk-procdump-sysmon",
+        "events": 20,
+        "expected_candidates": 0,
+        "offline_candidates": 0,
+        "basic_candidates": 0,
+        "matching_alerts": true,
+        "reingested_events": 0,
+        "scope": "Public lab capture; predicate behavior only, no production accuracy estimate"
+      }
+    ]
+  },
+  "replay_evidence": [
+    {
+      "corpus": "public-mimikatz-sysmon",
+      "events": 1,
+      "expected_candidates": 1,
+      "offline_candidates": 1,
+      "basic_candidates": 1,
+      "matching_alerts": true,
+      "reingested_events": 0,
+      "scope": "Public lab capture; predicate behavior only, no production accuracy estimate"
+    },
+    {
+      "corpus": "splunk-procdump-sysmon",
+      "events": 20,
+      "expected_candidates": 0,
+      "offline_candidates": 0,
+      "basic_candidates": 0,
+      "matching_alerts": true,
+      "reingested_events": 0,
+      "scope": "Public lab capture; predicate behavior only, no production accuracy estimate"
+    }
+  ]
+}

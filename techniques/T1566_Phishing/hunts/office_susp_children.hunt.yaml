@@ -1,19 +1,93 @@
 dataset: windows.process.creation
 where:
   all:
-    - any:
-        - { field: parent.image, op: endswith, value: '\WINWORD.EXE' }
-        - { field: parent.image, op: endswith, value: '\EXCEL.EXE' }
-        - { field: parent.image, op: endswith, value: '\POWERPNT.EXE' }
-        - { field: parent.image, op: endswith, value: '\OUTLOOK.EXE' }
-    - { field: process.name, op: in, value: ["powershell.exe","wscript.exe","cscript.exe","mshta.exe","cmd.exe"] }
-    - any:
-        - { field: process.command_line, op: contains, value: " -enc " }
-        - { field: process.command_line, op: contains, value: " -e " }
-        - { field: process.command_line, op: contains, value: "http://" }
-        - { field: process.command_line, op: contains, value: "https://" }
+  - any:
+    - field: parent.image
+      op: endswith
+      value: \WINWORD.EXE
+    - field: parent.image
+      op: endswith
+      value: \EXCEL.EXE
+    - field: parent.image
+      op: endswith
+      value: \POWERPNT.EXE
+    - field: parent.image
+      op: endswith
+      value: \OUTLOOK.EXE
+  - any:
+    - all:
+      - field: process.name
+        op: eq
+        value: powershell.exe
+      - any:
+        - field: process.command_line
+          op: contains
+          value: ' -e '
+        - field: process.command_line
+          op: contains
+          value: " -e\t"
+        - field: process.command_line
+          op: contains
+          value: "\t-e "
+        - field: process.command_line
+          op: contains
+          value: "\t-e\t"
+        - field: process.command_line
+          op: contains
+          value: ' -enc '
+        - field: process.command_line
+          op: contains
+          value: " -enc\t"
+        - field: process.command_line
+          op: contains
+          value: "\t-enc "
+        - field: process.command_line
+          op: contains
+          value: "\t-enc\t"
+        - field: process.command_line
+          op: contains
+          value: ' -EncodedCommand '
+        - field: process.command_line
+          op: contains
+          value: " -EncodedCommand\t"
+        - field: process.command_line
+          op: contains
+          value: "\t-EncodedCommand "
+        - field: process.command_line
+          op: contains
+          value: "\t-EncodedCommand\t"
+    - all:
+      - field: process.name
+        op: in
+        value:
+        - powershell.exe
+        - wscript.exe
+        - cscript.exe
+        - mshta.exe
+        - cmd.exe
+      - any:
+        - field: process.command_line
+          op: contains
+          value: http://
+        - field: process.command_line
+          op: contains
+          value: https://
 first_seen:
-  key: [parent.image, process.name]
+  key:
+  - host.name
+  - parent.image
+  - process.name
   horizon: 30d
-project: ["@timestamp", host.name, user.name, parent.image, process.name, process.command_line]
-notes: "Parent AND child AND command indicator согласованы с Sigma; Windows-пути требуют нечувствительности к регистру в адаптере. First-seen — контекст, не подавление алертов. Legacy hunt: v1 не поддерживает first_seen."
+project:
+- '@timestamp'
+- host.name
+- user.name
+- parent.image
+- process.name
+- process.command_line
+notes: 'Design-only: выбранные формы -e/-enc/-EncodedCommand с ASCII space/tab описывают encoded-ветку
+  только для PowerShell; URL-ветка допускает перечисленные child images. Windows path/image и flag matching
+  требуют нечувствительности к регистру в будущем адаптере. Raw command-line matching не разбирает argv
+  и допускает quoted mentions как кандидаты. Этот Hunt не исполняется текущими runtimes; backend/semantic
+  parity с Sigma и first_seen не проверены. First-seen должен быть scoped по host и остаётся контекстом,
+  не подавлением повторных кандидатов.'

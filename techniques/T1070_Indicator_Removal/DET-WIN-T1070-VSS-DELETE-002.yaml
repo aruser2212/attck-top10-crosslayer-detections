@@ -42,7 +42,7 @@ references:
 - https://attack.mitre.org/techniques/T1490/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-1102
 authors:
-- you
+- aruser2212
 changelog:
 - '1.0.0: initial'
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'

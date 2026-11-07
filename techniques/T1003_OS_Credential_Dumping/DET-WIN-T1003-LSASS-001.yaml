@@ -1,6 +1,6 @@
 id: DET-WIN-T1003-LSASS-001
-title: LSASS Process Access Candidate
-version: 1.1.0
+title: LSASS Process Access and VM_READ Candidates
+version: 1.2.0
 status: test
 tactics:
 - credential-access
@@ -10,7 +10,6 @@ platforms:
 - windows
 datasources:
 - windows:sysmon:10
-- windows:security:4688
 severity: medium
 confidence: low
 detections:
@@ -26,29 +25,36 @@ tests:
   - T1003.001
   datasets:
   - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/lsass/cases.json
+  - ../../tests/fixtures/lsass/native/process-access-v3.xml
+  - ../../tests/fixtures/lsass/native/benign-query-only-v3.xml
 validation:
   status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
-    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
-    and operational TPR/FPR/latency are unmeasured.
+  notes: Sigma remains a broad Sysmon 10 target-name selector. The separate lsass-v1 runtime requires
+    GrantedAccess bit 0x10 and host-scoped source/target ProcessGUIDs, with strict Sysmon version 3 XML
+    normalization and finite Elasticsearch Basic replay. Synthetic fixtures distinguish noncandidates,
+    legitimate candidates and invalid input; executed checks are recorded in docs/validation_report.md.
+    Sigma/backend parity and generic Hunt execution are not claimed. Live collection, target-process
+    authenticity, actual memory reading/dumping and operational TPR/FPR/latency remain unverified.
 tuning:
   fp_sources:
-  - EDR/AV self-protection modules
-  allowlists:
-  - '*\MsMpEng.exe'
-  - '*\SenseIR.exe'
-  - '*\winlogon.exe'
-  notes: Process access alone does not prove memory dumping. Apply source-specific trust enrichment; no
-    blanket exclusion by executable basename.
+  - Legitimate AV/EDR and diagnostic software granted PROCESS_VM_READ
+  - Other executables named lsass.exe; basename does not attest Windows LSASS
+  allowlists: []
+  notes: Granted PROCESS_VM_READ is a candidate, not proof of memory reading or dumping. No source-basename
+    exclusions apply. Verify real AV/EDR profiles with source-specific path, signature, hash and identity
+    evidence before introducing tuning; synthetic benign matches do not establish that trust.
 references:
 - MITRE ATT&CK T1003.001
 - https://attack.mitre.org/techniques/T1003/
 - https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+- https://learn.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights
 authors:
-- you
+- aruser2212
 changelog:
 - '1.0.0: initial'
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
+- '1.2.0: add a separate strict VM_READ candidate runtime and finite Basic replay; remove basename allowlist suggestions and distinguish broad Sigma/design-only Hunt scope.'

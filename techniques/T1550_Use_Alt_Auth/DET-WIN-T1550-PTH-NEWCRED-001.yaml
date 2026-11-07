@@ -1,6 +1,6 @@
 id: DET-WIN-T1550-PTH-NEWCRED-001
-title: Pass-the-Hash - NewCredentials (4624 LT=9, seclogo)
-version: 1.2.0
+title: NewCredentials and Same-Session Privilege Candidates
+version: 1.3.0
 status: test
 tactics:
 - lateral-movement
@@ -11,8 +11,8 @@ platforms:
 datasources:
 - windows:security:4624
 - windows:security:4672
-severity: high
-confidence: medium
+severity: medium
+confidence: low
 detections:
   sigma:
   - sigma/win_4624_newcredentials_seclogo.yml
@@ -26,26 +26,41 @@ tests:
   atomic: []
   datasets:
   - ../../tests/fixtures/sigma/predicates.json
+  - ../../tests/fixtures/newcredentials/cases.json
+  - ../../tests/fixtures/newcredentials/native/newcredentials-v0.xml
+  - ../../tests/fixtures/newcredentials/native/newcredentials-v2.xml
+  - ../../tests/fixtures/newcredentials/native/special-privileges-v0.xml
 validation:
   status: partial
   tpr: null
   fpr: null
   latency_ms: null
-  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
-    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
-    and operational TPR/FPR/latency are unmeasured.
+  notes: Sigma remains a broad LT9/seclogo selector. The dedicated newcredentials-v1 runtime joins
+    4624 TargetLogonId/TargetUserSid to 4672 SubjectLogonId/SubjectUserSid under the same host and
+    explicitly supplied trusted boot scope, with a bounded symmetric record-time tolerance. Strict
+    XML normalization supports 4624 versions 0/2 and 4672 version 0; finite offline and Elasticsearch
+    Basic replay use linked source evidence and reject ambiguous participating sessions. Executed
+    checks are recorded in docs/validation_report.md. Generic Hunt/first-seen execution and
+    Sigma/backend parity are not claimed. Live collection, boot-scope provenance and operational
+    TPR/FPR/latency remain unverified.
 tuning:
   fp_sources:
   - runas /netonly в админ-процессах
   allowlists: []
-  notes: LT=9 + seclogo → сильный индикатор PtH; добавляй first-seen и корреляцию с 4672.
+  notes: LT9/seclogo and same-session special privileges identify a candidate, not proof of PtH.
+    Legitimate runas /netonly can match. Do not substitute account names, IP proximity or a time-only
+    grouping for host/boot/LogonId and local-token SID identity. Severity medium and confidence low
+    reflect investigation priority without an unmeasured maliciousness claim; no blanket allowlist.
 references:
 - https://attack.mitre.org/techniques/T1550/
 - https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4624
+- https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4672
+- https://learn.microsoft.com/en-us/windows/win32/api/securitybaseapi/nf-securitybaseapi-allocatelocallyuniqueid
 authors:
-- you
+- aruser2212
 changelog:
 - '1.0.0: initial'
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
 - '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
   DetCard IDs retained.'
+- '1.3.0: distinguish NewCredentials candidates from PtH; add a dedicated host/boot/LUID/SID correlation, strict XML profile and finite Basic replay while retaining design-only Hunt scope.'

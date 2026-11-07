@@ -2,6 +2,11 @@
 
 ## Unreleased — precise detection candidates and verified Basic replay
 
+- Correct the Office/PowerShell selector to recognize the explicit `-EncodedCommand`, `-enc` and `-e` forms with space/tab token boundaries. Keep the URL branch, separate other child interpreters and retain quoted-text benign candidates rather than claiming a complete command-line parser.
+- Add finite NewCredentials/4672 session correlation, strict Security XML normalization and a separate Basic profile. Join exact host/boot/LogonId/local-token SID, retain signed record-time offsets, reject ambiguity and preserve legitimate runas candidates. Remove the unsupported "strong PtH indicator" claim; the original Hunt DSL files remain design-only.
+- Add reproducible bounded offline benchmarks with isolated samples, correctness checks and explicit measurement scope. Correct the stale remaining-Hunt count in the continuous pipeline guide.
+- Add a finite LSASS-named process access candidate with exact PROCESS_VM_READ mask semantics, strict process GUIDs, Sysmon 10 v3 XML normalization and a dedicated Elasticsearch Basic profile. Preserve legitimate AV/EDR matches and explicit limits on observed behavior; the broad Sigma selector and legacy Hunt remain separate contracts.
+- Replace inherited `you` attribution placeholders in the license and 19 DetCards with the repository owner's confirmed identity, `aruser2212`; preserve the license text, original year and other contributor attribution.
 - Fix Suricata replay on fresh Docker workers: read container IDs and exit codes from stdout only, preserving stderr for diagnostics. Add cold-image-pull and error-output regressions.
 - Add finite host/file-to-HTTP replay on Elasticsearch Basic with a strict shared source profile, one PIT, microsecond bounds and linked source evidence. Require a trusted filesystem namespace to prevent cross-container joins; do not infer paths from URLs or claim native source collection.
 - Version the correlation as CORR-WEB-WEBROOT-REQUEST-002, use unambiguous full SHA256 identities, and reject malformed input before ingestion. Add independently specified deploy/upload/admin fixtures, including a legitimate matching sequence and explicit source-contract failures.

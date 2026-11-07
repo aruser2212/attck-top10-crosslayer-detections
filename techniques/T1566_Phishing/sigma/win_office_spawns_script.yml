@@ -1,8 +1,13 @@
-title: Office/Outlook Spawns Script Interpreter or LOLBIN
+title: Office/Outlook Child with Encoded PowerShell Flag or URL
 id: 79e34705-2197-4810-bb4f-0a879477001a
 status: test
-description: Detects Office/Outlook spawning scripting engines or LOLBINs commonly
-  used in phishing chains
+description: >-
+  Selects Office/Outlook spawning PowerShell with an explicitly supported encoded-command
+  flag (-e, -enc or -EncodedCommand), or a listed interpreter/LOLBIN with URL text.
+  Encoded flags require an ASCII space or tab on each side. This raw command-line
+  predicate does not parse Windows argv, validate an encoded argument, or prove phishing.
+  Quoted mentions and legitimate automation can remain candidates; other abbreviations,
+  quoted flag tokens and alternative separators are outside the encoded-flag branch.
 tags:
 - attack.t1566
 - attack.initial-access
@@ -16,7 +21,22 @@ detection:
     - \EXCEL.EXE
     - \POWERPNT.EXE
     - \OUTLOOK.EXE
-  child_script:
+  powershell_encoded:
+    Image|endswith: \powershell.exe
+    CommandLine|contains:
+    - ' -e '
+    - " -e\t"
+    - "\t-e "
+    - "\t-e\t"
+    - ' -enc '
+    - " -enc\t"
+    - "\t-enc "
+    - "\t-enc\t"
+    - ' -EncodedCommand '
+    - " -EncodedCommand\t"
+    - "\t-EncodedCommand "
+    - "\t-EncodedCommand\t"
+  child_url:
     Image|endswith:
     - \powershell.exe
     - \wscript.exe
@@ -24,11 +44,9 @@ detection:
     - \mshta.exe
     - \cmd.exe
     CommandLine|contains:
-    - ' -enc '
-    - ' -e '
     - http://
     - https://
-  condition: parent_office and child_script
+  condition: parent_office and (powershell_encoded or child_url)
 level: high
 fields:
 - ParentImage
@@ -38,3 +56,5 @@ fields:
 - ParentCommandLine
 falsepositives:
 - automation add-ins
+- legitimate encoded PowerShell automation
+- quoted command text mentioning a supported flag or URL

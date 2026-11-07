@@ -1,6 +1,6 @@
 id: DET-WIN-T1566-OFFICE-CHILD-001
-title: Office/Outlook Spawns Scripting Interpreter or LOLBIN
-version: 1.2.0
+title: Office/Outlook Child with Encoded PowerShell Flag or URL
+version: 1.3.0
 status: test
 tactics:
 - initial-access
@@ -29,20 +29,27 @@ validation:
   tpr: null
   fpr: null
   latency_ms: null
-  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
-    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
-    and operational TPR/FPR/latency are unmeasured.
+  notes: Native pySigma parsing and source-scoped synthetic predicate fixtures cover the explicitly supported
+    PowerShell flags -e, -enc and -EncodedCommand with ASCII space/tab boundaries, and the separate child-URL
+    branch. Raw command-line text is not parsed as Windows argv; quoted mentions and legitimate automation
+    can match. Other flag abbreviations, quoted flag tokens and other separators are outside the encoded
+    branch. SIEM/backend equivalence, generic Hunt execution, telemetry integration and operational
+    TPR/FPR/latency remain unmeasured.
 tuning:
   fp_sources:
   - легитимные надстройки Office, авто-отчёты
+  - легитимная автоматизация PowerShell с encoded command
+  - цитируемый текст команды с поддержанным флагом или URL
   allowlists: []
-  notes: 'Рекомендуется first-seen на пары {parent→child} и контроль по времени/географии. Related attack-chain
-    context (not a primary ATT&CK tactic mapping): execution.'
+  notes: 'Совпадение — кандидат для расследования, не доказательство phishing или исполнения encoded payload.
+    First-seen и связь с письмом/файлом требуют отдельного источника и реализации. Не подавлять повторы
+    по одному имени процесса. Related attack-chain context (not a primary ATT&CK tactic mapping): execution.'
 references:
 - https://attack.mitre.org/techniques/T1566/
 authors:
-- you
+- aruser2212
 changelog:
 - '1.0.0: initial'
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
 - '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'
+- '1.3.0: cover explicit -EncodedCommand and space/tab flag boundaries, scope encoded flags to PowerShell, retain child-URL candidates and document raw-text limits.'

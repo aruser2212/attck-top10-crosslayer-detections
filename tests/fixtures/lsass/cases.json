@@ -1,0 +1,1014 @@
+{
+  "format_version": 1,
+  "rule_id": "LSASS-PROCESS-VM-READ-001",
+  "scope": "Manually specified synthetic normalized Sysmon ProcessAccess scenarios. Expected IDs are predicate expectations, not attack/benign ground truth or a production precision dataset. All content is inert and invented; no customer telemetry or executable payloads are included.",
+  "cases": [
+    {
+      "name": "vm_read_only",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "vm_read_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "vm_read_only"
+      ]
+    },
+    {
+      "name": "query_information_and_vm_read",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "query_information_and_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 1040
+        }
+      ],
+      "expected_event_ids": [
+        "query_information_and_vm_read"
+      ]
+    },
+    {
+      "name": "limited_query_and_vm_read",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "limited_query_and_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 4112
+        }
+      ],
+      "expected_event_ids": [
+        "limited_query_and_vm_read"
+      ]
+    },
+    {
+      "name": "both_query_rights_and_vm_read",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "both_query_rights_and_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 5136
+        }
+      ],
+      "expected_event_ids": [
+        "both_query_rights_and_vm_read"
+      ]
+    },
+    {
+      "name": "all_process_access",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "all_process_access",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 2097151
+        }
+      ],
+      "expected_event_ids": [
+        "all_process_access"
+      ]
+    },
+    {
+      "name": "additional_high_bit_and_vm_read",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "The declared mask includes PROCESS_VM_READ; other granted bits do not remove the candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "additional_high_bit_and_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 2147483664
+        }
+      ],
+      "expected_event_ids": [
+        "additional_high_bit_and_vm_read"
+      ]
+    },
+    {
+      "name": "zero_rights",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "Zero does not grant a memory-read right.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "zero_rights",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 0
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "vm_operation_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "PROCESS_VM_OPERATION alone does not grant PROCESS_VM_READ.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "vm_operation_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 8
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "vm_write_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "PROCESS_VM_WRITE alone does not grant PROCESS_VM_READ.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "vm_write_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 32
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "duplicate_handle_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "PROCESS_DUP_HANDLE alone is outside this memory-read predicate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "duplicate_handle_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 64
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "query_information_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "PROCESS_QUERY_INFORMATION alone does not grant memory read.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "query_information_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 1024
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "limited_query_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "PROCESS_QUERY_LIMITED_INFORMATION alone does not grant memory read.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "limited_query_only",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 4096
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "generic_read_without_explicit_vm_read",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "Do not expand a generic-right flag into guessed process-specific rights.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "generic_read_without_explicit_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 2147483648
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "maximum_allowed_without_explicit_vm_read",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "MAXIMUM_ALLOWED without an observed VM_READ bit is outside the predicate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "maximum_allowed_without_explicit_vm_read",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 33554432
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "legitimate_av_memory_read",
+      "outcome": "benign_candidate",
+      "profile_valid": true,
+      "reason": "Synthetic authorized AV activity still satisfies the observation; this expected candidate is not an attack label.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "legitimate-av",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Program Files\\Windows Defender\\MsMpEng.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16,
+          "source.user": "NT AUTHORITY\\SYSTEM"
+        }
+      ],
+      "expected_event_ids": [
+        "legitimate-av"
+      ]
+    },
+    {
+      "name": "legitimate_edr_memory_read",
+      "outcome": "benign_candidate",
+      "profile_valid": true,
+      "reason": "An authorized EDR memory-read observation must not disappear through a basename allowlist.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "legitimate-edr",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Program Files\\Windows Defender Advanced Threat Protection\\SenseIR.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 5136
+        }
+      ],
+      "expected_event_ids": [
+        "legitimate-edr"
+      ]
+    },
+    {
+      "name": "legitimate_av_query_only",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "Legitimate AV with only limited query rights does not satisfy this memory-read candidate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "av-query",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Program Files\\Windows Defender\\MsMpEng.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 4096
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "security_basename_in_user_directory",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "An AV-like executable basename is not sufficient trust evidence for suppression.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "spoofed-av-name",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Users\\Public\\MsMpEng.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "spoofed-av-name"
+      ]
+    },
+    {
+      "name": "same_named_target_outside_system_directory",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "This name-based candidate does not establish that the target is the genuine system LSASS.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "same-target-name",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Users\\Public\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "same-target-name"
+      ]
+    },
+    {
+      "name": "mixed_case_target_path",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Windows ASCII filename casing does not change the target basename predicate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "mixed-case",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\WINDOWS\\System32\\LsAsS.ExE",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "mixed-case"
+      ]
+    },
+    {
+      "name": "target_basename_suffix_is_not_lsass",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "Full basename matching excludes backup and lookalike suffixes.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "suffix-backup",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe.bak",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "suffix-extra",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsassx.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "other_target_process",
+      "outcome": "nonmatch",
+      "profile_valid": true,
+      "reason": "Granted memory-read access to another process is outside this target-name predicate.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "other-process",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\explorer.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "pid_reuse_keeps_distinct_process_guids",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Reused PID does not identify the same process; both distinct GUID observations remain linked evidence.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "pid-old",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16,
+          "source.process.pid": 500
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:01Z",
+          "event.id": "pid-new",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "33333333-3333-3333-3333-333333333333",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16,
+          "source.process.pid": 500
+        }
+      ],
+      "expected_event_ids": [
+        "pid-old",
+        "pid-new"
+      ]
+    },
+    {
+      "name": "same_guids_on_different_hosts",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Process GUID context remains scoped to its supplied host; identical GUID text does not merge hosts.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "host-one",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "host-two",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win02.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "host-one",
+        "host-two"
+      ]
+    },
+    {
+      "name": "repeated_distinct_events_are_not_first_seen_suppressed",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Each distinct source event remains a candidate; no first-seen or pair-based suppression is implemented.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "repeat-one",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:01Z",
+          "event.id": "repeat-two",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "repeat-one",
+        "repeat-two"
+      ]
+    },
+    {
+      "name": "identical_event_redelivery",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "An identical normalized event ID and payload is one event despite duplicate delivery.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "same-record",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "same-record",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "same-record"
+      ]
+    },
+    {
+      "name": "conflicting_event_redelivery",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "The same event ID with different payload is a corrupt/incompatible retry, not an additional observation.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "conflict",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "conflict",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 4096
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "microsecond_bounds_are_start_inclusive_end_exclusive",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Bounds select [start,end) at exact microsecond precision using the declared normalized record timestamp.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "before-start",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00.000001Z",
+          "event.id": "at-start",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00.000002Z",
+          "event.id": "before-end",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00.000003Z",
+          "event.id": "at-end",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "at-start",
+        "before-end"
+      ],
+      "bounds": {
+        "start": "2026-01-01T00:00:00.000001Z",
+        "end": "2026-01-01T00:00:00.000003Z"
+      }
+    },
+    {
+      "name": "equal_timestamps_order_by_event_id",
+      "outcome": "candidate",
+      "profile_valid": true,
+      "reason": "Equal timestamps use deterministic event-ID order independently of delivery order.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "tie-b",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        },
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "tie-a",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": [
+        "tie-a",
+        "tie-b"
+      ]
+    },
+    {
+      "name": "missing_access_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Missing access rights are invalid telemetry, not a benign negative.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "missing-mask",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe"
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "missing_source_process_guid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "PID or image text does not replace source process identity.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "missing-guid",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "null_target_process_guid",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "The all-zero target GUID is absent identity and must be rejected.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "null-guid",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "00000000-0000-0000-0000-000000000000",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "relative_source_image_path",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "A basename alone does not satisfy the supported absolute DOS image-path contract.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "relative-image",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "boolean_access_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "JSON booleans are not uint32 access masks.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "boolean_access_mask",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": true
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "floating_point_access_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "A floating-point number is not an integer mask even when numerically integral.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "floating_point_access_mask",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16.0
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "string_access_mask_in_normalized_input",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Hex strings belong at the native normalizer boundary, not the normalized profile.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "string_access_mask_in_normalized_input",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": "0x10"
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "negative_access_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Negative masks are outside the uint32 contract.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "negative_access_mask",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": -1
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "overflow_access_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Masks exceeding uint32 must not be truncated or wrapped.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "overflow_access_mask",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 4294967296
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "nested_alias_cannot_override_flat_mask",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Nested/dotted alias ambiguity is rejected before storage or selection.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "nested-alias",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "10",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16,
+          "process": {
+            "access_mask": 16
+          }
+        }
+      ],
+      "expected_event_ids": []
+    },
+    {
+      "name": "wrong_event_code_in_process_access_profile",
+      "outcome": "invalid",
+      "profile_valid": false,
+      "reason": "Another Sysmon event type must not enter the ProcessAccess profile merely because fields resemble it.",
+      "events": [
+        {
+          "@timestamp": "2026-01-01T00:00:00Z",
+          "event.id": "wrong-code",
+          "event.dataset": "windows.sysmon.process_access",
+          "event.code": "1",
+          "host.name": "win01.lab.example",
+          "source.process.guid": "11111111-1111-1111-1111-111111111111",
+          "target.process.guid": "22222222-2222-2222-2222-222222222222",
+          "source.image": "C:\\Tools\\collector.exe",
+          "target.image": "C:\\Windows\\System32\\lsass.exe",
+          "process.access_mask": 16
+        }
+      ],
+      "expected_event_ids": []
+    }
+  ]
+}

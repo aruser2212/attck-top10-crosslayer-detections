@@ -21,7 +21,7 @@ Totals: **10 folders, 20 DetCards, 20 Sigma rules, 25 Hunts, 9 IDPS rules, 2 YAR
 
 ## Detection IDs and declared datasets
 
-- `DET-WIN-T1003-LSASS-001` — T1003.001; 1 dataset reference(s).
+- `DET-WIN-T1003-LSASS-001` — T1003.001; 4 dataset reference(s).
 - `DET-LNX-T1053-CRON-MOD-002` — T1053; 1 dataset reference(s).
 - `DET-WIN-T1053-SCHTASK-4698-001` — T1053; 1 dataset reference(s).
 - `DET-LNX-T1070-LOGWIPE-003` — T1685.006; 1 dataset reference(s).
@@ -33,7 +33,7 @@ Totals: **10 folders, 20 DetCards, 20 Sigma rules, 25 Hunts, 9 IDPS rules, 2 YAR
 - `DET-WIN-T1110-4625-BRUTE-001` — T1110; 5 dataset reference(s).
 - `DET-WEB-T1190-WEBROOT-FILECREATE-001` — T1190, T1505.003; 4 dataset reference(s).
 - `DET-WEB-T1190-WEBSHELL-ACCESS-002` — T1190, T1505.003; 3 dataset reference(s).
-- `DET-WIN-T1550-PTH-NEWCRED-001` — T1550; 1 dataset reference(s).
+- `DET-WIN-T1550-PTH-NEWCRED-001` — T1550; 5 dataset reference(s).
 - `DET-WIN-T1550-PTT-KRB-ANOM-002` — T1550; 0 dataset reference(s).
 - `DET-WIN-T1558-KRB-RC4-001` — T1558.003; 1 dataset reference(s).
 - `DET-WIN-T1558-KRB-SPNBURST-002` — T1558.003; 3 dataset reference(s).
