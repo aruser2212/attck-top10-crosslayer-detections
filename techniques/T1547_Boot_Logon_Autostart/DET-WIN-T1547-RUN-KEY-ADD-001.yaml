@@ -1,0 +1,53 @@
+id: DET-WIN-T1547-RUN-KEY-ADD-001
+title: Registry Run Key Value Addition Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- persistence
+- privilege-escalation
+techniques:
+- T1547.001
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: medium
+confidence: low
+detections:
+  sigma:
+  - sigma/win_reg_run_key_add.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Source-scoped Sigma fixtures declare positive, benign-candidate, near-negative and unsupported-input
+    outcomes. The dedicated process-v1 contract supports finite Sysmon 1 v5 normalization and offline/Elasticsearch
+    Basic replay over ASCII predicate fields; executed checks are recorded in docs/validation_report.md.
+    Raw command-line text is not Windows argv parsing, proof of operation success, or an operational accuracy
+    measurement. Generic Hunt DSL execution and arbitrary Sigma backend compatibility are not claimed.
+tuning:
+  fp_sources:
+  - Установщик штатного приложения или администратор может добавить такой Run value. Ожидаемый benign
+    match сохраняется без широкого исключения каталогов приложений.
+  allowlists: []
+  notes: RunOnce, соседние ключи, HKEY_CURRENT_USER/HKEY_LOCAL_MACHINE, удалённый registry path, default-value
+    `/ve`, PowerShell и прямые Registry API находятся вне покрытия. Строка не доказывает запись, существование
+    исполняемого файла, запуск автозагрузки или повышение привилегий. Для подтверждения изменения нужны
+    отдельные registry events. Do not suppress by a familiar executable name alone; process image names
+    do not authenticate binaries.
+references:
+- https://attack.mitre.org/techniques/T1547/001/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit process command candidate, independent fixtures and bounded process-v1 replay contract.'

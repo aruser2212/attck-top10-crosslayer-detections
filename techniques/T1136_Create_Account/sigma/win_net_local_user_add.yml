@@ -1,0 +1,56 @@
+title: Net Local User-Add Command Candidate
+id: 1ca31074-c2d5-43e8-809e-8bf553b96ffa
+status: test
+description: Selects net/net1 process creation with raw user and /add tokens bounded by ASCII whitespace, excluding
+  a separate /domain token. End-of-line /add and /domain are handled explicitly. This is local-account creation
+  command intent, not a verified created account; quoted text, invalid arguments and authorized administration
+  may satisfy the predicate.
+author: aruser2212
+date: '2026-11-07'
+tags:
+- attack.t1136.001
+- attack.persistence
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith:
+    - \net.exe
+    - \net1.exe
+  user_command:
+    CommandLine|contains:
+    - ' user '
+    - " user\t"
+    - "\tuser "
+    - "\tuser\t"
+  add_between:
+    CommandLine|contains:
+    - ' /add '
+    - " /add\t"
+    - "\t/add "
+    - "\t/add\t"
+  add_final:
+    CommandLine|endswith:
+    - ' /add'
+    - "\t/add"
+  domain_between:
+    CommandLine|contains:
+    - ' /domain '
+    - " /domain\t"
+    - "\t/domain "
+    - "\t/domain\t"
+  domain_final:
+    CommandLine|endswith:
+    - ' /domain'
+    - "\t/domain"
+  condition: image and user_command and (add_between or add_final) and not (domain_between or domain_final)
+level: low
+fields:
+- Image
+- CommandLine
+- ParentImage
+- ProcessGuid
+falsepositives:
+- Администратор создаёт разрешённую локальную служебную учётную запись. Такой запуск намеренно остаётся кандидатом.
+- Quoted command text and unsuccessful invocations can match the documented raw-text predicate.

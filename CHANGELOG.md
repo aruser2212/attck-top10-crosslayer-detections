@@ -2,6 +2,9 @@
 
 ## Unreleased — precise detection candidates and verified Basic replay
 
+- Expand the curated portfolio from ten to twenty technique families with ten bounded Windows process candidates, explicit benign matches and current ATT&CK v20.0 mappings. Preserve the historical repository URL and existing artifact IDs.
+- Add strict Sysmon ProcessCreate v5 normalization and a dedicated ASCII process-v1 profile. Execute the catalogued Sigma subset as native Elasticsearch Basic named queries, validate nonmatches too, and reject offline/native disagreement or incomplete replay.
+- Add one-command offline demonstrations for seven supported paths, a concise quickstart and an execution-scope portfolio. Pin Node 24 GitHub Actions to verified commits and the hosted runner to Ubuntu 24.04; include the demo in CI evidence.
 - Reject HTTP redirects in the shared Elasticsearch client before forwarding credentials or replaying a request. Use a per-client opener with the default proxy and TLS handling; document the final-URL requirement and correct the demo link and correlation scope.
 - Correct the Office/PowerShell selector to recognize the explicit `-EncodedCommand`, `-enc` and `-e` forms with space/tab token boundaries. Keep the URL branch, separate other child interpreters and retain quoted-text benign candidates rather than claiming a complete command-line parser.
 - Add finite NewCredentials/4672 session correlation, strict Security XML normalization and a separate Basic profile. Join exact host/boot/LogonId/local-token SID, retain signed record-time offsets, reject ambiguity and preserve legitimate runas candidates. Remove the unsupported "strong PtH indicator" claim; the original Hunt DSL files remain design-only.

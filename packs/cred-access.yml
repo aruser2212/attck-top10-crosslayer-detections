@@ -4,4 +4,5 @@ includes:
   - DET-WIN-T1558-KRB-RC4-001
   - DET-WIN-T1558-KRB-SPNBURST-002
 description: >
-  Набор детектов для Credential Access (LSASS/DCSync/Kerberoast). Включает Sigma/Hunt.
+  Кандидаты доступа к LSASS и RC4 Kerberos. Включает Sigma, отдельные finite runtimes
+  и явно обозначенные Hunt-описания; DCSync этим пакетом не покрывается.

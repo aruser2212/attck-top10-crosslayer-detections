@@ -1,7 +1,7 @@
 PYTHON ?= .venv/bin/python
 ELASTIC_URL ?= http://127.0.0.1:19200
 
-.PHONY: setup check check-network check-elastic coverage lab-up lab-down
+.PHONY: setup check check-network check-elastic coverage demo lab-up lab-down
 
 setup:
 	python3 -m venv .venv
@@ -24,6 +24,9 @@ check-elastic:
 
 coverage:
 	$(PYTHON) tools/generate_coverage.py --json-output artifacts/inventory.json
+
+demo:
+	@$(PYTHON) tools/demo.py
 
 lab-up:
 	docker compose up -d --wait

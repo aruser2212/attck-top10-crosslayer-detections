@@ -1,0 +1,51 @@
+id: DET-WIN-T1016-IPCONFIG-ALL-001
+title: Ipconfig All Network Configuration Discovery Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- discovery
+techniques:
+- T1016
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: informational
+confidence: low
+detections:
+  sigma:
+  - sigma/win_ipconfig_all.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Source-scoped Sigma fixtures declare positive, benign-candidate, near-negative and unsupported-input
+    outcomes. The dedicated process-v1 contract supports finite Sysmon 1 v5 normalization and offline/Elasticsearch
+    Basic replay over ASCII predicate fields; executed checks are recorded in docs/validation_report.md.
+    Raw command-line text is not Windows argv parsing, proof of operation success, or an operational accuracy
+    measurement. Generic Hunt DSL execution and arbitrary Sigma backend compatibility are not claimed.
+tuning:
+  fp_sources:
+  - Обычная диагностика сети должна совпадать. Использовать сигнал в контексте родительского процесса,
+    пользователя и серии действий; не превращать каждое совпадение в самостоятельный инцидент.
+  allowlists: []
+  notes: Это информационный сигнал наблюдаемой команды, а не самостоятельное доказательство разведки атакующим.
+    Содержимое вывода и его сохранение не видны. Кавычки вокруг самого флага, WMI/PowerShell/API-аналоги
+    и другие формы команд находятся вне покрытия. Do not suppress by a familiar executable name alone;
+    process image names do not authenticate binaries.
+references:
+- https://attack.mitre.org/techniques/T1016/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit process command candidate, independent fixtures and bounded process-v1 replay contract.'

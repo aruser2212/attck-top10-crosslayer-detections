@@ -1,28 +1,43 @@
-# ATT&CK Top-10 Cross-Layer Detections
+# ATT&CK Top-20 Cross-Layer Detections
 
 [![Validate repository](https://github.com/aruser2212/attck-top10-crosslayer-detections/actions/workflows/validate.yml/badge.svg)](https://github.com/aruser2212/attck-top10-crosslayer-detections/actions/workflows/validate.yml)
 
-Detection engineering project for a curated selection of **ten ATT&CK technique families**, with **Sigma**, **Suricata**, **YARA**, a bounded **Hunt DSL**, and a tested **free Elasticsearch Basic** Windows T1110 pipeline. Top-10 is a project selection, not an official MITRE ranking.
+Detection engineering library for a curated selection of **twenty ATT&CK technique families**, with **Sigma**, **Suricata**, **YARA**, bounded replay engines and **free Elasticsearch Basic**. Ten Windows process rules have a shared Sysmon XML → normalized event → offline/native query path; Windows T1110 also has durable pipelines. Top-20 is a project selection, not an official MITRE ranking. The repository URL retains its historical Top-10 name.
 
 DetCards connect detection logic, telemetry assumptions, fixtures and declared validation scope. Native checks and positive/negative replay are kept separate from production accuracy claims.
+
+## Try it
+
+With Python 3.12 and Make:
+
+```bash
+make setup
+make demo
+```
+
+The demo checks seven inert offline scenarios against declared expectations;
+fixture commands are never executed. Continue with the [quickstart](docs/quickstart.md),
+[20-family portfolio](docs/portfolio.md) or [Windows process replay](docs/windows-process.md).
+Docker is needed for native Basic and network verification.
 
 ## Current coverage
 
 | Metric | Count |
 |---|---:|
-| Techniques | 10 |
-| DetCards | 20 |
-| Sigma rules | 20 (19 files) |
+| Technique families | 20 |
+| DetCards | 30 |
+| Sigma rules | 30 (29 files) |
 | Hunt DSL files | 25 |
 | Network / IDPS rules | 9 (6 files) |
 | YARA rules | 2 |
-| Test plans | 10; automated suites are separate |
+| Test plans | 20; automated suites are separate |
 | Executable Hunt v1 rules | 3 T1110 hunts |
 | Executable rolling v2 rules | 3 T1110 hunts and 1 T1558.003 RC4 service-account burst |
 | Elastic Basic replay | 2 Windows v1 hunts and 3 Windows rolling v2 hunts; separate auth/Kerberos profiles |
 | Host/web correlation | Finite Basic replay with exact host/filesystem namespace/path join and linked source evidence |
 | LSASS-named process access | Finite Sysmon 10 replay with exact PROCESS_VM_READ bit testing and process GUID evidence |
 | NewCredentials session correlation | Finite 4624/4672 Basic replay with exact host/boot/LogonId/SID identity and linked privilege evidence |
+| Windows process rule replay | 10 catalogued Sigma rules, strict Sysmon 1 v5 normalization, native Basic named queries and offline parity |
 | Durable Elastic pipeline | 2 Windows hunts in each version; separate tumbling v1 and rolling v2 state |
 | Episode projection | Related rolling alerts grouped by exact rule/group and inactivity gap; raw alerts retained |
 
@@ -60,6 +75,7 @@ Each detection is described by a **DetCard** (`DET-*.yaml`) with links to suppor
 5. Replay the [Kerberoasting candidate](docs/kerberos.md): successful RC4 TGS requests across distinct service SIDs, with negative cases and an explicit benign match.
 6. Replay the [LSASS access candidate](docs/lsass.md): a Sysmon 10 event grants memory-read access to an image named `lsass.exe`. Legitimate AV/EDR access remains an expected candidate.
 7. Replay the [NewCredentials session candidate](docs/newcredentials.md): connect 4624 and 4672 through a trusted boot scope and exact session identity. Legitimate `runas /netonly` remains a possible match.
+8. Run the [ten process scenarios](docs/windows-process.md), covering execution, persistence, transfer and discovery. The v1 source contract requires ASCII image paths and command lines and rejects unsupported input explicitly.
 
 ## Notes
 

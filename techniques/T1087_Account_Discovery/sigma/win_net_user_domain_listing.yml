@@ -1,0 +1,58 @@
+title: Net User Domain Account Enumeration Command Candidate
+id: a4a7afd2-690b-4412-aa10-5991dd73bb2d
+status: test
+description: Selects net.exe or net1.exe command text ending with the contiguous user /domain phrase,
+  optionally followed by one space or tab. Separate /add or /delete tokens are excluded. The narrow form
+  avoids treating arbitrary net user password or attribute modification as enumeration. It does not parse
+  argv, establish successful enumeration, or imply maliciousness; named-user queries and other clients
+  are outside scope.
+tags:
+- attack.t1087.002
+- attack.discovery
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith:
+    - \net.exe
+    - \net1.exe
+  domain_listing:
+    CommandLine|endswith:
+    - ' user /domain'
+    - ' user /domain '
+    - " user /domain\t"
+    - " user\t/domain"
+    - " user\t/domain "
+    - " user\t/domain\t"
+    - "\tuser /domain"
+    - "\tuser /domain "
+    - "\tuser /domain\t"
+    - "\tuser\t/domain"
+    - "\tuser\t/domain "
+    - "\tuser\t/domain\t"
+  mutation_middle:
+    CommandLine|contains:
+    - ' /add '
+    - " /add\t"
+    - "\t/add "
+    - "\t/add\t"
+    - ' /delete '
+    - " /delete\t"
+    - "\t/delete "
+    - "\t/delete\t"
+  mutation_end:
+    CommandLine|endswith:
+    - ' /add'
+    - "\t/add"
+    - ' /delete'
+    - "\t/delete"
+  condition: image and domain_listing and not (mutation_middle or mutation_end)
+level: low
+fields:
+- Image
+- CommandLine
+- ParentImage
+falsepositives:
+- Authorized administration, deployment or troubleshooting satisfying the same predicate
+- Raw command-line mentions or malformed commands satisfying the documented text condition

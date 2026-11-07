@@ -1,0 +1,23 @@
+<!-- Synthetic, inert Sysmon-shaped fixture. No commands were executed. -->
+<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event">
+  <System>
+    <Provider Name="Microsoft-Windows-Sysmon"/>
+    <EventID>1</EventID>
+    <Version>5</Version>
+    <Level>4</Level>
+    <TimeCreated SystemTime="2026-01-01T00:00:20.0000000Z"/>
+    <EventRecordID>2002</EventRecordID>
+    <Channel>Microsoft-Windows-Sysmon/Operational</Channel>
+    <Computer>WS01.LAB.EXAMPLE</Computer>
+  </System>
+  <EventData>
+    <Data Name="ProcessGuid">{A1B2C3D4-1111-2222-3333-444455556667}</Data>
+    <Data Name="ProcessId">4104</Data>
+    <Data Name="Image">C:\Windows\System32\notepad.exe</Data>
+    <Data Name="CommandLine">C:\Windows\System32\notepad.exe C:\Lab\notes.txt</Data>
+    <Data Name="User">LAB\operator</Data>
+    <Data Name="ParentProcessGuid">{A1B2C3D4-7777-8888-9999-AAAABBBBCCCC}</Data>
+    <Data Name="ParentProcessId">4000</Data>
+    <Data Name="ParentImage">C:\Windows\System32\cmd.exe</Data>
+  </EventData>
+</Event>

@@ -1,0 +1,51 @@
+title: PowerShell Explicit Encoded-Command Option Candidate
+id: e7f06efa-e684-42fa-b3ed-7bbb34e6cd49
+status: test
+description: Selects PowerShell or pwsh process creation whose raw command-line text contains an explicit -e,
+  -enc or -EncodedCommand token bounded by ASCII space/tab or end of line. This does not parse Windows argv,
+  validate Base64, or establish malicious script execution. Quoted mentions and legitimate automation can match.
+author: aruser2212
+date: '2026-11-07'
+tags:
+- attack.t1059.001
+- attack.execution
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith:
+    - \powershell.exe
+    - \pwsh.exe
+  encoded_between:
+    CommandLine|contains:
+    - ' -e '
+    - " -e\t"
+    - "\t-e "
+    - "\t-e\t"
+    - ' -enc '
+    - " -enc\t"
+    - "\t-enc "
+    - "\t-enc\t"
+    - ' -EncodedCommand '
+    - " -EncodedCommand\t"
+    - "\t-EncodedCommand "
+    - "\t-EncodedCommand\t"
+  encoded_final:
+    CommandLine|endswith:
+    - ' -e'
+    - "\t-e"
+    - ' -enc'
+    - "\t-enc"
+    - ' -EncodedCommand'
+    - "\t-EncodedCommand"
+  condition: image and (encoded_between or encoded_final)
+level: low
+fields:
+- Image
+- CommandLine
+- ParentImage
+- ProcessGuid
+falsepositives:
+- Штатная encoded PowerShell-автоматизация и печать текста с упоминанием поддержанного флага.
+- Quoted command text and unsuccessful invocations can match the documented raw-text predicate.

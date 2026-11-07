@@ -1,0 +1,17 @@
+name: Windows Process Candidates (process-v1)
+includes:
+  - DET-WIN-T1059-ENCODED-PS-001
+  - DET-WIN-T1218-REGSVR32-URL-001
+  - DET-WIN-T1105-CERTUTIL-URLCACHE-001
+  - DET-WIN-T1047-WMIC-REMOTE-CREATE-001
+  - DET-WIN-T1136-LOCAL-USER-ADD-001
+  - DET-WIN-T1098-LOCAL-ADMIN-ADD-001
+  - DET-WIN-T1018-DOMAIN-VIEW-001
+  - DET-WIN-T1087-DOMAIN-USER-LIST-001
+  - DET-WIN-T1547-RUN-KEY-ADD-001
+  - DET-WIN-T1016-IPCONFIG-ALL-001
+description: >-
+  Ten process-creation candidates with strict Sysmon 1 v5 normalization and finite
+  offline/native Elasticsearch Basic replay. ASCII predicate fields are required.
+  Raw command text and expected benign matches do not establish maliciousness or
+  successful execution. See docs/windows-process.md and profiles/elastic/process-rules.json.

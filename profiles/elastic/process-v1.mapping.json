@@ -1,0 +1,41 @@
+{
+  "settings": {"number_of_shards": 1, "number_of_replicas": 0},
+  "mappings": {
+    "_meta": {
+      "profile": "attck-process-v1",
+      "schema_version": 1,
+      "timestamp_precision": "microseconds; native 100ns remainder retained in source event identity",
+      "event_identity": "immutable event.id is the Elasticsearch _id",
+      "process_identity": "host.name and process/parent GUIDs; PIDs are supplemental context",
+      "predicate_text": "ASCII image, parent image and command line; original case and command whitespace preserved",
+      "observation": "process creation and raw command text, not command success or malicious intent"
+    },
+    "dynamic": false,
+    "properties": {
+      "@timestamp": {"type": "date_nanos", "format": "strict_date_optional_time_nanos"},
+      "event": {"properties": {
+        "id": {"type": "keyword"},
+        "dataset": {"type": "keyword"},
+        "code": {"type": "keyword"},
+        "provider": {"type": "keyword"},
+        "channel": {"type": "keyword"},
+        "record_id": {"type": "keyword"},
+        "version": {"type": "integer", "coerce": false}
+      }},
+      "host": {"properties": {"name": {"type": "keyword"}}},
+      "process": {"properties": {
+        "guid": {"type": "keyword"},
+        "pid": {"type": "long", "coerce": false},
+        "executable": {"type": "keyword"},
+        "command_line": {"type": "keyword"},
+        "parent": {"properties": {
+          "guid": {"type": "keyword"},
+          "pid": {"type": "long", "coerce": false},
+          "executable": {"type": "keyword"}
+        }}
+      }},
+      "user": {"properties": {"name": {"type": "keyword"}}},
+      "win": {"properties": {"timestamp_remainder": {"type": "integer", "coerce": false}}}
+    }
+  }
+}

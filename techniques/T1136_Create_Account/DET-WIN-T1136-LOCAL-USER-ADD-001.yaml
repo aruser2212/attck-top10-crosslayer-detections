@@ -1,0 +1,50 @@
+id: DET-WIN-T1136-LOCAL-USER-ADD-001
+title: Net Local User-Add Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- persistence
+techniques:
+- T1136.001
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: low
+confidence: low
+detections:
+  sigma:
+  - sigma/win_net_local_user_add.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Manual source-scoped fixtures exercise the explicit raw-text predicate. Dedicated process-v1 replay
+    has a separate strict Sysmon 1 v5 XML/profile contract; executed checks are recorded in docs/validation_report.md.
+    Command text does not establish operation success or malicious intent. Generic Sigma backend compatibility,
+    live collector completeness and operational precision/TPR/FPR/latency are not claimed.
+tuning:
+  fp_sources:
+  - Администратор создаёт разрешённую локальную служебную учётную запись. Такой запуск намеренно остаётся кандидатом.
+  allowlists: []
+  notes: Keep legitimate matching activity visible; no blanket executable-name exclusion. Scope is a process-creation
+    command candidate with explicitly supported raw-text forms. Имя аккаунта, пароль, порядок всех аргументов
+    и успешность команды не проверяются. Цитируемый `/domain` может влиять на raw-предикат; это не восстановление
+    argv или универсальная классификация local/domain. Кавычки вокруг `/add`, другие интерфейсы создания аккаунта
+    и подтверждение Security 4720 вне покрытия. Ошибочный `/domainSuffix` не считается `/domain`.
+references:
+- https://attack.mitre.org/techniques/T1136/001/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit command candidate, manual expected outcomes and dedicated process replay contract.'

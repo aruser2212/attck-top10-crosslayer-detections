@@ -1,0 +1,49 @@
+id: DET-WIN-T1059-ENCODED-PS-001
+title: PowerShell Explicit Encoded-Command Option Candidate
+version: 1.0.0
+status: test
+tactics:
+- execution
+techniques:
+- T1059.001
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: low
+confidence: low
+detections:
+  sigma:
+  - sigma/win_powershell_encoded_option.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Manual source-scoped fixtures exercise the explicit raw-text predicate. Dedicated process-v1 replay
+    has a separate strict Sysmon 1 v5 XML/profile contract; executed checks are recorded in docs/validation_report.md.
+    Command text does not establish operation success or malicious intent. Generic Sigma backend compatibility,
+    live collector completeness and operational precision/TPR/FPR/latency are not claimed.
+tuning:
+  fp_sources:
+  - Штатная encoded PowerShell-автоматизация и печать текста с упоминанием поддержанного флага.
+  allowlists: []
+  notes: Keep legitimate matching activity visible; no blanket executable-name exclusion. Scope is a process-creation
+    command candidate with explicitly supported raw-text forms. Другие сокращения, флаг в кавычках и другие
+    разделители находятся вне этого правила. Наличие payload, его Base64-валидность и содержимое не проверяются;
+    поэтому флаг в конце строки тоже даёт кандидата. Цитируемое упоминание ` -enc ` может совпасть.
+references:
+- https://attack.mitre.org/techniques/T1059/001/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit command candidate, manual expected outcomes and dedicated process replay contract.'

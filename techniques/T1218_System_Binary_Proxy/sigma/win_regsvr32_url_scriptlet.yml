@@ -1,0 +1,47 @@
+title: Regsvr32 URL Scriptlet Command Candidate
+id: f3c2dcdc-d61b-422b-b2cc-de495e7c80ee
+status: test
+description: Selects regsvr32 process creation with raw ASCII-whitespace-bounded /i:http:// or /i:https://
+  text and an unquoted scrobj.dll token or Windows path ending in that basename. The URL and DLL are not fetched
+  or authenticated; command text does not prove scriptlet execution. Authorized tests and quoted mentions can
+  match.
+author: aruser2212
+date: '2026-11-07'
+tags:
+- attack.t1218.010
+- attack.stealth
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith: \regsvr32.exe
+  installer_url:
+    CommandLine|contains:
+    - ' /i:http://'
+    - ' /i:https://'
+    - "\t/i:http://"
+    - "\t/i:https://"
+  scriptlet_between:
+    CommandLine|contains:
+    - ' scrobj.dll '
+    - " scrobj.dll\t"
+    - "\tscrobj.dll "
+    - "\tscrobj.dll\t"
+    - '\scrobj.dll '
+    - "\\scrobj.dll\t"
+  scriptlet_final:
+    CommandLine|endswith:
+    - ' scrobj.dll'
+    - "\tscrobj.dll"
+    - \scrobj.dll
+  condition: image and installer_url and (scriptlet_between or scriptlet_final)
+level: medium
+fields:
+- Image
+- CommandLine
+- ParentImage
+- ProcessGuid
+falsepositives:
+- Авторизованная лабораторная проверка scriptlet и цитируемое упоминание поддержанных аргументов.
+- Quoted command text and unsuccessful invocations can match the documented raw-text predicate.

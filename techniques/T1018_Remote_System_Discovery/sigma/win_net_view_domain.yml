@@ -1,0 +1,45 @@
+title: Net View Domain Computer Discovery Command Candidate
+id: 89c24b29-3726-4e2e-b663-cc98ca5b8b54
+status: test
+description: 'Selects net.exe or net1.exe with a separate view token and /domain: followed by non-whitespace
+  raw text. Empty domain values are rejected. This observes a domain-computer listing command candidate,
+  not successful discovery, a validated domain name, or an attack. Quoted empty values and argument mentions
+  are not parsed; legitimate inventory can match.'
+tags:
+- attack.t1018
+- attack.discovery
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith:
+    - \net.exe
+    - \net1.exe
+  view:
+    CommandLine|contains:
+    - ' view '
+    - " view\t"
+    - "\tview "
+    - "\tview\t"
+  domain_prefix:
+    CommandLine|contains: &id001
+    - ' /domain:'
+    - "\t/domain:"
+  empty_domain_middle:
+    CommandLine|contains:
+    - ' /domain: '
+    - " /domain:\t"
+    - "\t/domain: "
+    - "\t/domain:\t"
+  empty_domain_end:
+    CommandLine|endswith: *id001
+  condition: image and view and domain_prefix and not (empty_domain_middle or empty_domain_end)
+level: low
+fields:
+- Image
+- CommandLine
+- ParentImage
+falsepositives:
+- Authorized administration, deployment or troubleshooting satisfying the same predicate
+- Raw command-line mentions or malformed commands satisfying the documented text condition

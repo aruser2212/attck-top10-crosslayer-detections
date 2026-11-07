@@ -1,0 +1,52 @@
+id: DET-WIN-T1018-DOMAIN-VIEW-001
+title: Net View Domain Computer Discovery Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- discovery
+techniques:
+- T1018
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: low
+confidence: low
+detections:
+  sigma:
+  - sigma/win_net_view_domain.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Source-scoped Sigma fixtures declare positive, benign-candidate, near-negative and unsupported-input
+    outcomes. The dedicated process-v1 contract supports finite Sysmon 1 v5 normalization and offline/Elasticsearch
+    Basic replay over ASCII predicate fields; executed checks are recorded in docs/validation_report.md.
+    Raw command-line text is not Windows argv parsing, proof of operation success, or an operational accuracy
+    measurement. Generic Hunt DSL execution and arbitrary Sigma backend compatibility are not claimed.
+tuning:
+  fp_sources:
+  - Инвентаризация компьютеров домена и диагностика helpdesk — ожидаемые легитимные совпадения. Этот низкоприоритетный
+    сигнал полезен вместе с контекстом процесса, пользователя и соседних действий.
+  allowlists: []
+  notes: 'Чистое `net view /domain`, просмотр конкретного `\\host`, LDAP/PowerShell discovery и другие
+    способы перечисления не входят в этот предикат. Ответ сети и успешность перечисления не наблюдаются.
+    Кавычки не разбираются: `/domain:""` остаётся текстовым кандидатом, несмотря на пустой аргумент после
+    argv-разбора. Do not suppress by a familiar executable name alone; process image names do not authenticate
+    binaries.'
+references:
+- https://attack.mitre.org/techniques/T1018/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit process command candidate, independent fixtures and bounded process-v1 replay contract.'

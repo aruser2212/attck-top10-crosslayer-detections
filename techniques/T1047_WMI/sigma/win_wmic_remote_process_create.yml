@@ -1,0 +1,61 @@
+title: WMIC Remote Process-Create Command Candidate
+id: c8e15858-8742-426d-a35a-91f8d692d6ab
+status: test
+description: 'Selects wmic process creation with raw /node: text after ASCII whitespace and the ordered process
+  call create words separated by one ASCII space or tab. This observes a remote-process-create command candidate,
+  not successful remote execution. Quoted payload mentions and authorized administration can match; PowerShell
+  CIM and other WMI clients are outside scope.'
+author: aruser2212
+date: '2026-11-07'
+tags:
+- attack.t1047
+- attack.execution
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith: \wmic.exe
+  remote_node:
+    CommandLine|contains:
+    - ' /node:'
+    - "\t/node:"
+  create_between:
+    CommandLine|contains:
+    - ' process call create '
+    - " process call create\t"
+    - " process call\tcreate "
+    - " process call\tcreate\t"
+    - " process\tcall create "
+    - " process\tcall create\t"
+    - " process\tcall\tcreate "
+    - " process\tcall\tcreate\t"
+    - "\tprocess call create "
+    - "\tprocess call create\t"
+    - "\tprocess call\tcreate "
+    - "\tprocess call\tcreate\t"
+    - "\tprocess\tcall create "
+    - "\tprocess\tcall create\t"
+    - "\tprocess\tcall\tcreate "
+    - "\tprocess\tcall\tcreate\t"
+  create_final:
+    CommandLine|endswith:
+    - ' process call create'
+    - " process call\tcreate"
+    - " process\tcall create"
+    - " process\tcall\tcreate"
+    - "\tprocess call create"
+    - "\tprocess call\tcreate"
+    - "\tprocess\tcall create"
+    - "\tprocess\tcall\tcreate"
+  condition: image and remote_node and (create_between or create_final)
+level: medium
+fields:
+- Image
+- CommandLine
+- ParentImage
+- ProcessGuid
+falsepositives:
+- Авторизованный удалённый запуск служебной команды. Успех операции и действия на целевом хосте требуют отдельной
+  телеметрии.
+- Quoted command text and unsuccessful invocations can match the documented raw-text predicate.

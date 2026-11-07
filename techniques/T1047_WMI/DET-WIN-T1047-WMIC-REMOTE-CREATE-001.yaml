@@ -1,0 +1,51 @@
+id: DET-WIN-T1047-WMIC-REMOTE-CREATE-001
+title: WMIC Remote Process-Create Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- execution
+techniques:
+- T1047
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: medium
+confidence: low
+detections:
+  sigma:
+  - sigma/win_wmic_remote_process_create.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Manual source-scoped fixtures exercise the explicit raw-text predicate. Dedicated process-v1 replay
+    has a separate strict Sysmon 1 v5 XML/profile contract; executed checks are recorded in docs/validation_report.md.
+    Command text does not establish operation success or malicious intent. Generic Sigma backend compatibility,
+    live collector completeness and operational precision/TPR/FPR/latency are not claimed.
+tuning:
+  fp_sources:
+  - Авторизованный удалённый запуск служебной команды. Успех операции и действия на целевом хосте требуют отдельной
+    телеметрии.
+  allowlists: []
+  notes: Keep legitimate matching activity visible; no blanket executable-name exclusion. Scope is a process-creation
+    command candidate with explicitly supported raw-text forms. Значение node и дочерняя команда не разбираются.
+    Пустой или неправильный аргумент не подтверждает исполнение; конец строки после `create` всё равно даёт
+    кандидата. Несколько пробелов между словами, quoted keyword tokens, PowerShell CIM и другие WMI-клиенты
+    вне покрытия. `/node:` внутри цитируемого payload также может совпасть.
+references:
+- https://attack.mitre.org/techniques/T1047/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit command candidate, manual expected outcomes and dedicated process replay contract.'

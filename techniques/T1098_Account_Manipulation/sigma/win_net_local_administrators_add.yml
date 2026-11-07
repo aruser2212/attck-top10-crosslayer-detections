@@ -1,0 +1,73 @@
+title: Net Local Administrators Membership Addition Command Candidate
+id: a9663284-70f8-4f69-ae3e-f829f396fc72
+status: test
+description: Selects net.exe or net1.exe command text containing localgroup Administrators and a separate
+  /add token, excluding a separate /domain token in unquoted or double-quoted form. Supports the literal
+  English group name, optionally double-quoted. The process event does not prove membership changed, identify
+  the group SID, or establish maliciousness. ASCII space/tab boundaries are explicit; this is not Windows
+  argv parsing.
+tags:
+- attack.t1098.007
+- attack.persistence
+- attack.privilege-escalation
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith:
+    - \net.exe
+    - \net1.exe
+  group_action:
+    CommandLine|contains:
+    - ' localgroup Administrators '
+    - ' localgroup "Administrators" '
+    - " localgroup Administrators\t"
+    - " localgroup \"Administrators\"\t"
+    - " localgroup\tAdministrators "
+    - " localgroup\t\"Administrators\" "
+    - " localgroup\tAdministrators\t"
+    - " localgroup\t\"Administrators\"\t"
+    - "\tlocalgroup Administrators "
+    - "\tlocalgroup \"Administrators\" "
+    - "\tlocalgroup Administrators\t"
+    - "\tlocalgroup \"Administrators\"\t"
+    - "\tlocalgroup\tAdministrators "
+    - "\tlocalgroup\t\"Administrators\" "
+    - "\tlocalgroup\tAdministrators\t"
+    - "\tlocalgroup\t\"Administrators\"\t"
+  add_middle:
+    CommandLine|contains:
+    - ' /add '
+    - " /add\t"
+    - "\t/add "
+    - "\t/add\t"
+  add_end:
+    CommandLine|endswith:
+    - ' /add'
+    - "\t/add"
+  domain_middle:
+    CommandLine|contains:
+    - ' /domain '
+    - " /domain\t"
+    - "\t/domain "
+    - "\t/domain\t"
+    - ' "/domain" '
+    - " \"/domain\"\t"
+    - "\t\"/domain\" "
+    - "\t\"/domain\"\t"
+  domain_end:
+    CommandLine|endswith:
+    - ' /domain'
+    - "\t/domain"
+    - ' "/domain"'
+    - "\t\"/domain\""
+  condition: image and group_action and (add_middle or add_end) and not (domain_middle or domain_end)
+level: medium
+fields:
+- Image
+- CommandLine
+- ParentImage
+falsepositives:
+- Authorized administration, deployment or troubleshooting satisfying the same predicate
+- Raw command-line mentions or malformed commands satisfying the documented text condition

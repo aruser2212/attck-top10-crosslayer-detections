@@ -1,0 +1,72 @@
+title: Registry Run Key Value Addition Command Candidate
+id: 6d621830-6b1b-4eaa-ab18-a566c208174a
+status: test
+description: Selects reg.exe command text with add of the exact HKCU or HKLM Software\Microsoft\Windows\CurrentVersion\Run
+  key and separate /v and /d options followed by whitespace. Quoted key paths are supported; RunOnce,
+  RunBackup, remote keys and expanded hive names are outside scope. This is a process command candidate,
+  not proof of a successful registry write, persistence or privilege escalation.
+tags:
+- attack.t1547.001
+- attack.persistence
+- attack.privilege-escalation
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith: \reg.exe
+  run_key_add:
+    CommandLine|contains:
+    - ' add HKCU\Software\Microsoft\Windows\CurrentVersion\Run '
+    - ' add "HKCU\Software\Microsoft\Windows\CurrentVersion\Run" '
+    - ' add HKLM\Software\Microsoft\Windows\CurrentVersion\Run '
+    - ' add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" '
+    - " add HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - " add \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - " add HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - " add \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - " add\tHKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - " add\t\"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - " add\tHKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - " add\t\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - " add\tHKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - " add\t\"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - " add\tHKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - " add\t\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - "\tadd HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - "\tadd \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - "\tadd HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - "\tadd \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - "\tadd HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - "\tadd \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - "\tadd HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - "\tadd \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - "\tadd\tHKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - "\tadd\t\"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - "\tadd\tHKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run "
+    - "\tadd\t\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" "
+    - "\tadd\tHKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - "\tadd\t\"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+    - "\tadd\tHKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\t"
+    - "\tadd\t\"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\t"
+  value_option:
+    CommandLine|contains:
+    - ' /v '
+    - " /v\t"
+    - "\t/v "
+    - "\t/v\t"
+  data_option:
+    CommandLine|contains:
+    - ' /d '
+    - " /d\t"
+    - "\t/d "
+    - "\t/d\t"
+  condition: image and run_key_add and value_option and data_option
+level: medium
+fields:
+- Image
+- CommandLine
+- ParentImage
+falsepositives:
+- Authorized administration, deployment or troubleshooting satisfying the same predicate
+- Raw command-line mentions or malformed commands satisfying the documented text condition

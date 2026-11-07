@@ -1,0 +1,52 @@
+id: DET-WIN-T1087-DOMAIN-USER-LIST-001
+title: Net User Domain Account Enumeration Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- discovery
+techniques:
+- T1087.002
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: low
+confidence: low
+detections:
+  sigma:
+  - sigma/win_net_user_domain_listing.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Source-scoped Sigma fixtures declare positive, benign-candidate, near-negative and unsupported-input
+    outcomes. The dedicated process-v1 contract supports finite Sysmon 1 v5 normalization and offline/Elasticsearch
+    Basic replay over ASCII predicate fields; executed checks are recorded in docs/validation_report.md.
+    Raw command-line text is not Windows argv parsing, proof of operation success, or an operational accuracy
+    measurement. Generic Hunt DSL execution and arbitrary Sigma backend compatibility are not claimed.
+tuning:
+  fp_sources:
+  - Helpdesk и администраторы регулярно перечисляют доменные аккаунты. Легитимное перечисление остаётся
+    ожидаемым кандидатом низкого приоритета.
+  allowlists: []
+  notes: Именованные запросы `net user alice /domain`, изменение пароля/атрибутов, другие порядки/кавычки
+    аргументов и несколько завершающих разделителей находятся вне узкого контракта. Эта граница выбрана,
+    чтобы широкий `net user … /domain` не выдавался за доказательство enumeration. Вывод команды и успешность
+    запроса не наблюдаются. Do not suppress by a familiar executable name alone; process image names do
+    not authenticate binaries.
+references:
+- https://attack.mitre.org/techniques/T1087/002/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit process command candidate, independent fixtures and bounded process-v1 replay contract.'

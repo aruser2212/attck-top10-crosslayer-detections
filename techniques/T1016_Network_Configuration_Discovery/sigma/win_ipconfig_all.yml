@@ -1,0 +1,35 @@
+title: Ipconfig All Network Configuration Discovery Command Candidate
+id: 06349766-1404-4bcc-a36a-c4da64e8815f
+status: test
+description: Selects ipconfig.exe with an explicitly delimited /all option using ASCII space/tab or end
+  of command line. It excludes /allcompartments through token boundaries. Ordinary network troubleshooting
+  is an expected match; this informational process observation does not establish successful output collection
+  or adversary discovery. Quoted mentions may match; quoted option tokens are outside the supported form.
+tags:
+- attack.t1016
+- attack.discovery
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith: \ipconfig.exe
+  all_middle:
+    CommandLine|contains:
+    - ' /all '
+    - " /all\t"
+    - "\t/all "
+    - "\t/all\t"
+  all_end:
+    CommandLine|endswith:
+    - ' /all'
+    - "\t/all"
+  condition: image and (all_middle or all_end)
+level: informational
+fields:
+- Image
+- CommandLine
+- ParentImage
+falsepositives:
+- Authorized administration, deployment or troubleshooting satisfying the same predicate
+- Raw command-line mentions or malformed commands satisfying the documented text condition

@@ -2,6 +2,13 @@
 
 Use Python 3.12 and the hashed development lock. Run `make setup` then `make check` from the repository root. Network or Elastic changes also require `make check-network` or `make lab-up && make check-elastic`. See docs/elastic.md for the synthetic lab.
 
+`make demo` checks the seven documented offline paths without executing fixture
+commands. The ten process-v1 rules are explicitly listed in
+`profiles/elastic/process-rules.json`; changes must preserve their manual
+expectations and native query parity. Sigma identifiers must be UUIDv4.
+GitHub Actions use full commit pins with version comments; update the pin only
+after checking the official action's runtime and inputs.
+
 Every detection change should include:
 
 1. An explicit observation and ATT&CK mapping, distinguishing observed behavior from attack-chain context.

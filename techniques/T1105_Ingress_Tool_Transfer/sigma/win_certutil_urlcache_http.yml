@@ -1,0 +1,49 @@
+title: Certutil HTTP URLCache Command Candidate
+id: dc55d70f-5bbf-4b87-b72d-61e8812d8eae
+status: test
+description: Selects certutil process creation with a separate -urlcache token and an HTTP(S) URL-shaped argument
+  in raw command-line text. ASCII space/tab boundaries and a literal optional opening double quote before the
+  URL are supported. This is a transfer-command candidate; network transfer and output-file success are not
+  observed.
+author: aruser2212
+date: '2026-11-07'
+tags:
+- attack.t1105
+- attack.command-and-control
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  image:
+    Image|endswith: \certutil.exe
+  urlcache_between:
+    CommandLine|contains:
+    - ' -urlcache '
+    - " -urlcache\t"
+    - "\t-urlcache "
+    - "\t-urlcache\t"
+  urlcache_final:
+    CommandLine|endswith:
+    - ' -urlcache'
+    - "\t-urlcache"
+  http_argument:
+    CommandLine|contains:
+    - ' http://'
+    - ' https://'
+    - ' "http://'
+    - ' "https://'
+    - "\thttp://"
+    - "\thttps://"
+    - "\t\"http://"
+    - "\t\"https://"
+  condition: image and (urlcache_between or urlcache_final) and http_argument
+level: low
+fields:
+- Image
+- CommandLine
+- ParentImage
+- ProcessGuid
+falsepositives:
+- Администратор скачивает разрешённый пакет через certutil; одинаковый текст не устанавливает происхождение
+  или назначение файла.
+- Quoted command text and unsuccessful invocations can match the documented raw-text predicate.

@@ -1,0 +1,51 @@
+id: DET-WIN-T1105-CERTUTIL-URLCACHE-001
+title: Certutil HTTP URLCache Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- command-and-control
+techniques:
+- T1105
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: low
+confidence: low
+detections:
+  sigma:
+  - sigma/win_certutil_urlcache_http.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Manual source-scoped fixtures exercise the explicit raw-text predicate. Dedicated process-v1 replay
+    has a separate strict Sysmon 1 v5 XML/profile contract; executed checks are recorded in docs/validation_report.md.
+    Command text does not establish operation success or malicious intent. Generic Sigma backend compatibility,
+    live collector completeness and operational precision/TPR/FPR/latency are not claimed.
+tuning:
+  fp_sources:
+  - Администратор скачивает разрешённый пакет через certutil; одинаковый текст не устанавливает происхождение
+    или назначение файла.
+  allowlists: []
+  notes: Keep legitimate matching activity visible; no blanket executable-name exclusion. Scope is a process-creation
+    command candidate with explicitly supported raw-text forms. Это наблюдение командного текста, а не HTTP-запроса
+    или успешного скачивания. Валидность URL, закрытие кавычек, наличие и запись выходного файла не проверяются.
+    Slash-вариант `/urlcache`, иные схемы и другие downloader-инструменты вне явного покрытия. Цитируемый текст
+    тоже может совпасть.
+references:
+- https://attack.mitre.org/techniques/T1105/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit command candidate, manual expected outcomes and dedicated process replay contract.'

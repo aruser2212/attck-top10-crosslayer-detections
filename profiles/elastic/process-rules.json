@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "rules": [
+    "techniques/T1016_Network_Configuration_Discovery/sigma/win_ipconfig_all.yml",
+    "techniques/T1018_Remote_System_Discovery/sigma/win_net_view_domain.yml",
+    "techniques/T1047_WMI/sigma/win_wmic_remote_process_create.yml",
+    "techniques/T1059_Command_Scripting/sigma/win_powershell_encoded_option.yml",
+    "techniques/T1087_Account_Discovery/sigma/win_net_user_domain_listing.yml",
+    "techniques/T1098_Account_Manipulation/sigma/win_net_local_administrators_add.yml",
+    "techniques/T1105_Ingress_Tool_Transfer/sigma/win_certutil_urlcache_http.yml",
+    "techniques/T1136_Create_Account/sigma/win_net_local_user_add.yml",
+    "techniques/T1218_System_Binary_Proxy/sigma/win_regsvr32_url_scriptlet.yml",
+    "techniques/T1547_Boot_Logon_Autostart/sigma/win_reg_run_key_add.yml"
+  ]
+}

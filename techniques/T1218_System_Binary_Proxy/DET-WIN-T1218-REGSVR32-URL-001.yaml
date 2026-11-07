@@ -1,0 +1,50 @@
+id: DET-WIN-T1218-REGSVR32-URL-001
+title: Regsvr32 URL Scriptlet Command Candidate
+version: 1.0.0
+status: test
+tactics:
+- stealth
+techniques:
+- T1218.010
+platforms:
+- windows
+datasources:
+- windows:sysmon:1
+severity: medium
+confidence: low
+detections:
+  sigma:
+  - sigma/win_regsvr32_url_scriptlet.yml
+  network_rules: []
+  yara: []
+  hunts: []
+  queries: {}
+tests:
+  atomic: []
+  datasets:
+  - ../../tests/fixtures/sigma/predicates.json
+validation:
+  status: partial
+  tpr: null
+  fpr: null
+  latency_ms: null
+  notes: Manual source-scoped fixtures exercise the explicit raw-text predicate. Dedicated process-v1 replay
+    has a separate strict Sysmon 1 v5 XML/profile contract; executed checks are recorded in docs/validation_report.md.
+    Command text does not establish operation success or malicious intent. Generic Sigma backend compatibility,
+    live collector completeness and operational precision/TPR/FPR/latency are not claimed.
+tuning:
+  fp_sources:
+  - Авторизованная лабораторная проверка scriptlet и цитируемое упоминание поддержанных аргументов.
+  allowlists: []
+  notes: Keep legitimate matching activity visible; no blanket executable-name exclusion. Scope is a process-creation
+    command candidate with explicitly supported raw-text forms. URL не разбирается и не проверяется на достижимость.
+    Кавычки вокруг DLL-токена/пути и другие способы proxy execution вне покрытия. Имя образа не подтверждает
+    подпись Microsoft; наличие командной строки не доказывает загрузку или выполнение scriptlet. В ATT&CK v20.0
+    первичная тактика этого mapping — `stealth`.
+references:
+- https://attack.mitre.org/techniques/T1218/010/
+- https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon
+authors:
+- aruser2212
+changelog:
+- '1.0.0: explicit command candidate, manual expected outcomes and dedicated process replay contract.'

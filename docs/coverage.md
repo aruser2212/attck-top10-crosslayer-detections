@@ -7,32 +7,52 @@ This is an inventory and a record of **declared** evidence. A test plan is not a
 | Technique folder | DetCards | Sigma rules (files) | Hunts | IDPS rules (files) | YARA | Plans | Declared validation |
 |---|---:|---:|---:|---:|---:|---:|---|
 | `T1003_OS_Credential_Dumping` | 1 | 1 (1) | 1 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1016_Network_Configuration_Discovery` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1018_Remote_System_Discovery` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1047_WMI` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
 | `T1053_Scheduled_Task` | 2 | 3 (3) | 2 | 0 (0) | 0 | 1 | partial: 2 |
+| `T1059_Command_Scripting` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
 | `T1070_Indicator_Removal` | 3 | 4 (3) | 3 | 0 (0) | 0 | 1 | partial: 3 |
 | `T1078_Valid_Accounts` | 2 | 2 (2) | 2 | 0 (0) | 0 | 1 | partial: 2 |
+| `T1087_Account_Discovery` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1098_Account_Manipulation` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1105_Ingress_Tool_Transfer` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
 | `T1110_Brute_Force` | 2 | 2 (2) | 6 | 1 (1) | 0 | 1 | partial: 2 |
+| `T1136_Create_Account` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
 | `T1190_Exploit_Public_Facing_App` | 2 | 2 (2) | 2 | 4 (2) | 1 | 1 | partial: 2 |
+| `T1218_System_Binary_Proxy` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
+| `T1547_Boot_Logon_Autostart` | 1 | 1 (1) | 0 | 0 (0) | 0 | 1 | partial: 1 |
 | `T1550_Use_Alt_Auth` | 2 | 1 (1) | 3 | 0 (0) | 0 | 1 | not_tested: 1, partial: 1 |
 | `T1558_003_Kerberoasting` | 2 | 1 (1) | 2 | 0 (0) | 0 | 1 | partial: 2 |
 | `T1566_Phishing` | 2 | 2 (2) | 2 | 3 (2) | 1 | 1 | partial: 2 |
 | `T1569_002_Service_Execution` | 2 | 2 (2) | 2 | 1 (1) | 0 | 1 | partial: 2 |
 
-Totals: **10 folders, 20 DetCards, 20 Sigma rules, 25 Hunts, 9 IDPS rules, 2 YARA rules**.
+Totals: **20 folders, 30 DetCards, 30 Sigma rules, 25 Hunts, 9 IDPS rules, 2 YARA rules**.
 
 ## Detection IDs and declared datasets
 
 - `DET-WIN-T1003-LSASS-001` — T1003.001; 4 dataset reference(s).
+- `DET-WIN-T1016-IPCONFIG-ALL-001` — T1016; 1 dataset reference(s).
+- `DET-WIN-T1018-DOMAIN-VIEW-001` — T1018; 1 dataset reference(s).
+- `DET-WIN-T1047-WMIC-REMOTE-CREATE-001` — T1047; 1 dataset reference(s).
 - `DET-LNX-T1053-CRON-MOD-002` — T1053; 1 dataset reference(s).
 - `DET-WIN-T1053-SCHTASK-4698-001` — T1053; 1 dataset reference(s).
+- `DET-WIN-T1059-ENCODED-PS-001` — T1059.001; 1 dataset reference(s).
 - `DET-LNX-T1070-LOGWIPE-003` — T1685.006; 1 dataset reference(s).
 - `DET-WIN-T1070-LOGCLEAR-001` — T1070; 1 dataset reference(s).
 - `DET-WIN-T1070-VSS-DELETE-002` — T1490; 1 dataset reference(s).
 - `DET-LNX-T1078-SSH-VALID-002` — T1078; 1 dataset reference(s).
 - `DET-WIN-T1078-VALIDLOGON-001` — T1078; 1 dataset reference(s).
+- `DET-WIN-T1087-DOMAIN-USER-LIST-001` — T1087.002; 1 dataset reference(s).
+- `DET-WIN-T1098-LOCAL-ADMIN-ADD-001` — T1098.007; 1 dataset reference(s).
+- `DET-WIN-T1105-CERTUTIL-URLCACHE-001` — T1105; 1 dataset reference(s).
 - `DET-LNX-T1110-SSH-BRUTE-002` — T1110; 5 dataset reference(s).
 - `DET-WIN-T1110-4625-BRUTE-001` — T1110; 5 dataset reference(s).
+- `DET-WIN-T1136-LOCAL-USER-ADD-001` — T1136.001; 1 dataset reference(s).
 - `DET-WEB-T1190-WEBROOT-FILECREATE-001` — T1190, T1505.003; 4 dataset reference(s).
 - `DET-WEB-T1190-WEBSHELL-ACCESS-002` — T1190, T1505.003; 3 dataset reference(s).
+- `DET-WIN-T1218-REGSVR32-URL-001` — T1218.010; 1 dataset reference(s).
+- `DET-WIN-T1547-RUN-KEY-ADD-001` — T1547.001; 1 dataset reference(s).
 - `DET-WIN-T1550-PTH-NEWCRED-001` — T1550; 5 dataset reference(s).
 - `DET-WIN-T1550-PTT-KRB-ANOM-002` — T1550; 0 dataset reference(s).
 - `DET-WIN-T1558-KRB-RC4-001` — T1558.003; 1 dataset reference(s).

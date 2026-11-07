@@ -2,5 +2,7 @@ name: Defense Evasion Pack (vendor-agnostic)
 includes:
   - DET-WIN-T1070-LOGCLEAR-001
   - DET-WIN-T1070-VSS-DELETE-002
+  - DET-LNX-T1070-LOGWIPE-003
 description: >
-  Набор детектов для сокрытия следов: очистка журналов и удаление теневых копий (Windows), с поддержкой Linux wipe-паттернов.
+  Очистка журналов, команды удаления теневых копий Windows и Linux wipe-паттерны.
+  Историческое имя пакета не заменяет актуальные ATT&CK mappings карточек.
