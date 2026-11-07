@@ -2,6 +2,10 @@
 
 ## Unreleased — precise detection candidates and verified Basic replay
 
+- Normalize truncated HTTP responses, protocol failures and socket read errors in the shared Elasticsearch client. Verify that all four watch modes report the failure and complete the next iteration successfully, while retaining credential-safe errors and redirect rejection.
+- Require the original Microsoft-Windows-Eventlog provider for System 104; reject missing, unrelated and similarly named providers in source-scoped Sigma fixtures.
+- Recognize VBA Shell statements without parentheses, preserving direct/Call/simple-assignment forms. Anchor Shell and WScript.Shell creation to source lines to exclude ordinary comments and quoted mentions; document inline/control-flow limitations and retain legitimate automation candidates.
+- Correct the Elasticsearch episodes profile documentation to describe the existing incremental default and evidence archives, including full-history validation and resource limits.
 - Expand the curated portfolio from ten to twenty technique families with ten bounded Windows process candidates, explicit benign matches and current ATT&CK v20.0 mappings. Preserve the historical repository URL and existing artifact IDs.
 - Add strict Sysmon ProcessCreate v5 normalization and a dedicated ASCII process-v1 profile. Execute the catalogued Sigma subset as native Elasticsearch Basic named queries, validate nonmatches too, and reject offline/native disagreement or incomplete replay.
 - Add one-command offline demonstrations for seven supported paths, a concise quickstart and an execution-scope portfolio. Pin Node 24 GitHub Actions to verified commits and the hosted runner to Ubuntu 24.04; include the demo in CI evidence.

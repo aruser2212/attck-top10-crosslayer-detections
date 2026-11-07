@@ -14,12 +14,15 @@ T1070 — удаление или изменение артефактов на �
 
 ## Телеметрия
 - Windows Security: `1102` — Security audit log cleared.
-- Windows System: `104` — event log cleared.
+- Windows System: `104` от `Microsoft-Windows-Eventlog` — event log cleared. Адаптер
+  должен передать исходное имя провайдера в Sigma-поле `Provider_Name`; отсутствующее
+  поле и другой провайдер не совпадают. Один EventID не определяет смысл события.
 - Process creation: `wevtutil cl` для очистки журналов; `vssadmin delete shadows`, `wmic shadowcopy delete`, `diskshadow` — как связанный T1490-сигнал про подавление восстановления.
 - Linux auditd: объединённые SYSCALL/EXECVE записи с `exe` и восстановленной `CommandLine` для `truncate`, `shred`, `rm` по `/var/log`. Shell builtins (`history -c`) и перенаправления не покрываются этим процессным Sigma; им нужны другие источники.
 
 ## Detection strategy
-- Событийный сигнал: `1102`/`104` почти всегда должен быть расследован.
+- Событийный кандидат: Security `1102` либо System `104` с указанным провайдером.
+  Очистка журнала может быть разрешённым обслуживанием; событие само по себе не доказывает атаку.
 - Процессный сигнал: команды очистки логов. VSS deletion отмечаем отдельно как связанный T1490-сигнал, полезный для ransomware-chain.
 - Linux Sigma: запуск `truncate` с нулевым размером либо `rm`/`shred`, направленный на `/var/log`. Событие запуска не подтверждает успешное удаление; first-seen остаётся частью Hunt-дизайна.
 - Усиление: связать с предшествующим входом, privilege escalation или ransomware-паттернами.

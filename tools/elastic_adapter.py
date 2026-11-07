@@ -15,13 +15,14 @@ import argparse
 import base64
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
+from http.client import HTTPException
 import json
 import os
 from pathlib import Path
 import re
 import sys
 from typing import Any
-from urllib.error import HTTPError, URLError
+from urllib.error import HTTPError
 from urllib.parse import quote, urlparse
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
@@ -101,7 +102,11 @@ class ElasticClient:
         except HTTPError as exc:
             # Do not echo headers, credentials, or the full response body.
             raise ElasticHTTPError(exc.code, f"Elasticsearch {method} {path}: HTTP {exc.code}") from exc
-        except (URLError, TimeoutError, json.JSONDecodeError) as exc:
+        except (HTTPException, OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            # HTTPResponse can fail while reading a successful response (for
+            # example IncompleteRead after a truncated body). Normalize these
+            # failures too, so durable watch loops can report and retry them.
+            # OSError includes urllib URLError, socket resets and timeouts.
             raise ElasticError(f"Elasticsearch {method} {path} failed: {type(exc).__name__}") from exc
         if not isinstance(result, dict):
             raise ElasticError("Elasticsearch returned a non-object response")

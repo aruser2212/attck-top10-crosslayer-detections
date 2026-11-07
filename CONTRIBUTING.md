@@ -9,6 +9,11 @@ expectations and native query parity. Sigma identifiers must be UUIDv4.
 GitHub Actions use full commit pins with version comments; update the pin only
 after checking the official action's runtime and inputs.
 
+Publish changes on a working branch and merge after `structure-and-predicates`,
+`suricata-replay` and `elastic-basic-replay` pass for the current commit. The main
+branch protection requires these checks from GitHub Actions and an up-to-date
+branch, applies to administrators, and disallows force pushes and branch deletion.
+
 Every detection change should include:
 
 1. An explicit observation and ATT&CK mapping, distinguishing observed behavior from attack-chain context.

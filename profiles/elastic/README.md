@@ -271,8 +271,10 @@ individual rolling windows, not sums or total distinct counts for the episode.
 Filter to `open` or `closed` when selecting current episodes; retracted documents
 retain the last confirmed membership and metrics.
 
-Each pass rebuilds components from the bounded full source history, including
-validation of retracted raw rows. Missing history, source-file replacement,
+Each pass reads and validates the bounded full source history, including
+retracted raw rows. The default incremental mode rebuilds only groups affected
+by changed raw revisions or checkpoint-driven closure; `--projection-mode full`
+rebuilds every group as a reference. Missing history, source-file replacement,
 regressing raw revisions/checkpoints, a changed sink UUID or a resource-cap breach
 fails the pass. Pending raw outbox delivery postpones new projection. Changes,
 source progress and the episode outbox commit atomically in episode SQLite;
@@ -281,5 +283,7 @@ external Elasticsearch revisions make delivery repeatable after a crash.
 Use separate state/index names and one local writer. The
 [episode guide](../../docs/episodes.md) provides a runnable three-alert example,
 restart and watch commands, identity/closure boundaries and complete limits.
-Incremental projection, archival, multi-host coordination and representative
-operational accuracy measurements remain future work.
+The [archive guide](../../docs/episode-archives.md) covers coherent raw/episode
+evidence export and offline verification. Export preserves live state and does
+not provide automatic pruning or live restore. Multi-host coordination and
+representative operational accuracy measurements remain future work.

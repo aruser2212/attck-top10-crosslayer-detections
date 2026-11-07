@@ -1,6 +1,6 @@
 id: DET-WIN-T1070-LOGCLEAR-001
 title: Windows Event Log Cleared (1102 / 104)
-version: 1.2.0
+version: 1.3.0
 status: test
 tactics:
 - stealth
@@ -31,7 +31,8 @@ validation:
   fpr: null
   latency_ms: null
   notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
-    claimed for these Sigma rules. Remaining unversioned hunts are design-only; telemetry integration
+    claimed for these Sigma rules. System 104 requires Provider_Name Microsoft-Windows-Eventlog;
+    missing, unrelated and similar provider names do not match. Remaining unversioned hunts are design-only; telemetry integration
     and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
@@ -48,3 +49,4 @@ changelog:
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
 - '1.2.0: align primary technique/tactic identifiers with the pinned official ATT&CK v20.0 catalog; stable
   DetCard IDs retained.'
+- '1.3.0: require the original Microsoft-Windows-Eventlog provider for System 104 and add source-boundary regressions.'

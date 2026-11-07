@@ -1,6 +1,6 @@
 id: DET-WIN-T1566-HTA-LOADER-002
 title: HTA/HTML Loader → Script Execution
-version: 1.2.0
+version: 1.3.0
 status: test
 tactics:
 - initial-access
@@ -39,11 +39,16 @@ validation:
   notes: Native pySigma parsing and source-scoped synthetic predicate fixtures passed; no backend equivalence
     claimed for these Sigma rules. Linked Suricata 8.0.4 signatures loaded and passed synthetic PCAP replay.
     Snort and encrypted traffic visibility are not validated. Linked libyara rules compiled and matched
-    inert fixtures under their declared input contract. Remaining unversioned hunts are design-only; telemetry
+    inert fixtures under their declared input contract. VBA matching covers line-start Shell statements,
+    parenthesized/Call forms, simple result assignments and direct/simple-assignment WScript.Shell creation;
+    ordinary comments and quoted mentions are excluded. Inline If/colon statements, continuation, qualified
+    names and complex expressions are outside this narrowed heuristic. No VBA parsing or control-flow link
+    from the auto-entry to the call is claimed. Remaining unversioned hunts are design-only; telemetry
     integration and operational TPR/FPR/latency are unmeasured.
 tuning:
   fp_sources:
   - внутренние порталы/ПО, раздающие HTA/HTML-инсталляторы
+  - легитимная VBA-автоматизация с auto-entry и Shell/CreateObject в одном source
   allowlists: []
   notes: 'Сетевые сигнатуры — эвристика; сверять с хостовыми событиями. Related attack-chain context (not
     a primary ATT&CK tactic mapping): execution.'
@@ -55,3 +60,4 @@ changelog:
 - '1.0.0: initial'
 - '1.1.0: explicit validation scope, synthetic evidence and clarified candidate semantics.'
 - '1.2.0: separate primary ATT&CK v20.0 tactics from broader attack-chain context.'
+- '1.3.0: support VBA Shell statements and simple assignments; anchor Shell/CreateObject to source lines to exclude comments/text, explicitly narrow inline/complex forms and add inert regressions.'

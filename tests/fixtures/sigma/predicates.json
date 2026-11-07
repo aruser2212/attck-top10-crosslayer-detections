@@ -324,21 +324,79 @@
         {
           "name": "system_clear",
           "event": {
-            "EventID": 104
+            "EventID": 104,
+            "Provider_Name": "Microsoft-Windows-Eventlog"
           },
           "match": true
         },
         {
           "name": "service_install",
           "event": {
-            "EventID": 7045
+            "EventID": 7045,
+            "Provider_Name": "Service Control Manager"
           },
           "match": false
         },
         {
           "name": "security_event_wrong_source",
           "event": {
-            "EventID": 1102
+            "EventID": 1102,
+            "Provider_Name": "Microsoft-Windows-Eventlog"
+          },
+          "match": false
+        },
+        {
+          "name": "system_clear_provider_casefold",
+          "event": {
+            "EventID": 104,
+            "Provider_Name": "microsoft-windows-eventlog"
+          },
+          "match": true
+        },
+        {
+          "name": "system_104_other_provider",
+          "event": {
+            "EventID": 104,
+            "Provider_Name": "Other-Provider"
+          },
+          "match": false
+        },
+        {
+          "name": "system_104_missing_provider",
+          "event": {
+            "EventID": 104
+          },
+          "match": false
+        },
+        {
+          "name": "system_104_null_provider",
+          "event": {
+            "EventID": 104,
+            "Provider_Name": null
+          },
+          "match": false
+        },
+        {
+          "name": "system_104_similar_provider",
+          "event": {
+            "EventID": 104,
+            "Provider_Name": "Microsoft-Windows-Eventlog-Other"
+          },
+          "match": false
+        },
+        {
+          "name": "system_104_string_event_id",
+          "event": {
+            "EventID": "104",
+            "Provider_Name": "Microsoft-Windows-Eventlog"
+          },
+          "match": false
+        },
+        {
+          "name": "system_104_numeric_provider",
+          "event": {
+            "EventID": 104,
+            "Provider_Name": 104
           },
           "match": false
         }
