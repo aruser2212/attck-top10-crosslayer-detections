@@ -23,7 +23,7 @@ import sys
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import quote, urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 try:
     from tools.hunt_engine import (
@@ -50,6 +50,20 @@ class ElasticHTTPError(ElasticError):
         super().__init__(message)
 
 
+class _NoRedirectHandler(HTTPRedirectHandler):
+    """Require the final API URL; never forward credentials or replay writes."""
+
+    def http_error_302(self, req, fp, code, msg, headers):
+        # Reject before urllib parses Location: malformed targets must not
+        # escape as ValueError or expose the header through an error message.
+        raise HTTPError(req.full_url, code, "Elasticsearch redirects are disabled", headers, fp)
+
+    http_error_301 = http_error_302
+    http_error_303 = http_error_302
+    http_error_307 = http_error_302
+    http_error_308 = http_error_302
+
+
 class ElasticClient:
     def __init__(self, url: str, *, api_key: str | None = None,
                  username: str | None = None, password: str | None = None,
@@ -69,6 +83,9 @@ class ElasticClient:
         elif username:
             token = base64.b64encode(f"{username}:{password or ''}".encode()).decode()
             self.headers["Authorization"] = "Basic " + token
+        # A private opener retains urllib's proxy and TLS defaults without
+        # changing redirect behavior for unrelated clients in this process.
+        self._opener = build_opener(_NoRedirectHandler())
 
     def request(self, method: str, path: str, body: Any = None, *, ndjson: bool = False) -> dict:
         headers = dict(self.headers)
@@ -79,7 +96,7 @@ class ElasticClient:
             data = None if body is None else json.dumps(body, allow_nan=False).encode("utf-8")
         request = Request(self.url + path, data=data, headers=headers, method=method)
         try:
-            with urlopen(request, timeout=self.timeout) as response:
+            with self._opener.open(request, timeout=self.timeout) as response:
                 result = json.load(response)
         except HTTPError as exc:
             # Do not echo headers, credentials, or the full response body.

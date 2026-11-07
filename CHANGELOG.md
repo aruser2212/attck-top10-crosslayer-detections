@@ -2,6 +2,7 @@
 
 ## Unreleased — precise detection candidates and verified Basic replay
 
+- Reject HTTP redirects in the shared Elasticsearch client before forwarding credentials or replaying a request. Use a per-client opener with the default proxy and TLS handling; document the final-URL requirement and correct the demo link and correlation scope.
 - Correct the Office/PowerShell selector to recognize the explicit `-EncodedCommand`, `-enc` and `-e` forms with space/tab token boundaries. Keep the URL branch, separate other child interpreters and retain quoted-text benign candidates rather than claiming a complete command-line parser.
 - Add finite NewCredentials/4672 session correlation, strict Security XML normalization and a separate Basic profile. Join exact host/boot/LogonId/local-token SID, retain signed record-time offsets, reject ambiguity and preserve legitimate runas candidates. Remove the unsupported "strong PtH indicator" claim; the original Hunt DSL files remain design-only.
 - Add reproducible bounded offline benchmarks with isolated samples, correctness checks and explicit measurement scope. Correct the stale remaining-Hunt count in the continuous pipeline guide.
