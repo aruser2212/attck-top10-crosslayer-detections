@@ -10,9 +10,21 @@ GitHub Actions use full commit pins with version comments; update the pin only
 after checking the official action's runtime and inputs.
 
 Publish changes on a working branch and merge after `structure-and-predicates`,
-`suricata-replay` and `elastic-basic-replay` pass for the current commit. The main
-branch protection requires these checks from GitHub Actions and an up-to-date
-branch, applies to administrators, and disallows force pushes and branch deletion.
+`suricata-replay` and `elastic-basic-replay` pass for the current commit.
+
+The recommended main protection is provided in `.github/main-protection.json`:
+these three checks from GitHub Actions, an up-to-date branch, enforcement for
+administrators, and no force pushes or branch deletion. The file does not enable
+GitHub protection by itself. Applying it requires a credential with repository
+Administration write access; contents write access is insufficient. For an
+unprotected main, a repository administrator can apply it with:
+
+```bash
+gh api --method PUT repos/aruser2212/attck-top10-crosslayer-detections/branches/main/protection --input .github/main-protection.json
+```
+
+Inspect existing protection before applying this configuration and preserve any
+stricter settings. Verify the resulting settings with the same API path and GET.
 
 Every detection change should include:
 
